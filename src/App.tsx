@@ -1,6 +1,6 @@
 import React, { Component, createRef } from 'react';
-import './assets/scss/style.css';
-import './assets/scss/reset.css';
+import './assets/css/reset.css';
+import './assets/css/style.css';
 
 import { Canvas } from './components/canvas/Canvas';
 import { BraveRender } from './brave-engine/brave-render/brave-render';
