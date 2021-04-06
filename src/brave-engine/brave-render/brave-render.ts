@@ -1,8 +1,9 @@
-import { Camera } from '../class/camera';
-import { GameObject } from '../class/game-object';
-import { Light } from '../class/light';
+import { Camera } from '../game-object/camera';
+import { GameObject } from '../game-object/game-object';
+import { Light } from '../game-object/light';
 import { createShaderProgram } from './lib/create-shader-program';
-import { rgbaColorArrayToFloatColorArray } from './utils/rgba-color-array-to-float-color-array';
+import { rgbaColorArrayToFloatColorArray } from '../util/rgba-color-array-to-float-color-array';
+import { mat4 } from 'gl-matrix';
 
 export class BraveRender {
   private camera!: Camera;
@@ -43,8 +44,20 @@ export class BraveRender {
     const deltaTime = (timeInSeconds - this.lastUpdatedTime) * factoryTime;
     this.lastUpdatedTime = timeInSeconds;
 
-    // If not exists camera cancel render
+    // Set viewport render size and canvas render size
+    this.glContext.viewport(0, 0, this.renderWidth, this.renderHeight);
+    this.glContext.canvas.width = this.renderWidth;
+    this.glContext.canvas.height = this.renderHeight;
+
+    // If not exists camera, render black screen and cancel render
     if (!this.camera) {
+      this.glContext.clearColor(0, 0, 0, 1);
+      this.glContext.clearDepth(1.0); // Clear everything
+      this.glContext.enable(this.glContext.DEPTH_TEST); // Enable depth testing
+      this.glContext.depthFunc(this.glContext.LEQUAL); // Near things obscure far things
+
+      this.glContext.clear(this.glContext.COLOR_BUFFER_BIT | this.glContext.DEPTH_BUFFER_BIT);
+
       return;
     }
 
@@ -67,6 +80,19 @@ export class BraveRender {
     this.glContext.clear(
       this.glContext.COLOR_BUFFER_BIT | this.glContext.DEPTH_BUFFER_BIT
     );
+
+    // Get data from camera to create the perpective matrix
+    const fieldOfView = this.camera.fieldOfViewInRad;
+    const aspect = this.renderWidth / this.renderHeight;
+    const zNear = this.camera.zNear;
+    const zFar = this.camera.zFar;
+    const projectionMatrix = this.camera.projectionMatrix;
+
+    mat4.perspective(projectionMatrix, fieldOfView, aspect, zNear, zFar);
+
+    // Set the drawing position to the "identity" point, which is
+    // the center of the scene.
+    const modelViewMatrix = mat4.create();
 
     // Order scene objects by z axis
     const sceneObjects = this.orderRenderByZAxis(this.sceneObjects);

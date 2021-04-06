@@ -4,8 +4,9 @@ import './assets/css/style.css';
 
 import { Canvas } from './components/canvas/Canvas';
 import { BraveRender } from './brave-engine/brave-render/brave-render';
-import { GameObject } from './brave-engine/class/game-object';
-import { Camera } from './brave-engine/class/camera';
+import { GameObject } from './brave-engine/game-object/game-object';
+import { Camera } from './brave-engine/game-object/camera';
+import { Scene } from './brave-engine/class/scene';
 
 interface AppProps { }
 interface AppState { }
@@ -13,7 +14,7 @@ interface AppState { }
 export default class App extends Component<AppProps, AppState> {
   private canvasRef = createRef<Canvas>();
   private braveRender!: BraveRender;
-  private sceneObjects!: GameObject[];
+  private scene!: Scene;
 
   constructor(props: AppProps) {
     super(props);
@@ -32,30 +33,34 @@ export default class App extends Component<AppProps, AppState> {
 
     // Create and set camera
     const camera = new Camera();
-    camera.setClearColor(0, 0, 0, 0.8);
+    camera.clearColor.setValue(0, 0, 0, 0.8);
     this.braveRender.setCamera(camera);
 
     // Create sceneObjects
-    this.sceneObjects = new Array();
+    this.scene = new Scene();
 
     // Create a box and put on scene
     const box = new GameObject();
-    this.sceneObjects.push(box);
+    this.scene.push(box);
 
     requestAnimationFrame(this.onUpdate.bind(this));
   }
 
   onUpdate(time: number) {
     // Set all objects to draw
-    for (const elem of this.sceneObjects) {
-      this.braveRender.draw(elem);
+    // Call game objects update method
+    for (const elem of this.scene) {
+      // Just use active objects
+      if (elem.active) {
+        this.braveRender.draw(elem);
+      }
     }
 
     // Set render size
     // Render size is used to calculate aspect ratio
     this.braveRender.setRenderSize(
-      this.canvasRef!.current!.canvasElement!.clientWidth,
-      this.canvasRef!.current!.canvasElement!.clientHeight
+      this.canvasRef?.current?.canvasElement?.clientWidth || 0,
+      this.canvasRef?.current?.canvasElement?.clientHeight || 0
     );
 
     // Render the scene

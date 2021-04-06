@@ -18,7 +18,7 @@ export function loadShader(
         glContext.getShaderInfoLog(shader)
     );
     glContext.deleteShader(shader);
-    return undefined;
+    return null;
   }
 
   return shader;

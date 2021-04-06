@@ -24,7 +24,7 @@ export function createShaderProgram(
       'Unable to create the shader program: ' +
         glContext.getProgramInfoLog(shaderProgram)
     );
-    return undefined;
+    return null;
   }
 
   return shaderProgram;
