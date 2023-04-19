@@ -7,6 +7,7 @@ import { BraveRender } from './brave-engine/brave-render/brave-render';
 import { GameObject } from './brave-engine/game-object/game-object';
 import { Camera } from './brave-engine/game-object/camera';
 import { Scene } from './brave-engine/class/scene';
+import { MeshRendererComponent } from './brave-engine/component/mesh-renderer-component';
 
 interface AppProps { }
 interface AppState { }
@@ -41,7 +42,10 @@ export default class App extends Component<AppProps, AppState> {
 
     // Create a box and put on scene
     const box = new GameObject();
+    const boxMeshRenderer = new MeshRendererComponent(box);
+    box.addComponent(boxMeshRenderer);
     this.scene.push(box);
+
 
     requestAnimationFrame(this.onUpdate.bind(this));
   }

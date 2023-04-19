@@ -62,14 +62,14 @@ export class BraveRender {
     }
 
     // Set clear color using camera clear color
-    const clearColorFloat = rgbaColorArrayToFloatColorArray(
+    const [clearColorFloatR, clearColorFloatG, clearColorFloatB, clearColorFloatA] = rgbaColorArrayToFloatColorArray(
       this.camera.clearColor
     );
     this.glContext.clearColor(
-      clearColorFloat[0],
-      clearColorFloat[1],
-      clearColorFloat[2],
-      clearColorFloat[3]
+      clearColorFloatR,
+      clearColorFloatG,
+      clearColorFloatB,
+      clearColorFloatA
     );
 
     this.glContext.clearDepth(1.0); // Clear everything
