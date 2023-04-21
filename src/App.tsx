@@ -8,6 +8,7 @@ import { GameObject } from './brave-engine/game-object/game-object';
 import { Camera } from './brave-engine/game-object/camera';
 import { Scene } from './brave-engine/class/scene';
 import { MeshRendererComponent } from './brave-engine/component/mesh-renderer-component';
+import { Cube } from './brave-engine/game-object/geometries/cube';
 
 interface AppProps { }
 interface AppState { }
@@ -34,18 +35,15 @@ export default class App extends Component<AppProps, AppState> {
 
     // Create and set camera
     const camera = new Camera();
-    camera.clearColor.setValue(0, 0, 0, 0.8);
+    camera.clearColor.setValue(0, 0, 0, 1);
     this.braveRender.setCamera(camera);
 
     // Create sceneObjects
     this.scene = new Scene();
 
     // Create a box and put on scene
-    const box = new GameObject();
-    const boxMeshRenderer = new MeshRendererComponent(box);
-    box.addComponent(boxMeshRenderer);
+    const box = new Cube();
     this.scene.push(box);
-
 
     requestAnimationFrame(this.onUpdate.bind(this));
   }
