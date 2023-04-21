@@ -4,10 +4,8 @@ import './assets/css/style.css';
 
 import { Canvas } from './components/canvas/Canvas';
 import { BraveRender } from './brave-engine/brave-render/brave-render';
-import { GameObject } from './brave-engine/game-object/game-object';
 import { Camera } from './brave-engine/game-object/camera';
 import { Scene } from './brave-engine/class/scene';
-import { MeshRendererComponent } from './brave-engine/component/mesh-renderer-component';
 import { Cube } from './brave-engine/game-object/geometries/cube';
 
 interface AppProps { }
@@ -73,6 +71,6 @@ export default class App extends Component<AppProps, AppState> {
   }
 
   render() {
-    return <Canvas ref={this.canvasRef} width={1920} height={1080} />;
+    return <Canvas ref={this.canvasRef} width={window.innerWidth} height={window.innerHeight} />;
   }
 }
