@@ -3,13 +3,13 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "@types/react": "^17.0.3",
-    "@types/react-dom": "^17.0.2",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.1",
     "gl-matrix": "^3.3.0",
     "node-sass": "^5.0.0",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "rxjs": "^6.6.7"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "rxjs": "^7.8.1"
   },
   "scripts": {
     "start": "react-scripts-ts start",
@@ -19,7 +19,7 @@
     "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
-    "react-scripts-ts": "latest",
-    "typescript": "^4.2.3"
+    "react-scripts-ts": "lastest",
+    "typescript": "^5.0.4"
   }
 }

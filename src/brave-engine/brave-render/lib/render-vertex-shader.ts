@@ -8,8 +8,6 @@ import { Camera } from '../../game-object/camera';
 export function renderVertexShader(glContext: WebGL2RenderingContext, camera: Camera, gameObject: GameObject) {
   const cameraProjectionMatrix = camera.projectionMatrix;
 
-
-
   // Set the drawing position to the "identity" point, which is
   // the center of the scene.
   const modelViewMatrix = mat4.create();
