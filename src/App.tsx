@@ -34,14 +34,35 @@ export default class App extends Component<AppProps, AppState> {
     // Create and set camera
     const camera = new Camera();
     camera.clearColor.setValue(0, 0, 0, 1);
+    camera.transform.position.x = 0;
+    camera.transform.position.y = 0;
+    camera.transform.position.z = 0;
     this.braveRender.setCamera(camera);
 
     // Create sceneObjects
-    this.scene = new Scene();
+    this.scene = new Scene(glContext);
 
-    // Create a box and put on scene
-    const box = new Cube();
-    this.scene.push(box);
+    // Create a cube and add on scene
+    const cube = new Cube();
+    cube.transform.position.z = -10;
+    cube.transform.position.x = -4;
+    this.scene.add(cube);
+
+    const cube2 = new Cube();
+    cube2.transform.position.z = -10;
+    this.scene.add(cube2);
+
+    const cube3 = new Cube();
+    cube3.transform.position.z = -10;
+    cube3.transform.position.x = 4;
+    this.scene.add(cube3);
+    
+    // Animate cube rotations. The right way is using onUpdate lifecyle hook in game object, this is just a test.
+    setInterval(() => {
+      cube.transform.rotation.x += 0.1;
+      cube2.transform.rotation.y += 0.1;
+      cube3.transform.rotation.z += 0.1;
+    });
 
     requestAnimationFrame(this.onUpdate.bind(this));
   }
@@ -50,7 +71,6 @@ export default class App extends Component<AppProps, AppState> {
     // Set all objects to draw
     // Call game objects update method
     for (const elem of this.scene) {
-      // Just use active objects
       if (elem.active) {
         this.braveRender.draw(elem);
       }

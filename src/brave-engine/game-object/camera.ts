@@ -5,7 +5,7 @@ import { GameObject } from './game-object';
 
 export class Camera extends GameObject {
   clearColor = new RgbaColor(0, 0, 0, 1);
-  fieldOfView = 45;
+  fieldOfView = 60;
   zNear = 0.1;
   zFar = 100;
   projectionMatrix = mat4.create();

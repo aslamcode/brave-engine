@@ -13,4 +13,6 @@ export class Shader {
     projectionMatrix: WebGLUniformLocation | null;
     modelViewMatrix: WebGLUniformLocation | null;
   };
+
+  isLoaded = false;
 }

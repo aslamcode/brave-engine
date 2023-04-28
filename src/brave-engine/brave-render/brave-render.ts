@@ -1,9 +1,9 @@
 import { Camera } from '../game-object/camera';
 import { GameObject } from '../game-object/game-object';
 import { Light } from '../game-object/light';
-import { createShaderProgram } from './lib/create-shader-program';
 import { rgbaColorArrayToFloatColorArray } from '../util/rgba-color-array-to-float-color-array';
 import { mat4 } from 'gl-matrix';
+import { renderVertexShader } from './lib/render-vertex-shader';
 
 export class BraveRender {
   private camera!: Camera;
@@ -81,32 +81,28 @@ export class BraveRender {
       this.glContext.COLOR_BUFFER_BIT | this.glContext.DEPTH_BUFFER_BIT
     );
 
-    // Get data from camera to create the perpective matrix
+    // Get data from camera to create the camera project matrix
     const fieldOfView = this.camera.fieldOfViewInRad;
     const aspect = this.renderWidth / this.renderHeight;
     const zNear = this.camera.zNear;
     const zFar = this.camera.zFar;
-    const projectionMatrix = this.camera.projectionMatrix;
+    
+    // Update camera projection matrix
+    mat4.perspective(this.camera.projectionMatrix, fieldOfView, aspect, zNear, zFar);
 
-    mat4.perspective(projectionMatrix, fieldOfView, aspect, zNear, zFar);
-
-    // Set the drawing position to the "identity" point, which is
-    // the center of the scene.
-    const modelViewMatrix = mat4.create();
-
-    // Order scene objects by z axis
-    const sceneObjects = this.orderRenderByZAxis(this.sceneObjects);
+    const sceneObjects = this.sceneObjects;
+    
+    // Render each game object
+    sceneObjects.forEach(elem => {
+      this.renderVertexShader(elem);
+    });
 
     // Clear the scene objects and scene lights after render
     this.sceneLights = new Array();
     this.sceneObjects = new Array();
   }
 
-  createShaderProgram(vsSource: string, fsSource: string) {
-    return createShaderProgram(this.glContext, vsSource, fsSource);
-  }
-
-  private orderRenderByZAxis(data: any[]) {
-    return data;
+  private renderVertexShader(gameObject: GameObject) {
+    return renderVertexShader(this.glContext, this.camera, gameObject);
   }
 }

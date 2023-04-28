@@ -2,8 +2,9 @@ import { Component } from '../component/component';
 import { MaterialComponent } from '../component/material-component';
 import { MeshRendererComponent } from '../component/mesh-renderer-component';
 import { TransformComponent } from '../component/transform-component';
+import { LifecycleHooks } from '../interface/lifecycle-hooks';
 
-export class GameObject {
+export class GameObject implements LifecycleHooks {
   transform: TransformComponent;
   active = true;
 
@@ -19,6 +20,15 @@ export class GameObject {
   constructor() {
     this.transform = new TransformComponent(this);
   }
+
+  // Lifecycle hooks
+  onStart() { }
+  onUpdate() { }
+  onFixedUpdate() { }
+  onDestroy() { }
+  // Lifecycle hooks
+
+  destroy() { }
 
   setActive(active: boolean) {
     this.active = active;

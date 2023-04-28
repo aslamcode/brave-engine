@@ -1,6 +1,7 @@
 import { MeshRendererComponent } from '../../component/mesh-renderer-component';
-import { CubeMesh } from '../../mesh/cube';
+import { CubeMesh } from './cube-mesh';
 import { GameObject } from '../game-object';
+import { MaterialComponent } from '../../component/material-component';
 
 export class Cube extends GameObject {
     constructor() {
@@ -8,6 +9,9 @@ export class Cube extends GameObject {
 
         const meshRenderer = new MeshRendererComponent(this);
         meshRenderer.mesh = new CubeMesh();
-        this.meshRenderer = meshRenderer;
+        this.addComponent(meshRenderer);
+
+        const material = new MaterialComponent(this);
+        this.materials.push(material);
     }
 }
