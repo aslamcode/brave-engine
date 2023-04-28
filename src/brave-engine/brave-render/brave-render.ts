@@ -4,6 +4,7 @@ import { Light } from '../game-object/light';
 import { rgbaColorArrayToFloatColorArray } from '../util/rgba-color-array-to-float-color-array';
 import { mat4 } from 'gl-matrix';
 import { renderVertexShader } from './lib/render-vertex-shader';
+import { degToRad } from '../util/deg-to-rad';
 
 export class BraveRender {
   private camera!: Camera;
@@ -88,7 +89,41 @@ export class BraveRender {
     const zFar = this.camera.zFar;
     
     // Update camera projection matrix
+    const cameraProjectionMatrix = this.camera.projectionMatrix;
     mat4.perspective(this.camera.projectionMatrix, fieldOfView, aspect, zNear, zFar);
+
+    // Set position camera render
+    // Set position camera render
+    mat4.translate(
+      this.camera.projectionMatrix, // destination matrix
+      this.camera.projectionMatrix, // matrix to translate
+      [this.camera.transform.position.x, this.camera.transform.position.y, this.camera.transform.position.z]
+    );
+
+    // Set rotation X to camera
+    mat4.rotate(
+      cameraProjectionMatrix, // destination matrix
+      cameraProjectionMatrix, // matrix to rotate
+      degToRad(this.camera.transform.rotation.x), // amount to rotate in radians
+      [1, 0, 0]
+    ); // axis to rotate around (X)
+
+    // Set rotation Y to camera
+    mat4.rotate(
+      cameraProjectionMatrix, // destination matrix
+      cameraProjectionMatrix, // matrix to rotate
+      degToRad(this.camera.transform.rotation.y), // amount to rotate in radians
+      [0, 1, 0]
+    ); // axis to rotate around (Y)
+
+    // Set rotation Z to camera
+    mat4.rotate(
+      cameraProjectionMatrix, // destination matrix
+      cameraProjectionMatrix, // matrix to rotate
+      degToRad(this.camera.transform.rotation.z), // amount to rotate in radians
+      [0, 0, 1]
+    ); // axis to rotate around (Z)
+
 
     const sceneObjects = this.sceneObjects;
     

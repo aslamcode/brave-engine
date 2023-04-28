@@ -36,7 +36,7 @@ export default class App extends Component<AppProps, AppState> {
     camera.clearColor.setValue(0, 0, 0, 1);
     camera.transform.position.x = 0;
     camera.transform.position.y = 0;
-    camera.transform.position.z = 0;
+    camera.transform.position.z = -3;
     this.braveRender.setCamera(camera);
 
     // Create sceneObjects
@@ -44,19 +44,19 @@ export default class App extends Component<AppProps, AppState> {
 
     // Create a cube and add on scene
     const cube = new Cube();
-    cube.transform.position.z = -10;
-    cube.transform.position.x = -4;
+    cube.transform.position.z = -6;
+    cube.transform.position.x = -3;
     this.scene.add(cube);
 
     const cube2 = new Cube();
-    cube2.transform.position.z = -10;
+    cube2.transform.position.z = -6;
     this.scene.add(cube2);
 
     const cube3 = new Cube();
-    cube3.transform.position.z = -10;
-    cube3.transform.position.x = 4;
+    cube3.transform.position.z = -6;
+    cube3.transform.position.x = 3;
     this.scene.add(cube3);
-    
+
     // Animate cube rotations. The right way is using onUpdate lifecyle hook in game object, this is just a test.
     setInterval(() => {
       cube.transform.rotation.x += 0.1;

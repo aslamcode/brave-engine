@@ -8,40 +8,7 @@ import { Camera } from '../../game-object/camera';
 export function renderVertexShader(glContext: WebGL2RenderingContext, camera: Camera, gameObject: GameObject) {
   const cameraProjectionMatrix = camera.projectionMatrix;
 
-  // Set position camera render
-  mat4.translate(
-    cameraProjectionMatrix, // destination matrix
-    cameraProjectionMatrix, // matrix to translate
-    [camera.transform.position.x, camera.transform.position.y, camera.transform.position.z]
-  );
 
-  // // Set rotation X to camera
-  // mat4.rotate(
-  //   cameraProjectionMatrix, // destination matrix
-  //   cameraProjectionMatrix, // matrix to rotate
-  //   degToRad(camera.transform.rotation.x), // amount to rotate in radians
-  //   [1, 0, 0]
-  // ); // axis to rotate around (X)
-
-  // // Set rotation Y to camera
-  // mat4.rotate(
-  //   cameraProjectionMatrix, // destination matrix
-  //   cameraProjectionMatrix, // matrix to rotate
-  //   degToRad(camera.transform.rotation.y), // amount to rotate in radians
-  //   [0, 1, 0]
-  // ); // axis to rotate around (Y)
-
-  // // Set rotation Z to camera
-  // mat4.rotate(
-  //   cameraProjectionMatrix, // destination matrix
-  //   cameraProjectionMatrix, // matrix to rotate
-  //   degToRad(camera.transform.rotation.z), // amount to rotate in radians
-  //   [0, 0, 1]
-  // ); // axis to rotate around (Z)
-
-
-
-  // Bellow config model view to draw the element
 
   // Set the drawing position to the "identity" point, which is
   // the center of the scene.
@@ -115,12 +82,11 @@ export function renderVertexShader(glContext: WebGL2RenderingContext, camera: Ca
     modelViewMatrix
   );
 
-  {
-    const vertexCount = 36;
-    const type = glContext.UNSIGNED_SHORT;
-    const offset = 0;
-    glContext.drawElements(glContext.TRIANGLES, vertexCount, type, offset);
-  }
+  // Draw the element
+  const vertexCount = gameObject.meshRenderer!.mesh.vertexCount;
+  const type = glContext.UNSIGNED_SHORT;
+  const offset = 0;
+  glContext.drawElements(glContext.TRIANGLES, vertexCount, type, offset);
 }
 
 // Tell WebGL how to pull out the positions from the position

@@ -15,12 +15,14 @@ export class MeshRendererComponent extends Component {
   isBuffersLoaded = false;
 
   loadBuffers(glContext: WebGL2RenderingContext) {
-    this.glContext = glContext;
-    this.vertexBuffer = loadVertexBuffer(glContext, this.mesh);
-    this.indexBuffer = loadIndexBuffer(glContext, this.mesh);
-    this.colorBuffer = loadColorBuffer(glContext, this.mesh);
-
-    this.isBuffersLoaded = true;
+    if (!this.isBuffersLoaded) {
+      this.glContext = glContext;
+      this.vertexBuffer = loadVertexBuffer(glContext, this.mesh);
+      this.indexBuffer = loadIndexBuffer(glContext, this.mesh);
+      this.colorBuffer = loadColorBuffer(glContext, this.mesh);
+  
+      this.isBuffersLoaded = true;
+    }
   }
 
   clearBuffers() { 

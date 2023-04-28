@@ -8,5 +8,5 @@ export class Mesh {
   tangents = new Array<number>();
   colors = new Array<number>();
 
-  get vertexCount() { return this.vertices.length; }
+  get vertexCount() { return this.vertices.length / 2; }
 }
