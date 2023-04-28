@@ -1,4 +1,4 @@
-import { rgbaColorArrayToFloatColorArray } from '../util/rgba-color-array-to-float-color-array';
+import { rgbaColorArrayToFloatColorArray } from '../util/color/rgba-color-array-to-float-color-array';
 
 export class RgbaColor extends Array<number> {
 

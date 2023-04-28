@@ -1,7 +1,7 @@
 import { Camera } from '../game-object/camera';
 import { GameObject } from '../game-object/game-object';
 import { Light } from '../game-object/light';
-import { rgbaColorArrayToFloatColorArray } from '../util/rgba-color-array-to-float-color-array';
+import { rgbaColorArrayToFloatColorArray } from '../util/color/rgba-color-array-to-float-color-array';
 import { mat4 } from 'gl-matrix';
 import { renderVertexShader } from './lib/render-vertex-shader';
 import { degToRad } from '../util/deg-to-rad';
@@ -81,16 +81,38 @@ export class BraveRender {
     this.glContext.clear(
       this.glContext.COLOR_BUFFER_BIT | this.glContext.DEPTH_BUFFER_BIT
     );
+    
+    // Update camera projection matrix and transforms
+    this.updateCameraProjectionMatrix();
+    this.updateCameraTransform();
 
+    // Render each game object
+    this.sceneObjects.forEach(elem => {
+      this.renderVertexShader(elem);
+    });
+
+    // Clear the scene objects and scene lights after render
+    this.sceneLights = new Array();
+    this.sceneObjects = new Array();
+  }
+
+  private renderVertexShader(gameObject: GameObject) {
+    return renderVertexShader(this.glContext, this.camera, gameObject);
+  }
+
+  private updateCameraProjectionMatrix() {
     // Get data from camera to create the camera project matrix
     const fieldOfView = this.camera.fieldOfViewInRad;
     const aspect = this.renderWidth / this.renderHeight;
     const zNear = this.camera.zNear;
     const zFar = this.camera.zFar;
-    
+
     // Update camera projection matrix
-    const cameraProjectionMatrix = this.camera.projectionMatrix;
     mat4.perspective(this.camera.projectionMatrix, fieldOfView, aspect, zNear, zFar);
+  }
+
+  private updateCameraTransform() {
+    const cameraProjectionMatrix = this.camera.projectionMatrix;
 
     // Set position camera render
     // Set position camera render
@@ -123,21 +145,5 @@ export class BraveRender {
       degToRad(this.camera.transform.rotation.z), // amount to rotate in radians
       [0, 0, 1]
     ); // axis to rotate around (Z)
-
-
-    const sceneObjects = this.sceneObjects;
-    
-    // Render each game object
-    sceneObjects.forEach(elem => {
-      this.renderVertexShader(elem);
-    });
-
-    // Clear the scene objects and scene lights after render
-    this.sceneLights = new Array();
-    this.sceneObjects = new Array();
-  }
-
-  private renderVertexShader(gameObject: GameObject) {
-    return renderVertexShader(this.glContext, this.camera, gameObject);
   }
 }

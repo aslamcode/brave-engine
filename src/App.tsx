@@ -33,7 +33,6 @@ export default class App extends Component<AppProps, AppState> {
 
     // Create and set camera
     const camera = new Camera();
-    camera.clearColor.setValue(0, 0, 0, 1);
     camera.transform.position.x = 0;
     camera.transform.position.y = 0;
     camera.transform.position.z = -3;
