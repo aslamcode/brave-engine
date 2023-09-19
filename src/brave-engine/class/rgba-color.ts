@@ -2,12 +2,15 @@ import { rgbaColorArrayToFloatColorArray } from '../util/color/rgba-color-array-
 
 export class RgbaColor extends Array<number> {
 
+  floatArrayColor = [0, 0, 0, 0];
+
   constructor(r: number, g: number, b: number, a: number) {
     super();
     this.r = r;
     this.g = g;
     this.b = b;
     this.a = a;
+    this.floatArrayColor = rgbaColorArrayToFloatColorArray(this.innerValue);
   }
 
   setValue(r: number, g: number, b: number, a: number) {
@@ -15,10 +18,6 @@ export class RgbaColor extends Array<number> {
     this.g = g;
     this.b = b;
     this.a = a;
-  }
-
-  toFloatColorArray() {
-    rgbaColorArrayToFloatColorArray(this.innerValue);
   }
 
   // Setters

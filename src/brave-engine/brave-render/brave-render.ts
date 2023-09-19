@@ -1,17 +1,17 @@
-import { Camera } from '../game-object/camera';
-import { GameObject } from '../game-object/game-object';
-import { Light } from '../game-object/light';
-import { rgbaColorArrayToFloatColorArray } from '../util/color/rgba-color-array-to-float-color-array';
+import { Camera } from '../entity/camera';
+import { Entity } from '../entity/entity';
+import { Light } from '../entity/light';
 import { mat4 } from 'gl-matrix';
 import { renderVertexShader } from './lib/render-vertex-shader';
 import { degToRad } from '../util/deg-to-rad';
+import { Scene } from '../class/scene';
 
 export class BraveRender {
   private camera!: Camera;
   private glContext: WebGL2RenderingContext;
 
-  private sceneObjects = new Array<GameObject>();
-  private sceneLights = new Array<GameObject>();
+  public scenes = new Array<Scene>();
+  public sceneLights = new Array<Entity>();
 
   private renderWidth = 0;
   private renderHeight = 0;
@@ -33,10 +33,6 @@ export class BraveRender {
 
   addLight(light: Light) {
     this.sceneLights.push(light);
-  }
-
-  draw(gameObject: GameObject) {
-    this.sceneObjects.push(gameObject);
   }
 
   render(elapsedTime: number, factoryTime = 1) {
@@ -63,9 +59,7 @@ export class BraveRender {
     }
 
     // Set clear color using camera clear color
-    const [clearColorFloatR, clearColorFloatG, clearColorFloatB, clearColorFloatA] = rgbaColorArrayToFloatColorArray(
-      this.camera.clearColor
-    );
+    const [clearColorFloatR, clearColorFloatG, clearColorFloatB, clearColorFloatA] = this.camera.clearColor.floatArrayColor;
     this.glContext.clearColor(
       clearColorFloatR,
       clearColorFloatG,
@@ -81,22 +75,30 @@ export class BraveRender {
     this.glContext.clear(
       this.glContext.COLOR_BUFFER_BIT | this.glContext.DEPTH_BUFFER_BIT
     );
-    
+
     // Update camera projection matrix and transforms
     this.updateCameraProjectionMatrix();
     this.updateCameraTransform();
 
     // Render each game object
-    this.sceneObjects.forEach(elem => {
-      this.renderVertexShader(elem);
-    });
+    // Call game objects update method
+    for (const scene of this.scenes) {
+      for (const entity of scene)
+        if (entity.active) {
+          entity.onUpdate();
+
+          // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+          // To Do: Filtrar objectos que sao luz
+          // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+          this.renderVertexShader(entity);
+        }
+    }
 
     // Clear the scene objects and scene lights after render
     this.sceneLights = new Array();
-    this.sceneObjects = new Array();
   }
 
-  private renderVertexShader(gameObject: GameObject) {
+  private renderVertexShader(gameObject: Entity) {
     return renderVertexShader(this.glContext, this.camera, gameObject);
   }
 

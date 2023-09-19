@@ -2,12 +2,12 @@ import { Component } from './component';
 import { Shader } from '../class/shader';
 import { vertexShader } from '../shader/vertex-shader';
 import { createShaderProgram } from '../util/shader/create-shader-program';
-import { GameObject } from '../game-object/game-object';
+import { Entity } from '../entity/entity';
 
 export class MaterialComponent extends Component {
   shader: Shader;
 
-  constructor(gameObject: GameObject) {
+  constructor(gameObject: Entity) {
     super(gameObject);
     this.shader = vertexShader;
   }

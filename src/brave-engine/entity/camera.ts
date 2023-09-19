@@ -1,9 +1,9 @@
 import { mat4 } from 'gl-matrix';
 import { RgbaColor } from '../class/rgba-color';
 import { degToRad } from '../util/deg-to-rad';
-import { GameObject } from './game-object';
+import { Entity } from './entity';
 
-export class Camera extends GameObject {
+export class Camera extends Entity {
   clearColor = new RgbaColor(0, 0, 0, 1);
   fieldOfView = 60;
   zNear = 0.1;

@@ -4,9 +4,9 @@ import './assets/css/style.css';
 
 import { Canvas } from './components/canvas/Canvas';
 import { BraveRender } from './brave-engine/brave-render/brave-render';
-import { Camera } from './brave-engine/game-object/camera';
+import { Camera } from './brave-engine/entity/camera';
 import { Scene } from './brave-engine/class/scene';
-import { Cube } from './brave-engine/game-object/geometries/cube';
+import { Cube } from './brave-engine/entity/geometries/cube/cube';
 
 interface AppProps { }
 interface AppState { }
@@ -40,6 +40,7 @@ export default class App extends Component<AppProps, AppState> {
 
     // Create sceneObjects
     this.scene = new Scene(glContext);
+    this.braveRender.scenes.push(this.scene);
 
     // Create a cube and add on scene
     const cube = new Cube();
@@ -67,14 +68,6 @@ export default class App extends Component<AppProps, AppState> {
   }
 
   onUpdate(time: number) {
-    // Set all objects to draw
-    // Call game objects update method
-    for (const elem of this.scene) {
-      if (elem.active) {
-        this.braveRender.draw(elem);
-      }
-    }
-
     // Set render size
     // Render size is used to calculate aspect ratio
     this.braveRender.setRenderSize(

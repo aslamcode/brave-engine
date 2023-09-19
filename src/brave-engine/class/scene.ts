@@ -1,8 +1,8 @@
-import { GameObject } from '../game-object/game-object';
+import { Entity } from '../entity/entity';
 
 export class Scene {
 
-  private children: GameObject[] = [];
+  private children: Entity[] = [];
   get length() { return this.children.length; }
 
   constructor(private glContext: WebGL2RenderingContext) {
@@ -17,7 +17,7 @@ export class Scene {
         if (index < this.children.length) {
           return { value: this.children[index++], done: false };
         } else {
-          return { done: true } as { value: GameObject, done: boolean };
+          return { done: true } as { value: Entity, done: boolean };
         }
       },
     };
@@ -27,7 +27,7 @@ export class Scene {
     return this.children[index];
   }
 
-  add(data: GameObject) {
+  add(data: Entity) {
     // Load materials shaders
     data.materials.forEach(elem => {
       elem.loadShader(this.glContext);      
@@ -41,7 +41,7 @@ export class Scene {
     this.children.push(data);
   }
 
-  remove(data: GameObject) {
+  remove(data: Entity) {
     const index = this.children.findIndex(elem => elem == data);
     if (index != -1) {
       this.children.splice(index, 1);

@@ -1,11 +1,11 @@
 
 import { mat4 } from 'gl-matrix';
 import { Shader } from '../../class/shader';
-import { GameObject } from '../../game-object/game-object';
+import { Entity } from '../../entity/entity';
 import { degToRad } from '../../util/deg-to-rad';
-import { Camera } from '../../game-object/camera';
+import { Camera } from '../../entity/camera';
 
-export function renderVertexShader(glContext: WebGL2RenderingContext, camera: Camera, gameObject: GameObject) {
+export function renderVertexShader(glContext: WebGL2RenderingContext, camera: Camera, gameObject: Entity) {
   const cameraProjectionMatrix = camera.projectionMatrix;
 
   // Set the drawing position to the "identity" point, which is

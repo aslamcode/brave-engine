@@ -1,9 +1,9 @@
-import { MeshRendererComponent } from '../../component/mesh-renderer-component';
+import { MeshRendererComponent } from '../../../component/mesh-renderer-component';
 import { CubeMesh } from './cube-mesh';
-import { GameObject } from '../game-object';
-import { MaterialComponent } from '../../component/material-component';
+import { Entity } from '../../entity';
+import { MaterialComponent } from '../../../component/material-component';
 
-export class Cube extends GameObject {
+export class Cube extends Entity {
     constructor() {
         super();
 

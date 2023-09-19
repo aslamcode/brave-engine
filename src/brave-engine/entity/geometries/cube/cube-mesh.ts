@@ -1,4 +1,4 @@
-import { Mesh } from '../../class/mesh';
+import { Mesh } from '../../../class/mesh';
 
 export class CubeMesh extends Mesh {
   constructor() {

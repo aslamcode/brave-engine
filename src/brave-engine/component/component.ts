@@ -1,17 +1,17 @@
-import { GameObject } from '../game-object/game-object';
+import { Entity } from '../entity/entity';
 import { LifecycleHooks } from '../interface/lifecycle-hooks';
 
 export class Component implements LifecycleHooks {
   active = true;
-  protected gameObject?: GameObject;
+  protected gameObject?: Entity;
 
-  constructor(gameObject?: GameObject) {
+  constructor(gameObject?: Entity) {
     if (gameObject) {
       this.gameObject = gameObject;
     }
   }
 
-  setGameObject(gameObject: GameObject) {
+  setGameObject(gameObject: Entity) {
     this.gameObject = gameObject;
   }
 

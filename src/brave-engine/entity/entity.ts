@@ -4,12 +4,12 @@ import { MeshRendererComponent } from '../component/mesh-renderer-component';
 import { TransformComponent } from '../component/transform-component';
 import { LifecycleHooks } from '../interface/lifecycle-hooks';
 
-export class GameObject implements LifecycleHooks {
+export class Entity implements LifecycleHooks {
   transform: TransformComponent;
   active = true;
 
-  protected parent?: GameObject;
-  children = new Array<GameObject>();
+  protected parent?: Entity;
+  children = new Array<Entity>();
 
   components = new Array<Component>();
 
@@ -34,7 +34,7 @@ export class GameObject implements LifecycleHooks {
     this.active = active;
   }
 
-  protected setParent(parent?: GameObject) {
+  protected setParent(parent?: Entity) {
     this.parent = parent;
   }
 
@@ -68,7 +68,7 @@ export class GameObject implements LifecycleHooks {
     }
   }
 
-  addChild(child: GameObject, index?: number) {
+  addChild(child: Entity, index?: number) {
     child.setParent(this);
 
     if (index != undefined) {
@@ -78,7 +78,7 @@ export class GameObject implements LifecycleHooks {
     }
   }
 
-  removeChild(child: GameObject) {
+  removeChild(child: Entity) {
     child.setParent(undefined);
 
     const index = this.children.findIndex(elem => elem === child);
