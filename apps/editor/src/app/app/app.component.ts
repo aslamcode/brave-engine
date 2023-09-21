@@ -15,9 +15,6 @@ export class AppComponent implements OnInit {
   private braveRender: BraveRender;
   private scene: Scene;
 
-  canvasWidth = window.innerWidth;
-  canvasHeight = window.innerHeight;
-
   constructor(
     private uiService: UiService,
   ) {

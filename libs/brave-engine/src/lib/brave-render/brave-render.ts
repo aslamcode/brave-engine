@@ -95,7 +95,7 @@ export class BraveRender {
     }
 
     // Clear the scene objects and scene lights after render
-    this.sceneLights = new Array();
+    this.sceneLights = [];
   }
 
   private renderVertexShader(gameObject: Entity) {
