@@ -1,25 +1,26 @@
+import { BraveEngine } from '../brave-engine';
 import { Camera } from '../entity/camera';
 import { Entity } from '../entity/entity';
 import { Light } from '../entity/light';
 import { mat4 } from 'gl-matrix';
 import { renderVertexShader } from './lib/render-vertex-shader';
 import { degToRad } from '../util/deg-to-rad';
-import { Scene } from '../class/scene';
+import { BraveEngineModeEnum } from '../enum/brave-engine-mode-enum';
 
 export class BraveRender {
-  private camera!: Camera;
-  private glContext: WebGL2RenderingContext;
+  private camera: Camera;
 
-  public scenes = new Array<Scene>();
-  public sceneLights = new Array<Entity>();
+  public lights = new Array<Entity>();
 
   private renderWidth = 0;
   private renderHeight = 0;
 
   private lastUpdatedTime = 0;
 
-  constructor(glContext: WebGL2RenderingContext) {
-    this.glContext = glContext;
+  constructor(
+    private braveEngine: BraveEngine,
+    private glContext: WebGL2RenderingContext
+  ) {
   }
 
   setRenderSize(width: number, height: number) {
@@ -32,7 +33,7 @@ export class BraveRender {
   }
 
   addLight(light: Light) {
-    this.sceneLights.push(light);
+    this.lights.push(light);
   }
 
   render(elapsedTime: number, factoryTime = 1) {
@@ -82,10 +83,12 @@ export class BraveRender {
 
     // Render each game object
     // Call game objects update method
-    for (const scene of this.scenes) {
+    for (const scene of this.braveEngine.scenes) {
       for (const entity of scene)
         if (entity.active) {
-          entity.onUpdate();
+          if (this.braveEngine.mode === BraveEngineModeEnum.running) {
+            entity.onUpdate();
+          }
 
           // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
           // To Do: Filtrar objectos que sao luz
@@ -95,11 +98,11 @@ export class BraveRender {
     }
 
     // Clear the scene objects and scene lights after render
-    this.sceneLights = [];
+    this.lights = [];
   }
 
-  private renderVertexShader(gameObject: Entity) {
-    return renderVertexShader(this.glContext, this.camera, gameObject);
+  private renderVertexShader(entity: Entity) {
+    return renderVertexShader(this.glContext, this.camera, entity);
   }
 
   private updateCameraProjectionMatrix() {

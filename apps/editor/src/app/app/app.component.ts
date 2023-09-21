@@ -2,7 +2,7 @@ import { environment } from './../../environments/environment';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UiService } from '@brave/ui';
 import { CanvasComponent } from '../components/canvas/canvas.component';
-import { BraveRender, Camera, Cube, Scene, } from '@brave/brave-engine';
+import { BraveEngine, BraveRender, Camera, Cube, Scene, } from '@brave/brave-engine';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +12,7 @@ import { BraveRender, Camera, Cube, Scene, } from '@brave/brave-engine';
 export class AppComponent implements OnInit {
 
   @ViewChild(CanvasComponent, { static: true }) private canvas: CanvasComponent;
+  private braveEngine: BraveEngine;
   private braveRender: BraveRender;
   private scene: Scene;
 
@@ -26,11 +27,8 @@ export class AppComponent implements OnInit {
   }
 
   onStart() {
-    // Get the Webgl context
-    const glContext = this.canvas.webgl2Context;
-
-    // Create a new Brave Render
-    this.braveRender = new BraveRender(glContext);
+    this.braveEngine = new BraveEngine(this.canvas.canvasElement.nativeElement, this.canvas.webgl2Context);
+    this.braveRender = this.braveEngine.braveRender;
 
     // Create and set camera
     const camera = new Camera();
@@ -40,8 +38,7 @@ export class AppComponent implements OnInit {
     this.braveRender.setCamera(camera);
 
     // Create sceneObjects
-    this.scene = new Scene(glContext);
-    this.braveRender.scenes.push(this.scene);
+    this.scene = this.braveEngine.addScene();
 
     // Create a cube and add on scene
     const cube = new Cube();
@@ -64,23 +61,6 @@ export class AppComponent implements OnInit {
       cube2.transform.rotation.y += 0.1;
       cube3.transform.rotation.z += 0.1;
     });
-
-    requestAnimationFrame(this.onUpdate.bind(this));
-  }
-
-  onUpdate(time: number) {
-    // Set render size
-    // Render size is used to calculate aspect ratio
-    this.braveRender.setRenderSize(
-      this.canvas?.canvasElement?.nativeElement.clientWidth || 0,
-      this.canvas?.canvasElement?.nativeElement.clientHeight || 0
-    );
-
-    // Render the scene
-    this.braveRender.render(time);
-
-    // Call update to render the next frame
-    requestAnimationFrame(this.onUpdate.bind(this));
   }
 
 }

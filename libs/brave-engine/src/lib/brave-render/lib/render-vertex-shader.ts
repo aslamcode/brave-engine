@@ -5,7 +5,7 @@ import { Entity } from '../../entity/entity';
 import { degToRad } from '../../util/deg-to-rad';
 import { Camera } from '../../entity/camera';
 
-export function renderVertexShader(glContext: WebGL2RenderingContext, camera: Camera, gameObject: Entity) {
+export function renderVertexShader(glContext: WebGL2RenderingContext, camera: Camera, entity: Entity) {
   const cameraProjectionMatrix = camera.projectionMatrix;
 
   // Set the drawing position to the "identity" point, which is
@@ -16,14 +16,14 @@ export function renderVertexShader(glContext: WebGL2RenderingContext, camera: Ca
   mat4.translate(
     modelViewMatrix, // destination matrix
     modelViewMatrix, // matrix to translate
-    [gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z]
+    [entity.transform.position.x, entity.transform.position.y, entity.transform.position.z]
   );
 
   // Set rotation X to draw the element
   mat4.rotate(
     modelViewMatrix, // destination matrix
     modelViewMatrix, // matrix to rotate
-    degToRad(gameObject.transform.rotation.x), // amount to rotate in radians
+    degToRad(entity.transform.rotation.x), // amount to rotate in radians
     [1, 0, 0]
   ); // axis to rotate around (X)
 
@@ -31,7 +31,7 @@ export function renderVertexShader(glContext: WebGL2RenderingContext, camera: Ca
   mat4.rotate(
     modelViewMatrix, // destination matrix
     modelViewMatrix, // matrix to rotate
-    degToRad(gameObject.transform.rotation.y), // amount to rotate in radians
+    degToRad(entity.transform.rotation.y), // amount to rotate in radians
     [0, 1, 0]
   ); // axis to rotate around (Y)
 
@@ -39,7 +39,7 @@ export function renderVertexShader(glContext: WebGL2RenderingContext, camera: Ca
   mat4.rotate(
     modelViewMatrix, // destination matrix
     modelViewMatrix, // matrix to rotate
-    degToRad(gameObject.transform.rotation.z), // amount to rotate in radians
+    degToRad(entity.transform.rotation.z), // amount to rotate in radians
     [0, 0, 1]
   ); // axis to rotate around (Z)
 
@@ -47,23 +47,23 @@ export function renderVertexShader(glContext: WebGL2RenderingContext, camera: Ca
   mat4.scale(
     modelViewMatrix, // destination matrix
     modelViewMatrix, // matrix to scale
-    [gameObject.transform.scale.x, gameObject.transform.scale.y, gameObject.transform.scale.z]
-  ); 
+    [entity.transform.scale.x, entity.transform.scale.y, entity.transform.scale.z]
+  );
 
   // Render using the first material by now
-  const material = gameObject.materials[0];
+  const material = entity.materials[0];
   const shader = material.shader;
 
   // Tell WebGL how to pull out the positions from the position
   // buffer into the vertexPosition attribute.
-  setPositionAttribute(glContext, gameObject.meshRenderer!.vertexBuffer, shader);
+  setPositionAttribute(glContext, entity.meshRenderer!.vertexBuffer, shader);
 
   // Tell WebGL how to pull out the colors from the color buffer
   // into the vertexColor attribute.
-  setColorAttribute(glContext, gameObject.meshRenderer!.colorBuffer, shader);
+  setColorAttribute(glContext, entity.meshRenderer!.colorBuffer, shader);
 
   // Tell WebGL which indices to use to index the vertices
-  glContext.bindBuffer(glContext.ELEMENT_ARRAY_BUFFER, gameObject.meshRenderer!.indexBuffer);
+  glContext.bindBuffer(glContext.ELEMENT_ARRAY_BUFFER, entity.meshRenderer!.indexBuffer);
 
   // Tell WebGL to use our program when drawing
   glContext.useProgram(material.shader.program);
@@ -81,7 +81,7 @@ export function renderVertexShader(glContext: WebGL2RenderingContext, camera: Ca
   );
 
   // Draw the element
-  const vertexCount = gameObject.meshRenderer!.mesh.vertexCount;
+  const vertexCount = entity.meshRenderer!.mesh.vertexCount;
   const type = glContext.UNSIGNED_SHORT;
   const offset = 0;
   glContext.drawElements(glContext.TRIANGLES, vertexCount, type, offset);

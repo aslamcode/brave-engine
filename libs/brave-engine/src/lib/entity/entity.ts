@@ -5,8 +5,9 @@ import { TransformComponent } from '../component/transform-component';
 import { LifecycleHooks } from '../interface/lifecycle-hooks';
 
 export class Entity implements LifecycleHooks {
-  transform: TransformComponent;
+  name = 'Entity';
   active = true;
+  transform: TransformComponent;
 
   protected parent?: Entity;
   children = new Array<Entity>();
@@ -25,6 +26,7 @@ export class Entity implements LifecycleHooks {
 
   onStart() {
     this.components.forEach(elem => elem.onStart());
+    console.log('Doidaoo');
   }
 
   onUpdate() {

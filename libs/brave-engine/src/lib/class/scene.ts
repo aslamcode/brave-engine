@@ -1,11 +1,15 @@
+import { BraveEngine } from '../brave-engine';
 import { Entity } from '../entity/entity';
+import { BraveEngineModeEnum } from '../enum/brave-engine-mode-enum';
 
 export class Scene {
-
   private children: Entity[] = [];
   get length() { return this.children.length; }
 
-  constructor(private glContext: WebGL2RenderingContext) {
+  constructor(
+    private braveEngine: BraveEngine,
+    private glContext: WebGL2RenderingContext
+  ) {
   }
 
   // Permits iterate scene on for using for of
@@ -30,12 +34,16 @@ export class Scene {
   add(data: Entity) {
     // Load materials shaders
     data.materials.forEach(elem => {
-      elem.loadShader(this.glContext);      
+      elem.loadShader(this.glContext);
     });
 
     // Load mesh renderer buffers if exists mesh renderer
     if (data.meshRenderer) {
       data.meshRenderer.loadBuffers(this.glContext);
+    }
+
+    if (this.braveEngine.mode === BraveEngineModeEnum.running) {
+      data.onStart();
     }
 
     this.children.push(data);
