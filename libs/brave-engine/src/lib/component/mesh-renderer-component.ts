@@ -3,9 +3,8 @@ import { loadVertexBuffer } from '../util/mesh-renderer/load-vertex-buffer';
 import { loadIndexBuffer } from '../util/mesh-renderer/load-index-buffer';
 import { loadColorBuffer } from '../util/mesh-renderer/load-color-buffer';
 import { Component } from './component';
-import { LifecycleHooks } from '../interface/lifecycle-hooks';
 
-export class MeshRendererComponent extends Component implements LifecycleHooks {
+export class MeshRendererComponent extends Component {
   private glContext?: WebGL2RenderingContext;
   mesh!: Mesh;
 

@@ -22,10 +22,23 @@ export class Entity implements LifecycleHooks {
   }
 
   // Lifecycle hooks
-  onStart() { }
-  onUpdate() { }
-  onFixedUpdate() { }
-  onDestroy() { }
+
+  onStart() {
+    this.components.forEach(elem => elem.onStart());
+  }
+
+  onUpdate() {
+    this.components.forEach(elem => elem.onUpdate());
+  }
+
+  onFixedUpdate() {
+    this.components.forEach(elem => elem.onFixedUpdate());
+  }
+
+  onDestroy() {
+    this.components.forEach(elem => elem.onDestroy());
+  }
+
   // Lifecycle hooks
 
   setActive(active: boolean) {

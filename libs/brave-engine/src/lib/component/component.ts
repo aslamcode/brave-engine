@@ -1,6 +1,7 @@
 import { Entity } from '../entity/entity';
+import { LifecycleHooks } from '../interface/lifecycle-hooks';
 
-export class Component {
+export class Component implements LifecycleHooks {
   active = true;
   protected entity?: Entity;
 
@@ -8,9 +9,16 @@ export class Component {
     if (entity) {
       this.entity = entity;
     }
+
+    this.onUpdate();
   }
 
   setEntity(entity: Entity) {
     this.entity = entity;
   }
+
+  onStart() { }
+  onUpdate() { }
+  onFixedUpdate() { }
+  onDestroy() { }
 }
