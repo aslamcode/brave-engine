@@ -1,0 +1,206 @@
+// Set the number of columns you want to use on your layout.
+$fg-columns: 12;
+// Set the gutter between columns.
+$fg-gutter-width: 12px;
+// Set a margin for the container sides.
+$fg-outer-margin: 12px;
+// Create or remove fg-breakpoints for your project
+// Syntax:
+// name SIZErem,
+$fg-breakpoints: sm 48em, md 62em, lg 75em;
+
+// .wrapper {
+//   box-sizing: border-box;
+//   max-width: 1200px;
+//   margin: 0 auto;
+// }
+
+.container-fluid {
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: $fg-outer-margin;
+  padding-left: $fg-outer-margin;
+}
+
+.flex,
+[flex] {
+  display: flex;
+}
+
+.row,
+[f-row] {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-right: calc($fg-gutter-width / 2) * -1;
+  margin-left: calc($fg-gutter-width / 2) * -1;
+
+  &.start,
+  &[f-start] {
+    justify-content: flex-start !important;
+    text-align: start !important;
+  }
+
+  &.center,
+  &[f-center] {
+    justify-content: center !important;
+    text-align: center !important;
+  }
+
+  &.end,
+  &[f-end] {
+    justify-content: flex-end !important;
+    text-align: end !important;
+  }
+
+  &.top,
+  &[f-top] {
+    align-items: flex-start !important;
+  }
+
+  &.middle,
+  &[f-middle] {
+    align-items: center !important;
+  }
+
+  &.bottom,
+  &[f-bottom] {
+    align-items: flex-end !important;
+  }
+
+  &.around,
+  &[f-around] {
+    justify-content: space-around !important;
+  }
+
+  &.between,
+  &[f-between] {
+    justify-content: space-between !important;
+  }
+}
+
+.row.reverse,
+[f-row-reverse] {
+  flex-direction: row-reverse;
+}
+
+.col,
+[f-col] {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+
+  flex-grow: 1;
+  flex-basis: 0;
+  max-width: 100%;
+
+  padding-right: calc($fg-gutter-width / 2);
+  padding-left: calc($fg-gutter-width / 2);
+
+  &.start,
+  &[f-start] {
+    align-items: flex-start !important;
+    text-align: start !important;
+  }
+
+  &.center,
+  &[f-center] {
+    align-items: center !important;
+    text-align: center !important;
+  }
+
+  &.end,
+  &[f-end] {
+    align-items: flex-end !important;
+    text-align: end !important;
+  }
+
+  &.top,
+  &[f-top] {
+    justify-content: flex-start !important;
+  }
+
+  &.middle,
+  &[f-middle] {
+    justify-content: center !important;
+  }
+
+  &.bottom,
+  &[f-bottom] {
+    justify-content: flex-end !important;
+  }
+}
+
+@for $i from 1 through $fg-columns {
+  .col-#{$i},
+  [f-col*='#{$i}'] {
+    flex-basis: calc(100% / ($fg-columns * $i));
+    max-width: calc(100% / ($fg-columns * $i));
+  }
+}
+
+@for $i from 1 through $fg-columns {
+  .col-offset-#{$i},
+  [f-col*='#{$i}'][f-col*='offset-#{$i}'] {
+    margin-left: calc(100% / ($fg-columns * $i));
+  }
+}
+
+.col.reverse,
+[f-col-reverse] {
+  flex-direction: column-reverse !important;
+}
+
+.col.auto,
+[f-col-auto] {
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: auto;
+}
+
+.first,
+[f-first] {
+  order: -1;
+}
+
+.last,
+[f-last] {
+  order: 1;
+}
+
+// Flex wrap - by default is flex wrap
+.nowrap,
+[f-nowrap] {
+  flex-wrap: nowrap !important;
+}
+
+// Flex grow 1 to 5
+.grow,
+[f-grow] {
+  flex-grow: 1 !important;
+}
+
+@for $i from 0 through 5 {
+  .grow-#{$i},
+  [f-grow-#{$i}] {
+    flex-grow: #{$i} !important;
+  }
+}
+
+// Flex shrink 0 to 5
+@for $i from 0 through 5 {
+  .shrink-#{$i},
+  [f-shrink-#{$i}] {
+    flex-shrink: #{$i} !important;
+  }
+}
+
+// Flex basis 1 to 100
+@for $i from 1 through 100 {
+  .basis-#{$i},
+  [f-basis-#{$i}] {
+    flex-basis: #{$i}#{'%'} !important;
+  }
+}

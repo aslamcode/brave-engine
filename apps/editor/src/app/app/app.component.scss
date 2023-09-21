@@ -1,0 +1,44 @@
+:host {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.app-container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  width: 100%;
+
+  &__navbar,
+  &__sidebar {
+    flex-shrink: 0;
+    z-index: 1;
+  }
+
+  &__sidebar-content {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  &__content {
+    position: relative;
+    width: 100%;
+    flex: 1;
+    padding: 25px 32px 15px;
+    overflow: hidden;
+    overflow-y: overlay;
+    background-color: var(--gray);
+
+    // Fix scroll in Microsoft Edge Browser 12-18
+    @supports (-ms-ime-align: auto) {
+      overflow-y: visible;
+    }
+
+    &.-clear {
+      padding: 0;
+    }
+  }
+}

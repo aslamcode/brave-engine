@@ -1,0 +1,6 @@
+<div *ngIf="!colorful && !embedded" class="icon icon__mask" [ngStyle]="maskStyle"></div>
+<div *ngIf="colorful && !embedded" class="icon icon__background" [ngStyle]="backgroundStyle"></div>
+
+<div #content class="icon__embedded" [class.-colorful]="colorful" [hidden]="!embedded">
+  <ng-content></ng-content>
+</div>

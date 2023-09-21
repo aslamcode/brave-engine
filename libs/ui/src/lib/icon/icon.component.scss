@@ -1,0 +1,60 @@
+@import '../../scss/style';
+
+:host {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--size) * 1em);
+  height: calc(var(--size) * 1em);
+
+  color: inherit;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+
+  &__mask {
+    // Used by mask
+    color: inherit;
+    background-color: currentColor;
+    mask-size: contain !important;
+    mask-repeat: no-repeat !important;
+    mask-position: center center !important;
+  }
+
+  &__background {
+    // Used by background-image
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+
+  &__embedded {
+    width: 100%;
+    height: 100%;
+
+    ::ng-deep {
+      svg {
+        display: block;
+
+        color: inherit;
+        fill: currentColor;
+
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    &.-colorful {
+      ::ng-deep {
+        svg {
+          fill: none;
+        }
+      }
+    }
+  }
+}

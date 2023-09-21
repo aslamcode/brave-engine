@@ -1,0 +1,37 @@
+.capitalize {
+  text-transform: capitalize !important;
+
+  &::first-letter {
+    text-transform: capitalize !important;
+  }
+}
+
+.lowercase {
+  text-transform: lowercase !important;
+
+  &::first-letter {
+    text-transform: lowercase !important;
+  }
+}
+
+.uppercase {
+  text-transform: uppercase !important;
+
+  &::first-letter {
+    text-transform: uppercase !important;
+  }
+}
+
+.first-uppercase {
+  &:first-letter {
+    text-transform: uppercase;
+  }
+
+  &.-all {
+    * {
+      &:first-letter {
+        text-transform: uppercase;
+      }
+    }
+  }
+}

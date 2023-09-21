@@ -1,0 +1,57 @@
+:host {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: rgba(#000, 0.2);
+  pointer-events: auto;
+  animation: braveUiLoadingHostAnim 0.3s ease;
+  backdrop-filter: saturate(180%) blur(10px);
+}
+
+.loading-brave {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+
+  &__logo {
+    font-size: 100px;
+    color: #fff;
+    z-index: 1;
+    animation: braveUiLoadingAnim 1.5s infinite ease-in-out;
+  }
+}
+
+@keyframes braveUiLoadingAnim {
+  0% {
+    transform: scale(1);
+    color: var(--text-primary);
+  }
+
+  50% {
+    transform: scale(0.9);
+    color: #fff;
+  }
+
+  100% {
+    transform: scale(1);
+    color: var(--text-primary);
+  }
+}
+
+@keyframes braveUiLoadingHostAnim {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,27 @@
+<ui-page-title class="mb-4">Radio</ui-page-title>
+
+<ui-card>
+  <!-- Basic -->
+  <ui-card-title>Basic</ui-card-title>
+
+  <ui-radio-group [formControl]="radioGroupControl">
+    <ui-radio *ngFor="let elem of options" [value]="elem.id">{{ elem.description }}</ui-radio>
+    <ui-radio value="disabled" [disabled]="true">Disabled</ui-radio>
+  </ui-radio-group>
+
+  <div class="mt-3">
+    Value: <b>{{ radioGroupControl.value }}</b>
+  </div>
+
+  <!-- Inline -->
+  <ui-card-title class="mt-5">Inline</ui-card-title>
+
+  <ui-radio-group inline [formControl]="radioGroupInlineControl">
+    <ui-radio *ngFor="let elem of options" [value]="elem.id">{{ elem.description }}</ui-radio>
+  </ui-radio-group>
+
+  <div class="mt-3">
+    Value: <b>{{ radioGroupInlineControl.value }}</b>
+  </div>
+
+</ui-card>

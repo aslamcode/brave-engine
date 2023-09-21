@@ -1,0 +1,19 @@
+:host {
+  display: flex;
+  align-items: center;
+  font-size: calc(var(--size) * 24px);
+  color: var(--text-primary);
+  letter-spacing: calc(var(--size) * 0.1em);
+  font-weight: 400;
+
+  &[bold] {
+    font-weight: 600;
+  }
+}
+
+.page-title {
+  &__icon {
+    color: var(--text-primary);
+    font-size: calc(var(--size) * 24px);
+  }
+}

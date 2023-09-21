@@ -1,0 +1,34 @@
+@import '../../scss/style';
+
+:host {
+  display: block;
+  color: var(--text-primary);
+
+  &[font-size-large] {
+    .table-body {
+      font-size: calc(var(--size) * 16px);
+    }
+  }
+}
+
+.container {
+  display: block;
+}
+
+.table-header {
+  margin-bottom: calc(var(--size) * 15px);
+  font-size: calc(var(--size) * 12px);
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+
+  ::ng-deep {
+    .row-container {
+      border-bottom: none;
+    }
+  }
+}
+
+.table-body {
+  font-size: calc(var(--size) * 14px);
+}

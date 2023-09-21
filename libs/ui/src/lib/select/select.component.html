@@ -1,0 +1,77 @@
+<div class="container" #container (click)="showOptions()" (clickOutside)="closeOptions()" (keyup.enter)="showOptions()"
+  (document:keyup.esc)="closeOptions(); container?.focus()" (blur)="blur()" [class.-readonly]="isReadOnly"
+  [class.-disabled]="isDisabled">
+
+  <!-- Label and Info -->
+  <div *ngIf="label || info" class="container__label-info">
+    <!-- Label -->
+    <div *ngIf="label" class="container__label" [class.-active]="isOptionsVisible" [class.-required]="isRequired"
+      [class.-disabled]="isDisabled" [class.-error]=" isInvalidAndTouched">
+      {{ label }}
+    </div>
+
+    <!-- Info -->
+    <ui-icon *ngIf="info" class="container__info" [embedded]="true" [tooltip]="info">
+      <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M11.6872 0.375C5.2512 0.375 0.0366211 5.625 0.0366211 12C0.0366211 18.4219 5.2512 23.625 11.6872 23.625C18.0762 23.625 23.3378 18.4219 23.3378 12C23.3378 5.625 18.0762 0.375 11.6872 0.375ZM11.6872 21.375C6.47263 21.375 2.29157 17.2031 2.29157 12C2.29157 6.84375 6.47263 2.625 11.6872 2.625C16.8548 2.625 21.0828 6.84375 21.0828 12C21.0828 17.2031 16.8548 21.375 11.6872 21.375ZM16.7139 9.42188C16.7139 7.07813 14.224 5.25 11.9221 5.25C9.71413 5.25 8.30478 6.1875 7.22428 7.82813C7.03637 8.0625 7.08335 8.39062 7.31824 8.57813L8.63363 9.5625C8.86852 9.75 9.24434 9.70313 9.43226 9.46875C10.1369 8.57813 10.6537 8.0625 11.7342 8.0625C12.5798 8.0625 13.6133 8.57813 13.6133 9.42188C13.6133 10.0313 13.0966 10.3125 12.2509 10.7813C11.3114 11.3438 10.043 12 10.043 13.6875V14.0625C10.043 14.3906 10.2779 14.625 10.6067 14.625H12.7207C13.0496 14.625 13.2845 14.3906 13.2845 14.0625V13.7813C13.2845 12.6094 16.7139 12.5625 16.7139 9.42188ZM13.6603 17.25C13.6603 16.1719 12.7677 15.2813 11.6872 15.2813C10.5597 15.2813 9.71413 16.1719 9.71413 17.25C9.71413 18.375 10.5597 19.2188 11.6872 19.2188C12.7677 19.2188 13.6603 18.375 13.6603 17.25Z" />
+      </svg>
+    </ui-icon>
+  </div>
+
+  <div class="container__select" [attr.tabindex]="(control && control.disabled) || isReadOnly ? '-1' : '0'"
+    [class.-disabled]="isDisabled" [class.-error]="isInvalidAndTouched" [class.-readonly]="isReadOnly">
+    <!-- Selected value -->
+    <div *ngIf="!description" class="container__select-value" [class.-disabled]="isDisabled"
+      [class.-required]="isRequired">
+      {{ placeholder || 'selecione' }}
+    </div>
+
+    <div *ngIf="description" class="container__select-value -active" [class.-disabled]="isDisabled">
+      {{ description }}
+    </div>
+
+    <!-- Icon -->
+    <ui-icon *ngIf="!isReadOnly" class="container__select-icon" [class.-active]="isOptionsVisible"
+      [class.-disabled]="isDisabled" [embedded]="true">
+      <svg version="1.1" id="Camada_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+        x="0px" y="0px" viewBox="0 0 12 6" style="enable-background:new 0 0 12 6;" xml:space="preserve">
+        <path d="M6,6c0.2,0,0.4-0.1,0.5-0.2l4.7-4.5c0.3-0.3,0.3-0.8,0-1.1c-0.3-0.3-0.8-0.3-1.1,0L6,4.2l-4.2-4
+          C1.5-0.1,1-0.1,0.7,0.2C0.4,0.5,0.4,1,0.7,1.3l4.7,4.5C5.6,5.9,5.8,6,6,6z" />
+      </svg>
+    </ui-icon>
+
+    <!-- <app-input-error class="container__select-error" *ngIf="isInvalidAndTouched" [errors]="errors"
+      [showIcon]="!value || !isOnFocus" [showDialog]="isMouseOver && !isOptionsVisible">
+      <ng-content select="[error]"></ng-content>
+    </app-input-error> -->
+
+    <!-- Search -->
+    <div class="container__select-search">
+      <input #searchInput tabindex="-1" [(ngModel)]="searchValue" class="container__select-search-input"
+        [class.-active]="isOptionsVisible" type="text" placeholder="filtrar" (input)="filter()" />
+    </div>
+
+    <!-- Options list -->
+    <cdk-virtual-scroll-viewport #optionsElement itemSize="48" minBufferPx="1000" maxBufferPx="1000"
+      [hidden]="!isOptionsVisible" class="container__select-options"
+      [style.height]="((48 * (options.length || 0)) || (48 * (filteredOptions?.length || 0))) + 'px'"
+      [ngStyle]="optionsStyle" [class.-anim-top]="optionsTop">
+      <ng-content select="ui-select-option"></ng-content>
+
+      <div class="options-wrap" *cdkVirtualFor="let elem of filteredOptions || options;" tabindex="0"
+        [title]="elem.description">
+        <div class="container-option" [class.-active]="hasOption(elem)"
+          (click)="$event.stopPropagation(); toggleOption(elem)" [class.waves-effect]="!elem.disabled"
+          [class.-disabled]="elem.disabled">
+          <ui-checkbox *ngIf="multiple" class="container-option__checkbox" [value]="hasOption(elem)"
+            [disabled]="elem.disabled">
+          </ui-checkbox>
+          <div class="container-option__label">{{ elem.description }}</div>
+        </div>
+      </div>
+
+    </cdk-virtual-scroll-viewport>
+
+  </div>
+</div>

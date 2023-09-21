@@ -1,0 +1,29 @@
+<div class="confirm-dialog-container" [style.pointer-events]="isOpen ? 'auto' : 'none'">
+  <!-- Overlay -->
+  <div *ngIf="isOpen" class="confirm-dialog-container__overlay" [@overlay]="'default'" (click)="dismiss()"></div>
+
+  <!-- Modal -->
+  <div *ngIf="isOpen" class="confirm-dialog-container__modal-wrap" [@modal]="animDirection">
+    <div class="confirm-dialog-container__modal">
+      <!-- Content -->
+      <div class="confirm-dialog-container__content">
+        <div class="confirm-dialog-container__title">
+          {{ title }}
+        </div>
+
+        <div class="confirm-dialog-container__message">
+          {{ text }}
+        </div>
+
+        <div class="confirm-dialog-container__footer">
+          <ui-button mx-2 flat rounded color="primary" (click)="reject()">
+            <div>não</div>
+          </ui-button>
+          <ui-button mx-2 stroked rounded color="primary" (click)="accept()">
+            <div>sim</div>
+          </ui-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

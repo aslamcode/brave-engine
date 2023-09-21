@@ -1,0 +1,62 @@
+<ui-page-title class="mb-4">Input</ui-page-title>
+
+<ui-card>
+  <ui-card-title>Basic</ui-card-title>
+
+  <ui-input label="Label" placeholder="Placeholder" info="Info about the field">
+  </ui-input>
+
+  <ui-card-title class="mt-5">Stroked</ui-card-title>
+
+  <ui-input stroked label="Label" placeholder="Placeholder" info="Info about the field">
+  </ui-input>
+
+  <ui-card-title class="mt-5">Stroked rounded</ui-card-title>
+
+  <ui-input stroked-rounded label="Label" placeholder="Placeholder" info="Info about the field">
+  </ui-input>
+
+  <!-- Text area -->
+  <ui-card-title class="mt-5">Text area</ui-card-title>
+
+  <ui-input class="mb-3" stroked-rounded label="Label" [rows]="3" placeholder="Placeholder" info="Info about the field">
+  </ui-input>
+
+  <ui-input class="mb-3" label="Label" [rows]="3" placeholder="Placeholder" info="Info about the field"></ui-input>
+
+  <ui-card-title class="mt-5">Text + left icon + right icon</ui-card-title>
+
+  <ui-input stroked-rounded label="Label" placeholder="Placeholder" info="Info about the field" leftIcon="stamp"
+    rightIcon="brave">
+  </ui-input>
+
+  <!-- Numbers -->
+  <ui-card-title class="mt-5">Number</ui-card-title>
+
+  <ui-input stroked-rounded type="number" label="Label" placeholder="Placeholder" info="Info about the field">
+  </ui-input>
+
+  <ui-card-title class="mt-5">Number + text prefix</ui-card-title>
+
+  <ui-input stroked-rounded type="number" label="Label" placeholder="Placeholder" info="Info about the field"
+    textPrefix="$ ">
+  </ui-input>
+
+  <ui-card-title class="mt-5">Number + text suffix</ui-card-title>
+
+  <ui-input stroked-rounded type="number" label="Label" placeholder="Placeholder" info="Info about the field"
+    textSuffix=" mm">
+  </ui-input>
+
+  <ui-card-title class="mt-5">Number + outside prefix</ui-card-title>
+
+  <ui-input stroked-rounded type="number" label="Label" placeholder="Placeholder" info="Info about the field"
+    outsidePrefix="Day">
+  </ui-input>
+
+  <ui-card-title class="mt-5">Number + outside suffix</ui-card-title>
+
+  <ui-input stroked-rounded type="number" label="Label" placeholder="Placeholder" info="Info about the field"
+    outsideSuffix="Days">
+  </ui-input>
+</ui-card>

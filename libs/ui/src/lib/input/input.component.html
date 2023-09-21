@@ -1,0 +1,99 @@
+<div #container class="container" (click)="showOptions()" (clickOutside)="closeOptions()" (keyup.enter)="showOptions()"
+  (document:keyup.esc)="closeOptions(); container?.focus()">
+  <!-- Label and Info -->
+  <div *ngIf="label || info" class="container__label-info">
+    <!-- Label -->
+    <div *ngIf="label" class="container__label" [class.-active]="isOnFocus" [class.-required]="isRequired && label"
+      [class.-disabled]="isDisabled" [class.-error]="isInvalidAndTouched">
+      {{ label }}
+    </div>
+
+    <!-- Info -->
+    <ui-icon *ngIf="info" class="container__info" [embedded]="true" [tooltip]="info">
+      <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M11.6872 0.375C5.2512 0.375 0.0366211 5.625 0.0366211 12C0.0366211 18.4219 5.2512 23.625 11.6872 23.625C18.0762 23.625 23.3378 18.4219 23.3378 12C23.3378 5.625 18.0762 0.375 11.6872 0.375ZM11.6872 21.375C6.47263 21.375 2.29157 17.2031 2.29157 12C2.29157 6.84375 6.47263 2.625 11.6872 2.625C16.8548 2.625 21.0828 6.84375 21.0828 12C21.0828 17.2031 16.8548 21.375 11.6872 21.375ZM16.7139 9.42188C16.7139 7.07813 14.224 5.25 11.9221 5.25C9.71413 5.25 8.30478 6.1875 7.22428 7.82813C7.03637 8.0625 7.08335 8.39062 7.31824 8.57813L8.63363 9.5625C8.86852 9.75 9.24434 9.70313 9.43226 9.46875C10.1369 8.57813 10.6537 8.0625 11.7342 8.0625C12.5798 8.0625 13.6133 8.57813 13.6133 9.42188C13.6133 10.0313 13.0966 10.3125 12.2509 10.7813C11.3114 11.3438 10.043 12 10.043 13.6875V14.0625C10.043 14.3906 10.2779 14.625 10.6067 14.625H12.7207C13.0496 14.625 13.2845 14.3906 13.2845 14.0625V13.7813C13.2845 12.6094 16.7139 12.5625 16.7139 9.42188ZM13.6603 17.25C13.6603 16.1719 12.7677 15.2813 11.6872 15.2813C10.5597 15.2813 9.71413 16.1719 9.71413 17.25C9.71413 18.375 10.5597 19.2188 11.6872 19.2188C12.7677 19.2188 13.6603 18.375 13.6603 17.25Z" />
+      </svg>
+    </ui-icon>
+  </div>
+
+  <!-- Input container -->
+  <div class="container__input-container">
+    <div *ngIf="outsidePrefix" class="container__input-container-prefix-sufix" [class.-active]="isOnFocus"
+      [class.-disabled]="isDisabled">
+      {{ outsidePrefix }}
+    </div>
+
+    <div class="container__input-wrap" [class.-active]="isOnFocus" [class.-disabled]="isDisabled"
+      [class.-text-area]="rows > 1" [class.-error]="isInvalidAndTouched" [class.-readonly]="isReadOnly">
+      <!-- Start icon -->
+      <ng-container *ngIf="leftIcon">
+        <ui-icon class="container__input-wrap-icon -left">{{ leftIcon }}</ui-icon>
+      </ng-container>
+
+      <!-- Show if type is text -->
+      <ng-container *ngIf="type === 'text'">
+        <input #input1 *ngIf="rows <= 1" [ngModel]="displayWith(value)" (ngModelChange)="value = $event; filter()"
+          class="container__input-wrap-input" [type]="type"
+          [placeholder]="placeholder ? placeholder + (isRequired ? ' *' : '') : ''" [mask]="textMask"
+          [prefix]="textPrefix || ''" [suffix]="textSuffix || ''" [class.-active]="isOnFocus"
+          [class.-disabled]="isDisabled" [disabled]="isDisabled || isReadOnly" [class.-readonly]="isReadOnly"
+          (focus)="focus()" (blur)="blur()" autocomplete="%" />
+      </ng-container>
+
+      <!-- Show if type is number -->
+      <ng-container *ngIf="type === 'number'">
+        <input #input2 *ngIf="rows <= 1" [ngModel]="numberValue" (ngModelChange)="typeNumberInputEvent($event)"
+          class="container__input-wrap-input" [placeholder]="placeholder ? placeholder + (isRequired ? ' *' : '') : ''"
+          [class.-active]="isOnFocus" [class.-disabled]="isDisabled" [disabled]="isDisabled || isReadOnly"
+          [class.-readonly]="isReadOnly" (focus)="focus()" (blur)="blur()" autocomplete="off" novalidate />
+      </ng-container>
+
+      <!-- Show if type is diferent text and number -->
+      <ng-container *ngIf="type !== 'text' && type !== 'number'">
+        <input #input3 *ngIf="rows <= 1" [(ngModel)]="value" class="container__input-wrap-input" [type]="type"
+          [placeholder]="placeholder ? placeholder + (isRequired ? ' *' : '') : ''" [class.-active]="isOnFocus"
+          [class.-disabled]="isDisabled" [class.-readonly]="isReadOnly" [disabled]="isDisabled || isReadOnly"
+          (focus)="focus()" (blur)="blur()" autocomplete="off" />
+      </ng-container>
+
+      <textarea #input4 *ngIf="rows > 1" [(ngModel)]="value" class="container__input-wrap-textarea"
+        [placeholder]="placeholder ? placeholder + (isRequired ? ' *' : '') : ''" [class.-active]="isOnFocus"
+        [class.-disabled]="isDisabled" [disabled]="isDisabled || isReadOnly" [class.-readonly]="isReadOnly"
+        [rows]="rows" (focus)="focus()" (blur)="blur()">
+      </textarea>
+
+      <!-- <app-input-error *ngIf="isInvalidAndTouched" [errors]="errors" [showIcon]="(!value || !isOnFocus) && rows <= 1"
+        [showDialog]="(!value && isOnFocus) || isMouseOver">
+        <ng-content select="[error]"></ng-content>
+      </app-input-error> -->
+
+      <!-- Start icon -->
+      <ng-container *ngIf="rightIcon">
+        <ui-icon class="container__input-wrap-icon -right">{{ rightIcon }}</ui-icon>
+      </ng-container>
+    </div>
+
+    <div *ngIf="outsideSuffix" class="container__input-container-prefix-sufix" [class.-active]="isOnFocus"
+      [class.-disabled]="isDisabled">
+      {{ outsideSuffix }}
+    </div>
+  </div>
+
+  <!-- Options list -->
+  <cdk-virtual-scroll-viewport #optionsElement itemSize="48" minBufferPx="1000" maxBufferPx="1000"
+    [hidden]="!isOptionsVisible" class="container__input-options"
+    [style.height]="((48 * (options.length || 0)) || (48 * (filteredOptions?.length || 0))) + 'px'"
+    [ngStyle]="optionsStyle" [class.-anim-top]="optionsTop">
+    <ng-content select="ui-input-option"></ng-content>
+
+    <div class="options-wrap" *cdkVirtualFor="let elem of filteredOptions || options;" tabindex="0"
+      [title]="elem.description">
+      <div class="container-option waves-effect" [class.-active]="value === elem.value"
+        (click)="$event.stopPropagation(); selectAutocompleteOption(elem)">
+        <div class="container-option__label">{{ elem.description }}</div>
+      </div>
+    </div>
+
+  </cdk-virtual-scroll-viewport>
+</div>

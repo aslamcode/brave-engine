@@ -1,0 +1,64 @@
+<ui-icon *ngIf="canShowChildIconInLeft" class="child-icon -left" [class.-open]="isChildOpen" [embedded]="true">
+  <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M1.68801 0.632022L7.00001 5.94402L12.312 0.632023L13.208 1.52802L7.00001 7.73602L0.792008 1.52802L1.68801 0.632022Z" />
+  </svg>
+</ui-icon>
+
+<div class="content" [class.has-sort]="sort && colDirective.isHeaderCell" (mouseenter)="mouseenter()"
+  (mouseleave)="mouseleave()">
+  <ng-content></ng-content>
+</div>
+
+<ng-container *ngIf="sort && colDirective.isHeaderCell">
+  <div class="icons-wrap">
+    <div class="icons" [aIf]="isMouseOver && !direction" fadeIn="icons-fade-in-anim" fadeOut="icons-fade-out-anim">
+      <ui-icon name="arrow_up_thin" [embedded]="true">
+        <svg version="1.1" id="Layer" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+          x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+          <path d="M256,448c8.8,0,16-7.2,16-16V112.8L388.4,235c6.1,6.4,16.2,6.7,22.6,0.6c6.4-6.1,6.6-16.2,0.6-22.6l-133-139.6
+          c-6-6-14.1-9.4-22.6-9.4c-8.5,0-16.6,3.3-22.9,9.7L100.4,213c-6.1,6.4-5.8,16.5,0.6,22.6c6.4,6.1,16.5,5.8,22.6-0.6L240,112.3V432
+          C240,440.8,247.2,448,256,448L256,448z" />
+        </svg>
+      </ui-icon>
+
+      <ui-icon name="arrow_down_thin" [embedded]="true">
+        <svg version="1.1" id="Layer" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+          x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+          <path d="M256,64c-8.8,0-16,7.2-16,16v319.2L123.6,277c-6.1-6.4-16.2-6.7-22.6-0.6c-6.4,6.1-6.6,16.2-0.6,22.6l133,139.6
+          c6,6,14.1,9.4,22.6,9.4c8.5,0,16.6-3.3,22.9-9.7L411.6,299c6.1-6.4,5.8-16.5-0.6-22.6c-6.4-6.1-16.5-5.8-22.6,0.6L272,399.7V80
+          C272,71.2,264.8,64,256,64L256,64z" />
+        </svg>
+      </ui-icon>
+    </div>
+  </div>
+
+  <div class="icons-wrap">
+    <div class="icons" *ngIf="direction">
+      <ui-icon name="arrow_up_thin" class="icons__icon" *ngIf="direction === 1" [embedded]="true">
+        <svg version="1.1" id="Layer" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+          x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+          <path d="M256,448c8.8,0,16-7.2,16-16V112.8L388.4,235c6.1,6.4,16.2,6.7,22.6,0.6c6.4-6.1,6.6-16.2,0.6-22.6l-133-139.6
+          c-6-6-14.1-9.4-22.6-9.4c-8.5,0-16.6,3.3-22.9,9.7L100.4,213c-6.1,6.4-5.8,16.5,0.6,22.6c6.4,6.1,16.5,5.8,22.6-0.6L240,112.3V432
+          C240,440.8,247.2,448,256,448L256,448z" />
+        </svg>
+      </ui-icon>
+
+      <ui-icon name="arrow_down_thin" class="icons__icon" *ngIf="direction === -1" [embedded]="true">
+        <svg version="1.1" id="Layer" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+          x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+          <path d="M256,64c-8.8,0-16,7.2-16,16v319.2L123.6,277c-6.1-6.4-16.2-6.7-22.6-0.6c-6.4,6.1-6.6,16.2-0.6,22.6l133,139.6
+          c6,6,14.1,9.4,22.6,9.4c8.5,0,16.6-3.3,22.9-9.7L411.6,299c6.1-6.4,5.8-16.5-0.6-22.6c-6.4-6.1-16.5-5.8-22.6,0.6L272,399.7V80
+          C272,71.2,264.8,64,256,64L256,64z" />
+        </svg>
+      </ui-icon>
+    </div>
+  </div>
+</ng-container>
+
+<ui-icon *ngIf="canShowChildIconInRight" class="child-icon -right" [class.-open]="isChildOpen" [embedded]="true">
+  <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M1.68801 0.632022L7.00001 5.94402L12.312 0.632023L13.208 1.52802L7.00001 7.73602L0.792008 1.52802L1.68801 0.632022Z" />
+  </svg>
+</ui-icon>

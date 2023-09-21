@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="container__title" (click)="toggle()" [class.-open]="internalOpen">
+    <ui-icon class="container__title-icon container__title-item" [class.-open]="internalOpen" [embedded]="true">
+      <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M1.68801 0.632022L7.00001 5.94402L12.312 0.632023L13.208 1.52802L7.00001 7.73602L0.792008 1.52802L1.68801 0.632022Z" />
+      </svg>
+    </ui-icon>
+
+    <div class="first-uppercase container__title-item" *ngIf="text">{{ text }}</div>
+
+    <div class="container__title-content">
+      <ng-content select="[text-content]"></ng-content>
+    </div>
+  </div>
+
+  <div #content class="container__content">
+    <ng-content></ng-content>
+  </div>
+</div>

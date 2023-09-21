@@ -1,0 +1,37 @@
+<ui-page-title class="mb-4">Toggle G</ui-page-title>
+
+<ui-card>
+  <ui-card-title>Basic</ui-card-title>
+
+  <ui-toggle mx-2 [formControl]="toggleFormControl">
+    Touch me
+  </ui-toggle>
+
+  <ui-card-title mt-5>Colorful</ui-card-title>
+
+  <ui-toggle mx-2 [formControl]="toggleFormControl" color="success">
+    Success
+  </ui-toggle>
+
+  <ui-toggle mx-2 [formControl]="toggleFormControl" color="danger">
+    Danger
+  </ui-toggle>
+
+  <ui-toggle mx-2 [formControl]="toggleFormControl" color="warning">
+    Warning
+  </ui-toggle>
+
+  <ui-toggle mx-2 [formControl]="toggleFormControl" color="info">
+    Info
+  </ui-toggle>
+
+  <ui-card-title mt-5>Disabled</ui-card-title>
+
+  <ui-toggle [value]="true" [disabled]="true">
+    Touch me
+  </ui-toggle>
+
+  <ui-toggle mx-2 [disabled]="true">
+    Disabled
+  </ui-toggle>
+</ui-card>

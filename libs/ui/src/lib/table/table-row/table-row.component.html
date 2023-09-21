@@ -1,0 +1,11 @@
+<div class="container">
+  <div class="row-container" [class.-has-child]="hasChild" (click)="toggleRow()">
+    <ng-container uiTableTemplate></ng-container>
+  </div>
+
+  <div>
+    <ng-container #rowChildTemplate="uiTableTemplate" uiTableTemplate>
+      <ng-content></ng-content>
+    </ng-container>
+  </div>
+</div>

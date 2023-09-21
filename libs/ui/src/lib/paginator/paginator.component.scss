@@ -1,0 +1,68 @@
+@import '../../scss/style';
+
+:host {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(var(--size) * 64px);
+  padding: 0 calc(var(--size) * 16px);
+  font-size: calc(var(--size) * 0.8rem);
+}
+
+.border {
+  position: absolute;
+  top: calc(var(--size) * -1px);
+
+  width: 100%;
+  border-top: calc(var(--size) * 1px) solid var(--primary);
+  opacity: 0.6;
+}
+
+.left {
+  flex: 1;
+}
+
+.middle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.right {
+  display: flex;
+  justify-content: flex-end;
+  flex: 1;
+}
+
+.select-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+
+  &:first-child {
+    margin-right: calc(var(--size) * 30px);
+  }
+
+  &__title {
+    margin-right: calc(var(--size) * 15px);
+    white-space: nowrap;
+  }
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+
+  &__control {
+    margin: 0 calc(var(--size) * 15px);
+    color: var(--text-primary);
+  }
+
+  &__page {
+    font-weight: bold;
+    color: var(--primary);
+  }
+}

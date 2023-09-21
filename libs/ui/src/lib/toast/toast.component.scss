@@ -1,0 +1,64 @@
+:host {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 9999999;
+  max-height: calc(100% - 5em);
+  margin-right: 32px;
+  margin-top: 32px;
+}
+
+.brave-ui-toast {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  padding: 9px 18px;
+  position: relative;
+  margin-bottom: 0.25rem;
+  cursor: pointer;
+  transition: opacity 1s ease;
+
+  &:hover {
+    opacity: 0.5;
+  }
+
+  &::before {
+    content: ' ';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--success);
+    z-index: -1;
+    border-radius: 12px;
+    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.17);
+    font-size: 7px;
+  }
+
+  &__close {
+    font-size: 1.3em;
+    color: #fff;
+  }
+
+  &__message {
+    width: 252px;
+  }
+
+  &.-error::before {
+    background-color: var(--danger);
+  }
+
+  &.-info::before {
+    background-color: var(--info);
+  }
+
+  &.-success::before {
+    background-color: var(--success);
+  }
+
+  &.-warning::before {
+    background-color: var(--warning);
+  }
+}

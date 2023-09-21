@@ -1,0 +1,45 @@
+:host {
+  display: block;
+
+  &[small-mode] {
+    .container__title-item {
+      font-size: 14px;
+    }
+
+    .container__title-icon {
+      margin-right: 10px;
+    }
+  }
+}
+
+.container {
+  &__title {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+
+    &-item {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    &-icon {
+      margin-right: 15px;
+      transition: transform 200ms;
+
+      &.-open {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  &__title-content {
+    flex: 1;
+  }
+
+  &__content {
+    overflow: hidden;
+    transition: all 0.2s ease-out;
+  }
+}

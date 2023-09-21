@@ -1,0 +1,10 @@
+:host {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+::ng-deep {
+  ui-chip {
+    margin: 6px;
+  }
+}

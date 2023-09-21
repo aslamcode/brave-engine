@@ -1,5 +1,11 @@
 {
+  "editor.formatOnSave": true,
+  "[typescript]": {
+    "editor.formatOnSave": true
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": false
+  },
+  "eslint.alwaysShowStatus": true,
   "editor.tabSize": 2,
-  // "typescript.referencesCodeLens.enabled": true,
-  "typescript.preferences.quoteStyle": "single"
 }

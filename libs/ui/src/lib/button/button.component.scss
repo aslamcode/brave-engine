@@ -1,0 +1,186 @@
+@import '../../scss/style';
+
+:host {
+  position: relative;
+
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  width: fit-content;
+  height: max-content;
+  padding: calc(var(--size) * 12px) calc(var(--size) * 24px);
+  border-radius: calc(var(--size) * 4px);
+
+  font-size: calc(var(--size) * 14px);
+  font-weight: 600;
+  line-height: calc(var(--size) * 14px);
+
+  color: var(--text-primary);
+
+  text-transform: uppercase;
+  letter-spacing: calc(var(--size) * 0.05em);
+  border: calc(var(--size) * 1px) solid transparent;
+  box-sizing: border-box;
+  user-select: none;
+  white-space: nowrap;
+
+  transition: all 250ms ease;
+
+  cursor: pointer;
+  overflow: hidden;
+
+  &.-disabled {
+    pointer-events: none; // This prevent click in host component when disabled
+    opacity: 0.5;
+
+    &:hover {
+      box-shadow: none !important;
+    }
+  }
+
+  // Appearance
+  &[full] {
+    width: 100%;
+  }
+
+  &[rounded] {
+    border-radius: calc(var(--size) * 3em);
+  }
+
+  // Basic
+  @each $color, $value in $colors {
+    &[color='#{$color}'] {
+      color: var(--#{$color});
+    }
+  }
+
+  &[flat] {
+    @each $color, $value in $colors {
+      &[color='#{$color}'] {
+        background-color: var(--#{$color});
+        color: var(--#{$color}-contrast) !important;
+      }
+    }
+  }
+
+  &[raised] {
+    box-shadow: var(--shadow-1);
+
+    &:hover,
+    &:focus {
+      box-shadow: var(--shadow-2);
+    }
+
+    @each $color, $value in $colors {
+      &[color='#{$color}'] {
+        background-color: var(--#{$color});
+        color: var(--#{$color}-contrast) !important;
+      }
+    }
+  }
+
+  &[stroked] {
+    border: calc(var(--size) * 1px) solid;
+    border-color: var(--neutral);
+
+    @each $color, $value in $colors {
+      &[color='#{$color}'] {
+        color: var(--#{$color});
+      }
+    }
+  }
+
+  &[stroked-color] {
+    border: calc(var(--size) * 1px) solid;
+
+    @each $color, $value in $colors {
+      &[color='#{$color}'] {
+        color: var(--#{$color});
+        border-color: var(--#{$color});
+      }
+    }
+  }
+
+  &[icon] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    width: calc(var(--size) * 40px);
+    height: calc(var(--size) * 40px);
+    padding: 0;
+
+    @each $color, $value in $colors {
+      &[color='#{$color}'] {
+        color: var(--#{$color});
+      }
+    }
+  }
+
+  &[square] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: calc(var(--size) * 40px);
+    height: calc(var(--size) * 40px);
+    padding: 0;
+
+    @each $color, $value in $colors {
+      &[color='#{$color}'] {
+        color: var(--#{$color});
+      }
+    }
+  }
+}
+
+.brave-ui-button {
+  &__content {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    ::ng-deep {
+      > * + * {
+        margin-left: calc(var(--size) * 10px) !important;
+      }
+    }
+  }
+
+  &__loading {
+    position: absolute;
+
+    &-spinner {
+      display: flex;
+      width: calc(var(--size) * 18px);
+      height: calc(var(--size) * 18px);
+      align-items: center;
+      justify-content: center;
+    }
+
+    &-spinner:after {
+      position: absolute;
+      content: ' ';
+      display: block;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: calc(var(--size) * 4px) solid;
+      border-color: currentColor transparent currentColor transparent;
+      animation: braveUiButtonLoadingSpinnerAnim 1.2s linear infinite;
+    }
+  }
+}
+
+@keyframes braveUiButtonLoadingSpinnerAnim {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

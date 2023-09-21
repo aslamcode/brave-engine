@@ -1,0 +1,114 @@
+<ui-page-title class="mb-4">Buttons</ui-page-title>
+
+<ui-card>
+
+  <!-- Basic -->
+  <ui-card-title>Basic</ui-card-title>
+
+  <ui-button class="mx-1" [whiteRipple]="false" [loading]="btnLoading[0]" [disabled]="false" flat color="primary"
+    (click)="showLoadingButton(0)">
+    <div>👍</div>
+    <div>Flat</div>
+  </ui-button>
+
+  <ui-button class="mx-1" [whiteRipple]="false" [loading]="btnLoading[1]" [disabled]="false" raised color="primary"
+    (click)="showLoadingButton(1)">
+    <ui-icon>stamp</ui-icon>
+    <div>Raised</div>
+  </ui-button>
+
+  <ui-button class="mx-1" [whiteRipple]="false" [loading]="btnLoading[2]" [disabled]="false" stroked-color
+    color="primary" (click)="showLoadingButton(2)">
+    <ui-icon [colorful]="true">brave</ui-icon>
+    <div>Stroked color</div>
+  </ui-button>
+
+  <ui-button class="mx-1" [whiteRipple]="false" [loading]="btnLoading[3]" [disabled]="false" stroked color="primary"
+    (click)="showLoadingButton(3)">
+    <ui-icon [colorful]="true">brave</ui-icon>
+    <div>Stroked</div>
+  </ui-button>
+
+  <!-- Rounded -->
+  <ui-card-title class="mt-5">Rounded</ui-card-title>
+
+  <ui-button class="mx-1" [whiteRipple]="false" [loading]="btnLoading[4]" [disabled]="false" flat color="primary"
+    rounded (click)="showLoadingButton(4)">
+    <div>👍</div>
+    <div>Flat</div>
+  </ui-button>
+
+  <ui-button class="mx-1" [whiteRipple]="false" [loading]="btnLoading[5]" [disabled]="false" raised color="primary"
+    rounded (click)="showLoadingButton(5)">
+    <ui-icon>stamp</ui-icon>
+    <div>Raised</div>
+  </ui-button>
+
+  <ui-button class="mx-1" [whiteRipple]="false" [loading]="btnLoading[6]" [disabled]="false" stroked-color rounded
+    color="primary" (click)="showLoadingButton(6)">
+    <ui-icon [colorful]="true">brave</ui-icon>
+    <div>Stroked color</div>
+  </ui-button>
+
+  <ui-button class="mx-1" [whiteRipple]="false" [loading]="btnLoading[7]" [disabled]="false" stroked color="primary"
+    rounded (click)="showLoadingButton(7)">
+    <ui-icon [colorful]="true">brave</ui-icon>
+    <div>Stroked</div>
+  </ui-button>
+
+  <!-- Icon -->
+  <ui-card-title class="mt-5">Icon</ui-card-title>
+
+  <ui-button class="mx-1" [whiteRipple]="false" [loading]="btnLoading[8]" [disabled]="false" flat color="primary" icon
+    (click)="showLoadingButton(8)">
+    👍
+  </ui-button>
+
+  <ui-button class="mx-1" [whiteRipple]="false" [loading]="btnLoading[9]" [disabled]="false" icon raised color="primary"
+    (click)="showLoadingButton(9)">
+    <ui-icon>stamp</ui-icon>
+  </ui-button>
+
+  <ui-button class="mx-1" [whiteRipple]="false" [loading]="btnLoading[10]" [disabled]="false" stroked-color
+    color="primary" icon (click)="showLoadingButton(10)">
+    <ui-icon [colorful]="true">brave</ui-icon>
+  </ui-button>
+
+  <ui-button class="mx-1" [whiteRipple]="false" [loading]="btnLoading[11]" [disabled]="false" stroked color="primary"
+    icon (click)="showLoadingButton(11)">
+    <ui-icon [colorful]="true">brave</ui-icon>
+  </ui-button>
+
+  <!-- Square -->
+  <ui-card-title class="mt-5">Square</ui-card-title>
+
+  <ui-button class="mx-1" [whiteRipple]="false" [loading]="btnLoading[12]" [disabled]="false" flat color="primary"
+    square (click)="showLoadingButton(12)">
+    👍
+  </ui-button>
+
+  <ui-button class="mx-1" [whiteRipple]="false" [loading]="btnLoading[13]" [disabled]="false" raised color="primary"
+    square (click)="showLoadingButton(13)">
+    <ui-icon>stamp</ui-icon>
+  </ui-button>
+
+  <ui-button class="mx-1" [whiteRipple]="false" [loading]="btnLoading[14]" [disabled]="false" stroked-color
+    color="primary" square (click)="showLoadingButton(14)">
+    <ui-icon [colorful]="true">brave</ui-icon>
+  </ui-button>
+
+  <ui-button class="mx-1" [whiteRipple]="false" [loading]="btnLoading[15]" [disabled]="false" stroked color="primary"
+    square (click)="showLoadingButton(15)">
+    <ui-icon [colorful]="true">brave</ui-icon>
+  </ui-button>
+
+  <!-- Full -->
+  <ui-card-title class="mt-5">Full</ui-card-title>
+
+  <ui-button class="m-1" [whiteRipple]="false" [loading]="btnLoading[16]" [disabled]="true" flat color="primary" full
+    (click)="showLoadingButton(16)">
+    <div>👍</div>
+    <div>Flat</div>
+  </ui-button>
+
+</ui-card>

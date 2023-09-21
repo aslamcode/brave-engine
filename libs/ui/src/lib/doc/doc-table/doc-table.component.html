@@ -1,0 +1,63 @@
+<ui-page-title class="mb-4">Table</ui-page-title>
+
+<ui-card>
+  <ui-card-title>Basic</ui-card-title>
+
+  <ui-table [data]="data" [columns]="columns" (sortEvent)="sortChange($event)">
+
+    <ui-table-row *uiTableRow="let elem; let i = index">
+
+      <ui-table-col *uiTableCol="'position'" sort="position" align-left>
+        <ui-table-cell *uiTableHeaderCell>column 1</ui-table-cell>
+        <ui-table-cell *uiTableCell>
+          <b *ngIf="elem.childs" class="uppercase text-green-medium">{{ elem.position }}</b>
+          <span *ngIf="!elem.childs">{{ elem.position }}</span>
+        </ui-table-cell>
+      </ui-table-col>
+
+      <ui-table-col *uiTableCol="'name'" sort="name">
+        <ui-table-cell *uiTableHeaderCell>column 2</ui-table-cell>
+        <ui-table-cell *uiTableCell>{{ elem.name }}</ui-table-cell>
+      </ui-table-col>
+
+      <ui-table-col *uiTableCol="'weight'" sort="weight">
+        <ui-table-cell *uiTableHeaderCell>column 3</ui-table-cell>
+        <ui-table-cell *uiTableCell>{{ elem.weight }}</ui-table-cell>
+      </ui-table-col>
+
+      <ui-table-col *uiTableCol="'symbol'" sort="symbol">
+        <ui-table-cell *uiTableHeaderCell>column 4</ui-table-cell>
+        <ui-table-cell *uiTableCell>{{ elem.symbol }}</ui-table-cell>
+      </ui-table-col>
+
+      <!-- Child row -->
+      <ng-container *ngIf="elem.childs">
+        <ng-container *uiTableRowChild>
+          <ui-table-row *for="let childElem of elem.childs; let i = index">
+
+            <ui-table-col *uiTableCol="'position'" align-left>
+              <ui-table-cell *uiTableCell class="-padding-left-1">{{ childElem.position }}</ui-table-cell>
+            </ui-table-col>
+
+            <ui-table-col *uiTableCol="'name'">
+              <ui-table-cell *uiTableCell>{{ childElem.name }}</ui-table-cell>
+            </ui-table-col>
+
+            <ui-table-col *uiTableCol="'weight'">
+              <ui-table-cell *uiTableCell>{{ childElem.weight }}</ui-table-cell>
+            </ui-table-col>
+
+            <ui-table-col *uiTableCol="'symbol'">
+              <ui-table-cell *uiTableCell>{{ childElem.symbol }}</ui-table-cell>
+            </ui-table-col>
+
+          </ui-table-row>
+        </ng-container>
+      </ng-container>
+
+    </ui-table-row>
+
+  </ui-table>
+
+  <ui-paginator [total]="data?.length" (paginatorChange)="paginatorChange($event)"></ui-paginator>
+</ui-card>

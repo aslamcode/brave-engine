@@ -1,0 +1,17 @@
+$defaulPadding: 15;
+$incrementPadding: 18;
+
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+  padding: calc(var(--size) * 5px);
+
+  @for $i from 1 through 3 {
+    &.-padding-left-#{$i} {
+      padding-left: #{$incrementPadding * $i + $defaulPadding}px;
+    }
+  }
+}

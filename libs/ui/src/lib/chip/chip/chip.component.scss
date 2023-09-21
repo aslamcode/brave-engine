@@ -1,0 +1,31 @@
+:host {
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: calc(var(--size) * 8px) calc(var(--size) * 14px);
+
+  font-size: calc(var(--size) * 14px);
+  border-radius: calc(var(--size) * 24px);
+  background-color: var(--gray);
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.container {
+  &__icon {
+    margin-left: calc(var(--size) * 8px);
+    margin-right: calc(var(--size) * -4px);
+    transition: transform 150ms ease;
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.4);
+    }
+
+    &:active {
+      transform: scale(0.8);
+      transition: transform 0s ease;
+    }
+  }
+}

@@ -1,0 +1,16 @@
+<div class="modal-container" [style.pointer-events]="isOpen ? 'auto' : 'none'">
+  <!-- Overlay -->
+  <div *ngIf="isOpen" class="modal-container__overlay" [@overlay]="'default'" (click)="dismiss()"></div>
+
+  <!-- Modal -->
+  <div *ngIf="isOpen" class="modal-container__modal-wrap" [@modal]="animDirection">
+    <div class="modal-container__modal">
+      <!-- Content -->
+      <div class="modal-container__content">
+        <div *ngIf="title" class="modal-container__title">{{ title }}</div>
+
+        <ng-content></ng-content>
+      </div>
+    </div>
+  </div>
+</div>

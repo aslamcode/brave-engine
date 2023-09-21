@@ -1,0 +1,111 @@
+{
+  "name": "editor",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/editor/src",
+  "prefix": "app",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/apps/editor",
+        "index": "apps/editor/src/index.html",
+        "main": "apps/editor/src/main.ts",
+        "polyfills": "apps/editor/src/polyfills.ts",
+        "tsConfig": "apps/editor/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          "apps/editor/src/favicon.ico",
+          "apps/editor/src/assets",
+          "apps/editor/src/package.json"
+        ],
+        "styles": [
+          "apps/editor/src/scss/style.scss",
+          "libs/ui/src/scss/style.scss"
+        ],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "1mb",
+              "maximumError": "2mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "20kb",
+              "maximumError": "40kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "apps/editor/src/environments/environment.ts",
+              "with": "apps/editor/src/environments/environment.build.ts"
+            }
+          ],
+          "outputHashing": "all",
+          "baseHref": "/"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true,
+          "baseHref": "/"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "browserTarget": "editor:build:production",
+          "port": 3000,
+          "servePath": "/"
+        },
+        "development": {
+          "browserTarget": "editor:build:development",
+          "port": 3000,
+          "servePath": "/"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "editor:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "apps/editor/**/*.ts",
+          "apps/editor/**/*.html"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/apps/editor"
+      ],
+      "options": {
+        "jestConfig": "apps/editor/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": [
+    "scope:editor"
+  ]
+}

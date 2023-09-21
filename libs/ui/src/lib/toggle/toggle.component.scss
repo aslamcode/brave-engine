@@ -1,0 +1,106 @@
+@import '../../scss/style';
+
+:host {
+  display: inline-flex;
+  font-size: calc(var(--size) * 14px);
+  user-select: none;
+  color: var(--primary);
+
+  &:focus .container__toggle-text:not(.-disabled):not(.-readonly) {
+    color: currentColor;
+  }
+
+  &:focus .container__toggle:not(.-disabled):not(.-readonly) {
+    border-color: currentColor;
+  }
+
+  // Colors
+  @each $color, $value in $colors {
+    &[color='#{$color}'] {
+      .container__toggle {
+        &.-active {
+          background-color: var(--#{$color});
+        }
+      }
+    }
+  }
+}
+
+.container {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid transparent;
+  cursor: pointer;
+
+  &__toggle {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    width: calc(var(--size) * 36px);
+    height: calc(var(--size) * 22px);
+    background-color: var(--gray);
+    box-sizing: border-box;
+    border-radius: calc(var(--size) * 11px);
+    padding: calc(var(--size) * 2px);
+
+    transition: all 300ms ease;
+
+    &.-active {
+      background-color: currentColor;
+
+      .container__toggle-btn {
+        margin-left: calc(var(--size) * 14px);
+        width: calc(var(--size) * 28px);
+      }
+    }
+
+    &.-readonly {
+      cursor: default;
+      pointer-events: none;
+    }
+  }
+
+  &.-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+
+    .container__toggle-btn {
+      width: calc(var(--size) * 20px) !important;
+    }
+  }
+
+  &.-error {
+    border-radius: calc(var(--size) * 4px);
+    border: 1px solid var(--danger) !important;
+  }
+
+  &:active {
+    .container__toggle-btn {
+      width: calc(var(--size) * 28px);
+    }
+  }
+
+  &__toggle-btn {
+    display: flex;
+    width: calc(var(--size) * 18px);
+    height: calc(var(--size) * 18px);
+    border-radius: calc(var(--size) * 9px);
+    background-color: var(--primary-contrast);
+    box-sizing: content-box;
+    transition: all 300ms ease;
+  }
+
+  &__toggle-text {
+    color: initial;
+    margin-left: calc(var(--size) * 10px);
+    color: var(--text-primary);
+
+    &.-disabled {
+      color: var(--text-primary);
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+  }
+}

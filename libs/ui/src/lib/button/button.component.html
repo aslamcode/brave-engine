@@ -1,0 +1,7 @@
+<div class="brave-ui-button__content" [style.visibility]="buttonContentVisibility">
+  <ng-content></ng-content>
+</div>
+
+<div *ngIf="loading" class="brave-ui-button__loading">
+  <div class="brave-ui-button__loading-spinner"></div>
+</div>

@@ -1,0 +1,16 @@
+{
+  "name": "brave-engine",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/brave-engine/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/brave-engine/**/*.ts"]
+      }
+    }
+  },
+  "tags": []
+}

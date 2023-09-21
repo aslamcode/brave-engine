@@ -1,0 +1,3 @@
+<div [ngSwitch]="loadingService.loading$ | async">
+  <ui-loading-brave *ngSwitchCase="'brave'"></ui-loading-brave>
+</div>

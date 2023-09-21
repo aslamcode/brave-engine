@@ -1,0 +1,12 @@
+<div class="container" [class.-error]="isInvalidAndTouched" [class.-disabled]="isDisabled">
+  <!-- Toggle btn -->
+  <div class="container__toggle" [class.waves-effect]="!control && !isDisabled" [class.-active]="value"
+    [class.-readonly]="isReadOnly">
+    <div class="container__toggle-btn"></div>
+  </div>
+
+  <!-- Text -->
+  <div class="container__toggle-text" [class.-disabled]="isDisabled">
+    <ng-content></ng-content>
+  </div>
+</div>

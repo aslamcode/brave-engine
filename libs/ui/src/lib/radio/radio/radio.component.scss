@@ -1,0 +1,78 @@
+:host {
+  display: flex;
+  align-items: center;
+  margin: calc(var(--size) * 5px) calc(var(--size) * 10px);
+  color: var(--primary);
+  font-size: calc(var(--size) * 14px);
+  user-select: none;
+
+  &:focus {
+    .radio:not(.-disabled):not(.-readonly) {
+      border-color: currentColor;
+    }
+
+    .radio-text:not(.-disabled):not(.-readonly) {
+      color: currentColor;
+    }
+  }
+}
+
+.radio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--size) * 20px);
+  height: calc(var(--size) * 20px);
+  border-radius: 50%;
+  border: calc(var(--size) * 1px) solid var(--gray);
+  cursor: pointer;
+  overflow: hidden;
+
+  &.-active {
+    background-color: currentColor;
+
+    .radio__icon {
+      display: block;
+    }
+  }
+
+  &.-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &.-readonly {
+    cursor: default;
+    pointer-events: none;
+  }
+
+  &__icon {
+    display: none;
+    width: calc(var(--size) * 6px);
+    height: calc(var(--size) * 6px);
+    background-color: #fff;
+    border-radius: 50%;
+    animation: braveUiRadioIconAnim 300ms cubic-bezier(0.25, 0.1, 0.52, 2.44);
+  }
+}
+
+.radio-text {
+  color: initial;
+  margin-left: calc(var(--size) * 10px);
+  color: var(--text-primary);
+
+  &.-disabled {
+    color: var(--text-primary);
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}
+
+@keyframes braveUiRadioIconAnim {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

@@ -1,0 +1,42 @@
+<ui-page-title class="mb-4">Checkbox</ui-page-title>
+
+<ui-card>
+  <!-- Basic -->
+  <ui-card-title>Basic</ui-card-title>
+  <ui-checkbox [(ngModel)]="checkboxBasicValue" class="mx-2" [value]="true">Checkbox</ui-checkbox>
+  <ui-checkbox class="mx-2" [disabled]="true" [value]="true">Desabilitado</ui-checkbox>
+
+  <div class="mt-3">
+    Value: <b>{{ checkboxBasicValue }}</b>
+  </div>
+
+  <!-- Group -->
+  <ui-card-title class="mt-5">Checkbox group</ui-card-title>
+
+  <ui-checkbox-group [formControl]="checkboxGroupFormControl">
+    <ui-checkbox name="a" value="true" class="mx-2">Option A</ui-checkbox>
+    <ui-checkbox name="b" class="mx-2">Option B</ui-checkbox>
+    <ui-checkbox name="c" class="mx-2">Option C</ui-checkbox>
+    <ui-checkbox name="d" class="mx-2">Option D</ui-checkbox>
+    <ui-checkbox name="e" class="mx-2" [disabled]="true">Option E</ui-checkbox>
+  </ui-checkbox-group>
+
+  <div class="mt-3">
+    Value: <b>[{{ checkboxGroupFormControl.value }}]</b>
+  </div>
+
+  <!-- Group -->
+  <ui-card-title class="mt-5">Checkbox group inline</ui-card-title>
+
+  <ui-checkbox-group inline [formControl]="checkboxGroupInlineFormControl">
+    <ui-checkbox name="a" value="true" class="mx-2">Option A</ui-checkbox>
+    <ui-checkbox name="b" class="mx-2">Option B</ui-checkbox>
+    <ui-checkbox name="c" class="mx-2">Option C</ui-checkbox>
+    <ui-checkbox name="d" class="mx-2">Option D</ui-checkbox>
+    <ui-checkbox name="e" class="mx-2" [disabled]="true">Option E</ui-checkbox>
+  </ui-checkbox-group>
+
+  <div class="mt-3">
+    Value: <b>[{{ checkboxGroupFormControl.value }}]</b>
+  </div>
+</ui-card>

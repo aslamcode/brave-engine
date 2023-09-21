@@ -1,0 +1,49 @@
+$defaulPadding: 15;
+$incrementPadding: 18;
+
+:host {
+  display: block;
+
+  @for $i from 1 through 3 {
+    &.-padding-left-#{$i} {
+      .row-container {
+        padding-left: #{$incrementPadding * $i + $defaulPadding}px;
+      }
+    }
+
+    &.-padding-right-#{$i} {
+      .row-container {
+        padding-right: #{$incrementPadding * $i + $defaulPadding}px;
+      }
+    }
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.row-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  flex: 1;
+  padding: 0 #{$defaulPadding}px;
+  min-height: calc(var(--size) * 56px);
+  border-bottom: calc(var(--size) * 1px) solid var(--gray);
+  box-sizing: border-box;
+
+  &__icon {
+    margin-right: calc(var(--size) * 15px);
+  }
+
+  &.-has-child {
+    cursor: pointer;
+    transition: background-color 200ms;
+
+    &:hover {
+      background-color: var(--gray-light-2);
+    }
+  }
+}

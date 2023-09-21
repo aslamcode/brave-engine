@@ -1,0 +1,10 @@
+:host {
+  display: block;
+  font-size: calc(var(--size) * 22px);
+  font-weight: 400;
+  margin-bottom: calc(var(--size) * 20px);
+
+  &[small] {
+    font-size: 18px;
+  }
+}

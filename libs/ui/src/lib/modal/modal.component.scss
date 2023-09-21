@@ -1,0 +1,131 @@
+:host {
+  &[dialog-mode] {
+    .modal-container__modal {
+      width: calc(var(--size) * 520px);
+      height: auto;
+      padding: 30px;
+    }
+
+    .modal-container__content {
+      padding: 0;
+    }
+  }
+
+  &[dynamic-mode] {
+    .modal-container__modal {
+      width: auto;
+      height: auto;
+      max-height: 100%;
+    }
+  }
+
+  &[rounded] {
+    .modal-container__modal {
+      border-radius: calc(var(--size) * 12px);
+    }
+  }
+
+  &[dialog-mode][larger] {
+    .modal-container__modal {
+      height: calc(var(--size) * 530px);
+      max-height: 100%;
+    }
+  }
+
+  &[panel-right-mode],
+  &[panel-left-mode] {
+    .modal-container {
+      padding: calc(var(--size) * 60px) 0 0 0;
+    }
+
+    .modal-container__modal-wrap {
+      justify-content: flex-end;
+    }
+
+    .modal-container__modal {
+      width: 60%;
+      max-width: calc(var(--size) * 800px);
+      height: 100%;
+    }
+
+    .modal-container__content {
+      padding: 0;
+    }
+  }
+
+  &[panel-left-mode] {
+    .modal-container__modal-wrap {
+      justify-content: flex-start;
+    }
+  }
+
+  &[panel-right-mode][small],
+  &[panel-left-mode][small] {
+    .modal-container__modal {
+      width: 30%;
+      max-width: calc(var(--size) * 400px);
+      height: 100%;
+    }
+  }
+
+  &[no-padding] {
+    .modal-container__content {
+      padding: 0;
+    }
+  }
+}
+
+.modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  display: flex;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+
+  &__modal-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    margin: calc(var(--size) * 30px) calc(var(--size) * 30px);
+  }
+
+  &__modal {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: var(--primary-contrast);
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  &__content {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+    overflow-y: visible;
+    overscroll-behavior-y: contain;
+    padding: calc(var(--size) * 20px);
+  }
+
+  &__title {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+  }
+}

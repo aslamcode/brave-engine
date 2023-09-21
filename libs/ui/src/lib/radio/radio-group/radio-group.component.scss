@@ -1,0 +1,49 @@
+:host {
+  display: flex;
+  flex-direction: column;
+
+  &[inline] {
+    .container {
+      flex-direction: row;
+    }
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.error {
+  padding: 0 calc(var(--size) * 10px);
+  font-size: calc(var(--size) * 0.8em);
+  color: var(--danger);
+}
+
+.label {
+  text-transform: uppercase;
+  font-size: calc(var(--size) * 0.8em);
+  margin-bottom: calc(var(--size) * 0.3em);
+  font-weight: 600;
+  color: var(--text-primary);
+  transition: color 150ms;
+
+  &.-active {
+    color: currentColor;
+  }
+
+  &.-required::after {
+    content: '*';
+  }
+
+  &.-disabled {
+    color: var(--text-primary);
+    opacity: 0.7;
+  }
+
+  &.-error {
+    color: var(--danger);
+  }
+}

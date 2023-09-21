@@ -1,0 +1,44 @@
+$colors: (
+  'primary': #00a5f3,
+  'secondary': #4e89a5,
+  'tertiary': #2652a3,
+
+  'primary-contrast': #fff,
+  'secondary-contrast': #fff,
+  'tertiary-contrast': #fff,
+
+  'neutral': #dcdcdc,
+
+  'success': #33ab09,
+  'info': #00a5f3,
+  'warning': #f16423,
+  'danger': #ce0000,
+
+  'success-contrast': #fff,
+  'info-contrast': #fff,
+  'warning-contrast': #fff,
+  'danger-contrast': #fff,
+
+  'gray': #f1f1f1,
+  'gray-medium': #efefef,
+
+  'red': #990000,
+);
+
+$text-colors: (
+  'primary': #333,
+  'secondary': #666,
+  'tertiary': #999,
+);
+
+:root {
+  // Map colors to css variables
+  @each $color, $value in $colors {
+    --#{$color}: #{$value};
+  }
+
+  // Map text colors to css variables
+  @each $color, $value in $text-colors {
+    --text-#{$color}: #{$value};
+  }
+}

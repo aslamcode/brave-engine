@@ -1,0 +1,11 @@
+:host {
+  display: block;
+  min-height: calc(var(--size) * 20px);
+  padding: calc(var(--size) * 22px);
+  background-color: var(--primary-contrast);
+  border-radius: calc(var(--size) * 12px);
+
+  &[no-padding] {
+    padding: 0;
+  }
+}

@@ -1,0 +1,42 @@
+<ui-page-title class="mb-4">Select</ui-page-title>
+
+<ui-card>
+  <!-- Basic -->
+  <ui-card-title>Basic</ui-card-title>
+
+  <ui-select label="Frutas" class="my-2" info="Info about the field">
+    <ui-select-option *ngFor="let elem of options" [value]="elem.id" [description]="elem.description">
+    </ui-select-option>
+  </ui-select>
+
+  <!-- Mutiple -->
+  <ui-card-title class="mt-5">Multiple</ui-card-title>
+
+  <ui-select label="Frutas" [formControl]="multipleSelectControl" class="my-2" [multiple]="true"
+    info="Info about the field">
+    <ui-select-option *ngFor="let elem of options" [value]="elem.id" [description]="elem.description">
+    </ui-select-option>
+  </ui-select>
+
+  <!-- Stroked -->
+  <ui-card-title class="mt-5">Stroked</ui-card-title>
+
+  <ui-select label="Frutas" class="my-2" stroked info="Info about the field">
+    <ui-select-option *ngFor="let elem of options" [value]="elem.id" [description]="elem.description">
+    </ui-select-option>
+  </ui-select>
+
+  <!-- Stroked rounded -->
+  <ui-card-title class="mt-5">Stroked rounded</ui-card-title>
+
+  <ui-select label="Frutas" class="my-2" stroked-rounded info="Info about the field">
+    <ui-select-option *ngFor="let elem of options" [value]="elem.id" [description]="elem.description">
+    </ui-select-option>
+  </ui-select>
+
+  <ui-select label="Frutas" [formControl]="disabledSelectControl" class="my-2" stroked-rounded
+    info="Info about the field">
+    <ui-select-option *ngFor="let elem of options" [value]="elem.id" [description]="elem.description">
+    </ui-select-option>
+  </ui-select>
+</ui-card>

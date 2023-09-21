@@ -1,0 +1,25 @@
+<ui-page-title class="mb-4">Toast</ui-page-title>
+
+<ui-card>
+  <ui-card-title>Examples</ui-card-title>
+
+  <ui-button class="m-1" [whiteRipple]="false" stroked color="primary" rounded (click)="showToast(3)">
+    <div>Default</div>
+  </ui-button>
+
+  <ui-button class="m-1" [whiteRipple]="false" flat color="success" rounded (click)="showToast(4)">
+    <div>Success</div>
+  </ui-button>
+
+  <ui-button class="m-1" [whiteRipple]="false" flat color="danger" rounded (click)="showToast(1)">
+    <div>Error</div>
+  </ui-button>
+
+  <ui-button class="m-1" [whiteRipple]="false" flat color="warning" rounded (click)="showToast(2)">
+    <div>Warning</div>
+  </ui-button>
+
+  <ui-button class="m-1" [whiteRipple]="false" flat color="info" rounded (click)="showToast(3)">
+    <div>Info</div>
+  </ui-button>
+</ui-card>

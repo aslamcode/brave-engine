@@ -1,0 +1,17 @@
+<div class="container" [class.-error]="isInvalidAndTouched">
+  <!-- Checkbox -->
+  <div class="container__checkbox" [class.waves-effect]="!control && !isDisabled" [class.-active]="value"
+    [class.-disabled]="isDisabled" [class.-readonly]="isReadOnly">
+    <ui-icon *ngIf="value" class="container__checkbox-icon" [embedded]="true">
+      <svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M4.75012 8.12751L1.62262 5.00001L0.557617 6.05751L4.75012 10.25L13.7501 1.25001L12.6926 0.192505L4.75012 8.12751Z" />
+      </svg>
+    </ui-icon>
+  </div>
+
+  <!-- Text -->
+  <div class="container__checkbox-text" [class.-disabled]="isDisabled">
+    <ng-content></ng-content>
+  </div>
+</div>

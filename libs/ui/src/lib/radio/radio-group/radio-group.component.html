@@ -1,0 +1,10 @@
+<div class="label" [class.-active]="isOnFocus" [class.-required]="isRequired && label" [class.-disabled]="isDisabled"
+  [class.-error]="isInvalidAndTouched">{{ label }}</div>
+
+<div class="container">
+  <ng-content></ng-content>
+</div>
+
+<!-- <app-input-error *ngIf="isInvalidAndTouched" [errors]="errors" [showIcon]="false" [showDialog]="isMouseOver">
+  <ng-content select="[error]"></ng-content>
+</app-input-error> -->

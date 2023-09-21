@@ -1,0 +1,62 @@
+<div class="border"></div>
+
+<div class="left first-uppercase -all">
+  <span [ngPlural]="total || 3">
+    <ng-template ngPluralCase="=0">sem resultados</ng-template>
+    <ng-template ngPluralCase="=1">{{ total }} resultado</ng-template>
+    <ng-template ngPluralCase="other">{{ total }} resultados</ng-template>
+  </span>
+</div>
+
+<div class="middle first-uppercase -all">
+  <div class="controls">
+    <ui-button icon class="controls__control" (click)="previous()" [disabled]="page === 1">
+      <ui-icon [embedded]="true">
+        <svg version="1.1" id="Camada_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+          x="0px" y="0px" viewBox="0 0 6 12" style="enable-background:new 0 0 6 12;" xml:space="preserve">
+          <path d="M0,6c0,0.2,0.1,0.4,0.2,0.5l4.5,4.7c0.3,0.3,0.8,0.3,1.1,0c0.3-0.3,0.3-0.8,0-1.1L1.8,6l4-4.2
+          c0.3-0.3,0.3-0.8,0-1.1C5.5,0.4,5,0.4,4.7,0.7L0.2,5.5C0.1,5.6,0,5.8,0,6z" />
+        </svg>
+      </ui-icon>
+    </ui-button>
+
+    <div class="controls__page">
+      {{ page }}
+    </div>
+
+    <ui-button icon class="controls__control" (click)="next()" [disabled]="isLastPage">
+      <ui-icon [embedded]="true">
+        <svg version="1.1" id="Camada_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+          x="0px" y="0px" viewBox="0 0 6 12" style="enable-background:new 0 0 6 12;" xml:space="preserve">
+          <path d="M6,6c0-0.2-0.1-0.4-0.2-0.5L1.3,0.7C1,0.4,0.5,0.4,0.2,0.7c-0.3,0.3-0.3,0.8,0,1.1l4,4.2l-4,4.2
+          c-0.3,0.3-0.3,0.8,0,1.1c0.3,0.3,0.8,0.3,1.1,0l4.5-4.7C5.9,6.4,6,6.2,6,6z" />
+        </svg>
+      </ui-icon>
+    </ui-button>
+  </div>
+</div>
+
+<div class="right first-uppercase -all">
+  <!-- Jump to -->
+  <div class="select-wrap">
+    <div class="select-wrap__title">
+      pular para
+    </div>
+
+    <ui-select stroked-rounded [ngModel]="page" (ngModelChange)="goToPage($event)" [optionsTop]="true">
+      <ui-select-option *ngFor="let elem of 1 | rangeToArray: pages" [value]="elem"
+        [description]="elem"></ui-select-option>
+    </ui-select>
+  </div>
+
+  <!-- Page length -->
+  <div class="select-wrap first-uppercase -all">
+    <div class="select-wrap__title">
+      mostrar
+    </div>
+
+    <ui-select stroked-rounded [ngModel]="pageLength" (ngModelChange)="changePageLength($event)" [optionsTop]="false">
+      <ui-select-option *ngFor="let elem of pageOptions" [value]="elem" [description]="elem"></ui-select-option>
+    </ui-select>
+  </div>
+</div>

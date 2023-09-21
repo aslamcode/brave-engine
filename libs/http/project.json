@@ -1,0 +1,17 @@
+{
+  "name": "http",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/http/src",
+  "prefix": "brave",
+  "tags": [],
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/http/**/*.ts", "libs/http/**/*.html"]
+      }
+    }
+  }
+}

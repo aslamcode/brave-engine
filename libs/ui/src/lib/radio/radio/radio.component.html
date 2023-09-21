@@ -1,0 +1,8 @@
+<div class="radio" [class.-active]="self === radioGroup.selectedRadio" [class.-disabled]="isDisabled"
+  [class.-readonly]="radioGroup.isReadOnly">
+  <div class="radio__icon"></div>
+</div>
+
+<div class="radio-text" [class.-disabled]="isDisabled">
+  <ng-content></ng-content>
+</div>
