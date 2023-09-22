@@ -1,6 +1,7 @@
 import { BraveRender } from "./brave-render/brave-render";
 import { Scene } from "./class/scene";
 import { BraveEngineModeEnum } from "./enum/brave-engine-mode-enum";
+import { Subject } from 'rxjs';
 
 export class BraveEngine {
 
@@ -11,6 +12,8 @@ export class BraveEngine {
 
   braveRender: BraveRender;
   scenes: Scene[] = [];
+
+  modeSubject = new Subject<BraveEngineModeEnum>();
 
   constructor(canvas: HTMLCanvasElement, webgl2Context: WebGL2RenderingContext) {
     this.canvas = canvas;
@@ -40,14 +43,17 @@ export class BraveEngine {
 
   play() {
     this.mode = BraveEngineModeEnum.running;
+    this.modeSubject.next(this.mode);
   }
 
   pause() {
     this.mode = BraveEngineModeEnum.paused;
+    this.modeSubject.next(this.mode);
   }
 
   stop() {
     this.mode = BraveEngineModeEnum.editor;
+    this.modeSubject.next(this.mode);
   }
 
   addScene() {

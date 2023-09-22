@@ -4,6 +4,8 @@ import { Entity } from '../../entity';
 import { MaterialComponent } from '../../../component/material-component';
 
 export class Cube extends Entity {
+    name = 'Cube';
+
     constructor() {
         super();
 

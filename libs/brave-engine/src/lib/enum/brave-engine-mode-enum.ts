@@ -1,5 +1,6 @@
 export enum BraveEngineModeEnum {
   editor,
   running,
-  paused
+  paused,
+  compiled
 }

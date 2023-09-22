@@ -2,7 +2,7 @@ import { environment } from './../../environments/environment';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UiService } from '@brave/ui';
 import { CanvasComponent } from '../components/canvas/canvas.component';
-import { BraveEngine, BraveRender, Camera, Cube, Scene, } from '@brave/brave-engine';
+import { BraveEngine, BraveRender, Camera, Cube, } from '@brave/brave-engine';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +14,6 @@ export class AppComponent implements OnInit {
   @ViewChild(CanvasComponent, { static: true }) private canvas: CanvasComponent;
   private braveEngine: BraveEngine;
   private braveRender: BraveRender;
-  private scene: Scene;
 
   constructor(
     private uiService: UiService,
@@ -38,22 +37,22 @@ export class AppComponent implements OnInit {
     this.braveRender.setCamera(camera);
 
     // Create sceneObjects
-    this.scene = this.braveEngine.addScene();
+    const scene = this.braveEngine.addScene();
 
     // Create a cube and add on scene
     const cube = new Cube();
     cube.transform.position.z = -6;
     cube.transform.position.x = -3;
-    this.scene.add(cube);
+    scene.add(cube);
 
     const cube2 = new Cube();
     cube2.transform.position.z = -6;
-    this.scene.add(cube2);
+    scene.add(cube2);
 
     const cube3 = new Cube();
     cube3.transform.position.z = -6;
     cube3.transform.position.x = 3;
-    this.scene.add(cube3);
+    scene.add(cube3);
 
     // Animate cube rotations. The right way is using onUpdate lifecyle hook in game object, this is just a test.
     setInterval(() => {
@@ -61,6 +60,9 @@ export class AppComponent implements OnInit {
       cube2.transform.rotation.y += 0.1;
       cube3.transform.rotation.z += 0.1;
     });
+
+    setTimeout(() => { this.braveEngine.play(); cube2.transform.position.z = -12; }, 2000);
+    setTimeout(() => this.braveEngine.stop(), 6000);
   }
 
 }
