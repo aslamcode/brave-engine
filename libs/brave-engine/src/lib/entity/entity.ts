@@ -1,8 +1,10 @@
+import { Shader } from '../class/shader';
 import { Component } from '../component/component';
 import { MaterialComponent } from '../component/material-component';
 import { MeshRendererComponent } from '../component/mesh-renderer-component';
 import { TransformComponent } from '../component/transform-component';
 import { LifecycleHooks } from '../interface/lifecycle-hooks';
+import { clone } from '../util/clone';
 
 export class Entity implements LifecycleHooks {
   name = 'Entity';
@@ -26,7 +28,6 @@ export class Entity implements LifecycleHooks {
 
   onStart() {
     this.components.forEach(elem => elem.onStart());
-    console.log('Doidaoo');
   }
 
   onUpdate() {
@@ -98,5 +99,9 @@ export class Entity implements LifecycleHooks {
     if (index != -1) {
       this.children.splice(index, 1);
     }
+  }
+
+  clone() {
+    return clone(this, WebGLBuffer, Shader);
   }
 }

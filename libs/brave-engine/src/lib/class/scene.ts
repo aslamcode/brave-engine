@@ -1,7 +1,6 @@
 import { BraveEngine } from '../brave-engine';
 import { Entity } from '../entity/entity';
 import { BraveEngineModeEnum } from '../enum/brave-engine-mode-enum';
-import { clone } from '../util/clone';
 
 export class Scene {
   private baseChildren: Entity[] = [];
@@ -72,26 +71,15 @@ export class Scene {
     this.children.splice(index, 1);
   }
 
-  private clone(entity?: Entity) {
-    if (entity) {
-      const cloned: Entity = clone(entity);
-      cloned.transform = clone(entity.transform);
-      cloned.transform.position = clone(entity.transform.position);
-      cloned.transform.rotation = clone(entity.transform.rotation);
-      cloned.transform.scale = clone(entity.transform.scale);
+  private clone() {
+    this.clonedChildren = this.baseChildren.map(entity => {
+      const cloned = entity.clone();
       cloned.onStart();
       return cloned;
-    }
-
-    this.clonedChildren = this.baseChildren.map(entity => {
-      return this.clone(entity);
     });
-
-    return entity;
   }
 
   private clearClone() {
-    console.log('Cleared');
     this.clonedChildren = [];
   }
 
