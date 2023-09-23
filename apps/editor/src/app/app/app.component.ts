@@ -2,7 +2,7 @@ import { environment } from './../../environments/environment';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UiService } from '@brave/ui';
 import { CanvasComponent } from '../components/canvas/canvas.component';
-import { BraveEngine, BraveRender, Camera, Cube, } from '@brave/brave-engine';
+import { BraveEngine, BraveRender, Camera, Cube, ScriptComponent, Time, } from '@brave/brave-engine';
 
 @Component({
   selector: 'app-root',
@@ -43,30 +43,53 @@ export class AppComponent implements OnInit {
     const cube = new Cube();
     cube.transform.position.z = -6;
     cube.transform.position.x = -3;
+    cube.addComponent(new RotateCube1());
     scene.add(cube);
 
     const cube2 = new Cube();
     cube2.transform.position.z = -6;
+    cube2.addComponent(new RotateCube2());
     scene.add(cube2);
 
     const cube3 = new Cube();
     cube3.transform.position.z = -6;
     cube3.transform.position.x = 3;
+    cube3.addComponent(new RotateCube3());
     scene.add(cube3);
 
-    // Animate cube rotations. The right way is using onUpdate lifecyle hook in game object, this is just a test.
-    setInterval(() => {
-      cube.transform.rotation.x += 0.1;
-      cube2.transform.rotation.y += 0.1;
-      cube3.transform.rotation.z += 0.1;
-    });
-
-    setTimeout(() => { this.braveEngine.play(); cube2.transform.position.z = -12; }, 2000);
-    setTimeout(() => this.braveEngine.stop(), 6000);
+    setTimeout(() => this.braveEngine.play(), 2000);
+    // setTimeout(() => this.braveEngine.stop(), 10000);
   }
 
 }
 
 
+class RotateCube1 extends ScriptComponent {
+  onStart() {
+    console.log('Cube 1');
+  }
 
+  onUpdate() {
+    this.entity.transform.rotation.x += 10 * Time.deltaTime;
+  }
+}
 
+class RotateCube2 extends ScriptComponent {
+  onStart() {
+    console.log('Cube 2');
+  }
+
+  onUpdate() {
+    this.entity.transform.rotation.y += 10 * Time.deltaTime;
+  }
+}
+
+class RotateCube3 extends ScriptComponent {
+  onStart() {
+    console.log('Cube 3');
+  }
+
+  onUpdate() {
+    this.entity.transform.rotation.z += 10 * Time.deltaTime;
+  }
+}

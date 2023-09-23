@@ -2,6 +2,7 @@ import { BraveRender } from "./brave-render/brave-render";
 import { Scene } from "./class/scene";
 import { BraveEngineModeEnum } from "./enum/brave-engine-mode-enum";
 import { Subject } from 'rxjs';
+import { Time } from "./static/time";
 
 export class BraveEngine {
 
@@ -15,6 +16,8 @@ export class BraveEngine {
 
   modeSubject = new Subject<BraveEngineModeEnum>();
 
+  private lastUpdatedTime = 0;
+
   constructor(canvas: HTMLCanvasElement, webgl2Context: WebGL2RenderingContext) {
     this.canvas = canvas;
     this.webgl2Context = webgl2Context;
@@ -26,7 +29,13 @@ export class BraveEngine {
     requestAnimationFrame(this.onUpdate.bind(this)); // Request to browser call engine update
   }
 
-  private onUpdate(time: number) {
+  private onUpdate(elapsedTime: number) {
+    // Calculate delta time and update lastUpdatedTime
+    const timeInSeconds = elapsedTime * 0.001;
+    const deltaTime = timeInSeconds - this.lastUpdatedTime;
+    this.lastUpdatedTime = timeInSeconds;
+    Time.deltaTime = deltaTime;
+
     // Set render size
     // Render size is used to calculate aspect ratio
     this.braveRender.setRenderSize(
@@ -35,7 +44,7 @@ export class BraveEngine {
     );
 
     // Render the scene
-    this.braveRender.render(time);
+    this.braveRender.render();
 
     // Call update to render the next frame
     requestAnimationFrame(this.onUpdate.bind(this));

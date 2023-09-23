@@ -9,8 +9,6 @@ export class Component implements LifecycleHooks {
     if (entity) {
       this.entity = entity;
     }
-
-    this.onUpdate();
   }
 
   setEntity(entity: Entity) {

@@ -36,12 +36,7 @@ export class BraveRender {
     this.lights.push(light);
   }
 
-  render(elapsedTime: number, factoryTime = 1) {
-    // Calculate delta time and update lastUpdatedTime
-    const timeInSeconds = elapsedTime * 0.001;
-    const deltaTime = (timeInSeconds - this.lastUpdatedTime) * factoryTime;
-    this.lastUpdatedTime = timeInSeconds;
-
+  render() {
     // Set viewport render size and canvas render size
     this.glContext.viewport(0, 0, this.renderWidth, this.renderHeight);
     this.glContext.canvas.width = this.renderWidth;
