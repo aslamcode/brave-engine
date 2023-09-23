@@ -3,7 +3,7 @@ import { LifecycleHooks } from '../interface/lifecycle-hooks';
 
 export class Component implements LifecycleHooks {
   active = true;
-  protected entity?: Entity;
+  protected entity: Entity;
 
   constructor(entity?: Entity) {
     if (entity) {
