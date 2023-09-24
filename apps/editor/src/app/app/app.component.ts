@@ -26,7 +26,8 @@ export class AppComponent implements OnInit {
   }
 
   onStart() {
-    this.braveEngine = new BraveEngine(this.canvas.canvasElement.nativeElement, this.canvas.webgl2Context);
+    const webgl2Context = this.canvas.webgl2Context;
+    this.braveEngine = new BraveEngine(this.canvas.canvasElement.nativeElement, webgl2Context);
     this.braveRender = this.braveEngine.braveRender;
 
     // Create and set camera
@@ -55,7 +56,8 @@ export class AppComponent implements OnInit {
     cube3.transform.position.z = -6;
     cube3.transform.position.x = 3;
     cube3.addComponent(new RotateCube3());
-    scene.add(cube3);
+    cube3.onLoad(webgl2Context);
+    cube2.addChild(cube3);
 
     setTimeout(() => this.braveEngine.play(), 2000);
     // setTimeout(() => this.braveEngine.stop(), 10000);

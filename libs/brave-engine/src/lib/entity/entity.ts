@@ -9,7 +9,7 @@ import { clone } from '../util/clone';
 export class Entity implements LifecycleHooks {
   name = 'Entity';
   active = true;
-  transform: TransformComponent;
+  transform: TransformComponent = new TransformComponent(this);
 
   protected parent?: Entity;
   children = new Array<Entity>();
@@ -20,8 +20,16 @@ export class Entity implements LifecycleHooks {
   meshRenderer?: MeshRendererComponent;
   materials = new Array<MaterialComponent>();
 
-  constructor() {
-    this.transform = new TransformComponent(this);
+  onLoad(glContext: WebGL2RenderingContext) {
+    // Load materials shaders
+    this.materials.forEach(elem => {
+      elem.loadShader(glContext);
+    });
+
+    // Load mesh renderer buffers if exists mesh renderer
+    if (this.meshRenderer) {
+      this.meshRenderer.loadBuffers(glContext);
+    }
   }
 
   // Lifecycle hooks

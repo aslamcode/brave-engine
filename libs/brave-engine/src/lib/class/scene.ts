@@ -42,26 +42,19 @@ export class Scene {
     return this.children[index];
   }
 
-  add(data: Entity) {
-    // Load materials shaders
-    data.materials.forEach(elem => {
-      elem.loadShader(this.glContext);
-    });
-
-    // Load mesh renderer buffers if exists mesh renderer
-    if (data.meshRenderer) {
-      data.meshRenderer.loadBuffers(this.glContext);
-    }
+  add(entity: Entity) {
+    entity.onLoad(this.glContext);
 
     if (this.braveEngine.mode === BraveEngineModeEnum.running) {
-      data.onStart();
+      this.startEntityRecursively(entity);
     }
 
-    this.children.push(data);
+
+    this.children.push(entity);
   }
 
-  remove(data: Entity) {
-    const index = this.children.findIndex(elem => elem == data);
+  remove(entity: Entity) {
+    const index = this.children.findIndex(elem => elem == entity);
     if (index != -1) {
       this.children.splice(index, 1);
     }
@@ -74,13 +67,18 @@ export class Scene {
   private clone() {
     this.clonedChildren = this.baseChildren.map(entity => {
       const cloned = entity.clone();
-      cloned.onStart();
+      this.startEntityRecursively(cloned);
       return cloned;
     });
   }
 
   private clearClone() {
     this.clonedChildren = [];
+  }
+
+  private startEntityRecursively(entity: Entity) {
+    entity.onStart();
+    entity.children.forEach(elem => this.startEntityRecursively(elem));
   }
 
   get children() {

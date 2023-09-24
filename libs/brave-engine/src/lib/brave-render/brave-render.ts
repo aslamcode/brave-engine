@@ -80,20 +80,27 @@ export class BraveRender {
     // Call game objects update method
     for (const scene of this.braveEngine.scenes) {
       for (const entity of scene)
-        if (entity.active) {
-          if (this.braveEngine.mode === BraveEngineModeEnum.running) {
-            entity.onUpdate();
-          }
-
-          // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-          // To Do: Filtrar objectos que sao luz
-          // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-          this.renderVertexShader(entity);
-        }
+        this.renderEntity(entity);
     }
 
     // Clear the scene objects and scene lights after render
     this.lights = [];
+  }
+
+  private renderEntity(entity: Entity) {
+    if (entity.active) {
+      if (this.braveEngine.mode === BraveEngineModeEnum.running) {
+        entity.onUpdate();
+      }
+
+      // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      // To Do: Filtrar objectos que sao luz
+      // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      this.renderVertexShader(entity);
+
+      // Render deep each entity
+      entity.children.forEach(elem => this.renderEntity(elem));
+    }
   }
 
   private renderVertexShader(entity: Entity) {
