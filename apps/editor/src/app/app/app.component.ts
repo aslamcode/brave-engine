@@ -50,14 +50,15 @@ export class AppComponent implements OnInit {
     const cube2 = new Cube();
     cube2.transform.position.z = -6;
     cube2.addComponent(new RotateCube2());
-    scene.add(cube2);
 
     const cube3 = new Cube();
     cube3.transform.position.z = -6;
     cube3.transform.position.x = 3;
     cube3.addComponent(new RotateCube3());
-    cube3.onLoad(webgl2Context);
-    cube2.addChild(cube3);
+
+    cube2.addChild(cube3); // Make cube 2 child of cube 3
+
+    scene.add(cube2);
 
     setTimeout(() => this.braveEngine.play(), 2000);
     // setTimeout(() => this.braveEngine.stop(), 10000);
@@ -69,6 +70,11 @@ export class AppComponent implements OnInit {
 class RotateCube1 extends ScriptComponent {
   onStart() {
     console.log('Cube 1');
+    const cube = new Cube();
+    cube.transform.position.x = -4;
+    cube.transform.position.y = 2;
+    cube.transform.position.z = -3;
+    this.entity.scene.add(cube);
   }
 
   onUpdate() {

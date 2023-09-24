@@ -1,3 +1,4 @@
+import { Scene } from '../class/scene';
 import { Shader } from '../class/shader';
 import { Component } from '../component/component';
 import { MaterialComponent } from '../component/material-component';
@@ -7,8 +8,15 @@ import { LifecycleHooks } from '../interface/lifecycle-hooks';
 import { clone } from '../util/clone';
 
 export class Entity implements LifecycleHooks {
+  scene?: Scene;
+
   name = 'Entity';
-  active = true;
+
+  private innerActive = true;
+  get active() {
+    return this.innerActive;
+  }
+
   transform: TransformComponent = new TransformComponent(this);
 
   protected parent?: Entity;
@@ -32,28 +40,40 @@ export class Entity implements LifecycleHooks {
     }
   }
 
-  // Lifecycle hooks
+  // #region Lifecycle hooks
 
   onStart() {
-    this.components.forEach(elem => elem.onStart());
+    this.components.forEach(elem => {
+      if (elem.active) {
+        elem.onStart();
+      }
+    });
   }
 
   onUpdate() {
-    this.components.forEach(elem => elem.onUpdate());
+    this.components.forEach(elem => {
+      if (elem.active) {
+        elem.onUpdate();
+      }
+    });
   }
 
   onFixedUpdate() {
-    this.components.forEach(elem => elem.onFixedUpdate());
+    this.components.forEach(elem => {
+      if (elem.active) {
+        elem.onFixedUpdate();
+      }
+    });
   }
 
   onDestroy() {
     this.components.forEach(elem => elem.onDestroy());
   }
 
-  // Lifecycle hooks
+  // #endregion Lifecycle hooks
 
-  setActive(active: boolean) {
-    this.active = active;
+  setActive(value: boolean) {
+    this.innerActive = value;
   }
 
   protected setParent(parent?: Entity) {

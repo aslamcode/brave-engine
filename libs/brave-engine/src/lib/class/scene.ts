@@ -1,6 +1,8 @@
 import { BraveEngine } from '../brave-engine';
 import { Entity } from '../entity/entity';
 import { BraveEngineModeEnum } from '../enum/brave-engine-mode-enum';
+import { clone } from '../util/clone';
+import { Shader } from './shader';
 
 export class Scene {
   private baseChildren: Entity[] = [];
@@ -43,12 +45,13 @@ export class Scene {
   }
 
   add(entity: Entity) {
-    entity.onLoad(this.glContext);
+    this.setSceneRecursively(entity);
+
+    this.loadEntityRecursively(entity);
 
     if (this.braveEngine.mode === BraveEngineModeEnum.running) {
       this.startEntityRecursively(entity);
     }
-
 
     this.children.push(entity);
   }
@@ -66,14 +69,25 @@ export class Scene {
 
   private clone() {
     this.clonedChildren = this.baseChildren.map(entity => {
-      const cloned = entity.clone();
-      this.startEntityRecursively(cloned);
+      const cloned = clone(entity, WebGLBuffer, Shader, Scene);
       return cloned;
     });
+
+    this.clonedChildren.forEach(elem => this.startEntityRecursively(elem));
   }
 
   private clearClone() {
     this.clonedChildren = [];
+  }
+
+  private setSceneRecursively(entity: Entity) {
+    entity.scene = this;
+    entity.children.forEach(elem => this.setSceneRecursively(elem));
+  }
+
+  private loadEntityRecursively(entity: Entity) {
+    entity.onLoad(this.glContext);
+    entity.children.forEach(elem => this.loadEntityRecursively(elem));
   }
 
   private startEntityRecursively(entity: Entity) {

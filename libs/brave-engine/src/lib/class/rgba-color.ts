@@ -1,4 +1,5 @@
 import { rgbaColorArrayToFloatColorArray } from '../util/color/rgba-color-array-to-float-color-array';
+import { rgbaColorToFloatColor } from '../util/color/rgba-color-to-float-color';
 
 export class RgbaColor extends Array<number> {
 
@@ -18,21 +19,34 @@ export class RgbaColor extends Array<number> {
     this.g = g;
     this.b = b;
     this.a = a;
+    this.floatArrayColor = rgbaColorArrayToFloatColorArray(this.innerValue);
   }
 
   // Setters
 
   /** Receive an Integer number between 0 and 255 */
-  set r(value: number) { this.innerValue[0] = value; }
+  set r(value: number) {
+    this.innerValue[0] = value;
+    this.floatArrayColor[0] = rgbaColorToFloatColor(value);
+  }
 
   /** Receive an Integer number between 0 and 255 */
-  set g(value: number) { this.innerValue[1] = value; }
+  set g(value: number) {
+    this.innerValue[1] = value;
+    this.floatArrayColor[1] = rgbaColorToFloatColor(value);
+  }
 
   /** Receive an Integer number between 0 and 255 */
-  set b(value: number) { this.innerValue[2] = value; }
+  set b(value: number) {
+    this.innerValue[2] = value;
+    this.floatArrayColor[2] = rgbaColorToFloatColor(value);
+  }
 
   /** Receive an Float number between 0 and 1 */
-  set a(value: number) { this.innerValue[3] = value; }
+  set a(value: number) {
+    this.innerValue[3] = value;
+    this.floatArrayColor[3] = rgbaColorToFloatColor(value);
+  }
 
   // Getters
 
