@@ -2,7 +2,7 @@ import { environment } from './../../environments/environment';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UiService } from '@brave/ui';
 import { CanvasComponent } from '../components/canvas/canvas.component';
-import { BraveEngine, BraveRender, Camera, Cube, ScriptComponent, Time, } from '@brave/brave-engine';
+import { BraveEngine, BraveRender, Camera, Cube, ScriptComponent, Time, Vector3, } from '@brave/brave-engine';
 
 @Component({
   selector: 'app-root',
@@ -44,19 +44,20 @@ export class AppComponent implements OnInit {
     const cube = new Cube();
     cube.transform.position.z = -6;
     cube.transform.position.x = -3;
-    cube.addComponent(new RotateCube1());
+    cube.addComponent(new RotateCube1(cube));
     scene.add(cube);
 
     const cube2 = new Cube();
     cube2.transform.position.z = -6;
-    cube2.addComponent(new RotateCube2());
+    cube2.addComponent(new RotateCube2(cube2));
 
     const cube3 = new Cube();
     cube3.transform.position.z = -6;
     cube3.transform.position.x = 3;
-    cube3.addComponent(new RotateCube3());
+    cube3.transform.position.y = 0;
+    cube3.addComponent(new RotateCube3(cube3));
 
-    cube2.addChild(cube3); // Make cube 2 child of cube 3
+    cube2.addChild(cube3); // Make cube 3 child of cube 2
 
     scene.add(cube2);
 
@@ -98,6 +99,6 @@ class RotateCube3 extends ScriptComponent {
   }
 
   onUpdate() {
-    this.entity.transform.rotation.z += 10 * Time.deltaTime;
+    this.entity.transform.localRotation.z += 10 * Time.deltaTime;
   }
 }

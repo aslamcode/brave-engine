@@ -8,7 +8,7 @@ function cloneInstance(data: any, typeExceptions: any[] = [], clonedMap = new Ma
     clonedMap.set(data, cloned);
 
     return cloned;
-  } else if (typeof data === 'object') {
+  } else if (typeof data === 'object' && data != undefined) {
     let cloned = clonedMap.get(data);
 
     if (cloned === undefined) {

@@ -4,16 +4,16 @@ import { Entity } from '../../entity';
 import { MaterialComponent } from '../../../component/material-component';
 
 export class Cube extends Entity {
-    name = 'Cube';
+  name = 'Cube';
 
-    constructor() {
-        super();
+  constructor() {
+    super();
 
-        const meshRenderer = new MeshRendererComponent(this);
-        meshRenderer.mesh = new CubeMesh();
-        this.addComponent(meshRenderer);
+    const meshRenderer = new MeshRendererComponent(this);
+    meshRenderer.mesh = new CubeMesh();
+    this.addComponent(meshRenderer);
 
-        const material = new MaterialComponent(this);
-        this.materials.push(material);
-    }
+    const material = new MaterialComponent(this);
+    this.materials.push(material);
+  }
 }

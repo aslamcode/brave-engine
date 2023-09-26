@@ -17,9 +17,9 @@ export class Entity implements LifecycleHooks {
     return this.innerActive;
   }
 
-  transform: TransformComponent = new TransformComponent(this);
+  transform: TransformComponent;
 
-  protected parent?: Entity;
+  parent?: Entity;
   children = new Array<Entity>();
 
   components = new Array<Component>();
@@ -27,6 +27,10 @@ export class Entity implements LifecycleHooks {
   // Mesh renderer and materials shortcut
   meshRenderer?: MeshRendererComponent;
   materials = new Array<MaterialComponent>();
+
+  constructor() {
+    this.transform = new TransformComponent(this);
+  }
 
   onLoad(glContext: WebGL2RenderingContext) {
     // Load materials shaders
@@ -81,8 +85,6 @@ export class Entity implements LifecycleHooks {
   }
 
   addComponent(component: Component) {
-    component.setEntity(this);
-
     if (component instanceof MeshRendererComponent) {
       this.meshRenderer = component;
     } else if (component instanceof MaterialComponent) {
@@ -112,6 +114,7 @@ export class Entity implements LifecycleHooks {
 
   addChild(child: Entity, index?: number) {
     child.setParent(this);
+    child.transform.updateAll();
 
     if (index != undefined) {
       this.children.splice(index, 0, child);

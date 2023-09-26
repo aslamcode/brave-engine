@@ -1,4 +1,8 @@
+import { Subject } from "rxjs";
+
 export class Vector3 extends Array<number> {
+
+  onChange = new Subject<Vector3>();
 
   constructor(x?: number, y?: number, z?: number) {
     super();
@@ -10,13 +14,22 @@ export class Vector3 extends Array<number> {
   // Setters
 
   /** Receive a number to set x */
-  set x(value: number) { this.innerValue[0] = value; }
+  set x(value: number) {
+    this.innerValue[0] = value;
+    this.onChange.next(this);
+  }
 
   /** Receive a number to set y */
-  set y(value: number) { this.innerValue[1] = value; }
+  set y(value: number) {
+    this.innerValue[1] = value;
+    this.onChange.next(this);
+  }
 
   /** Receive a number to set z */
-  set z(value: number) { this.innerValue[2] = value; }
+  set z(value: number) {
+    this.innerValue[2] = value;
+    this.onChange.next(this);
+  }
 
   // Getters
 

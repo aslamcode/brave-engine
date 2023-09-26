@@ -8,4 +8,5 @@
   },
   "eslint.alwaysShowStatus": true,
   "editor.tabSize": 2,
+  "editor.action.toggleStickyScroll": true
 }
