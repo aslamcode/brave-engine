@@ -34,7 +34,8 @@ export class AppComponent implements OnInit {
     const camera = new Camera();
     camera.transform.position.x = 0;
     camera.transform.position.y = 0;
-    camera.transform.position.z = -3;
+    camera.transform.position.z = 3;
+    camera.transform.rotation.y = 0;
     this.braveRender.setCamera(camera);
 
     // Create sceneObjects

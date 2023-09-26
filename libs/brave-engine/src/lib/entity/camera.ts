@@ -6,7 +6,7 @@ import { Entity } from './entity';
 export class Camera extends Entity {
   clearColor = new RgbaColor(0, 0, 0, 1);
   fieldOfView = 60;
-  zNear = 0.1;
+  zNear = 0.01;
   zFar = 100;
   projectionMatrix = mat4.create();
 
