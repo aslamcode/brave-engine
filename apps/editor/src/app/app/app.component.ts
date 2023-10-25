@@ -2,7 +2,7 @@ import { environment } from './../../environments/environment';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UiService } from '@brave/ui';
 import { CanvasComponent } from '../components/canvas/canvas.component';
-import { BraveEngine, BraveRender, Camera, Cube, ScriptComponent, Time, Vector3, } from '@brave/brave-engine';
+import { BraveEngine, BraveRender, Camera, Cube, ScriptComponent, Time } from '@brave/brave-engine';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +11,7 @@ import { BraveEngine, BraveRender, Camera, Cube, ScriptComponent, Time, Vector3,
 })
 export class AppComponent implements OnInit {
 
-  @ViewChild(CanvasComponent, { static: true }) private canvas: CanvasComponent;
+  @ViewChild('canvasScene', { static: true }) private canvasScene: CanvasComponent;
   private braveEngine: BraveEngine;
   private braveRender: BraveRender;
 
@@ -26,8 +26,8 @@ export class AppComponent implements OnInit {
   }
 
   onStart() {
-    const webgl2Context = this.canvas.webgl2Context;
-    this.braveEngine = new BraveEngine(this.canvas.canvasElement.nativeElement, webgl2Context);
+    const webgl2Context = this.canvasScene.webgl2Context;
+    this.braveEngine = new BraveEngine(this.canvasScene.canvasElement.nativeElement, webgl2Context);
     this.braveRender = this.braveEngine.braveRender;
 
     // Create and set camera
@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
     camera.transform.position.x = 0;
     camera.transform.position.y = 0;
     camera.transform.position.z = 3;
-    camera.transform.rotation.y = 0;
+    camera.transform.rotation.z = 0;
     this.braveRender.setCamera(camera);
 
     // Create sceneObjects
@@ -90,7 +90,7 @@ class RotateCube2 extends ScriptComponent {
   }
 
   onUpdate() {
-    this.entity.transform.rotation.y += 10 * Time.deltaTime;
+    this.entity.transform.localRotation.y += 10 * Time.deltaTime;
   }
 }
 
