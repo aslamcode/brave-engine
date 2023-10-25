@@ -3,6 +3,7 @@ import { Scene } from "./class/scene";
 import { BraveEngineModeEnum } from "./enum/brave-engine-mode-enum";
 import { Subject } from 'rxjs';
 import { Time } from "./static/time";
+import { Camera } from "./entity/camera";
 
 export class BraveEngine {
 
@@ -11,6 +12,7 @@ export class BraveEngine {
   private canvas: HTMLCanvasElement;
   private webgl2Context: WebGL2RenderingContext;
 
+  camera: Camera;
   braveRender: BraveRender;
   scenes: Scene[] = [];
 
@@ -21,11 +23,15 @@ export class BraveEngine {
   constructor(canvas: HTMLCanvasElement, webgl2Context: WebGL2RenderingContext) {
     this.canvas = canvas;
     this.webgl2Context = webgl2Context;
+
+    this.camera = new Camera();
+    this.braveRender = new BraveRender(this, this.webgl2Context);
+    this.braveRender.setCamera(this.camera);
+
     this.onStart();
   }
 
   private onStart() {
-    this.braveRender = new BraveRender(this, this.webgl2Context); // Create a new Brave Render
     requestAnimationFrame(this.onUpdate.bind(this)); // Request to browser call engine update
   }
 
@@ -50,6 +56,8 @@ export class BraveEngine {
     requestAnimationFrame(this.onUpdate.bind(this));
   }
 
+  // #region Play controls
+
   play() {
     this.mode = BraveEngineModeEnum.running;
     this.modeSubject.next(this.mode);
@@ -65,13 +73,16 @@ export class BraveEngine {
     this.modeSubject.next(this.mode);
   }
 
+  // #endregion Play controls
+
   addScene() {
     const scene = new Scene(this, this.webgl2Context);
     this.scenes.push(scene);
     return scene;
   }
 
-  setCamera() {
-
+  setCamera(camera: Camera) {
+    this.camera = camera;
+    this.braveRender.setCamera(camera);
   }
 }
