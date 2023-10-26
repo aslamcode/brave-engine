@@ -1,17 +1,26 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { EditorService } from '../../app/editor.service';
 
 @Component({
   selector: 'app-scene',
   templateUrl: './scene.component.html',
   styleUrls: ['./scene.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class SceneComponent implements OnInit {
 
   @Input() title: string;
 
-  constructor() { }
+  constructor(
+    public editorService: EditorService
+  ) {
+  }
 
-  ngOnInit() { }
+  ngOnInit() {
+  }
+
+  get scenes() {
+    return this.editorService.braveEngine.scenes;
+  }
 
 }

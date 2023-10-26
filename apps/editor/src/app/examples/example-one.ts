@@ -38,7 +38,6 @@ export function exampleOne(braveEngine: BraveEngine) {
 
 class RotateCube1 extends ScriptComponent {
   onStart() {
-    console.log('Cube 1');
     const cube = new Cube();
     cube.transform.position.x = -4;
     cube.transform.position.y = 2;
@@ -53,7 +52,6 @@ class RotateCube1 extends ScriptComponent {
 
 class RotateCube2 extends ScriptComponent {
   onStart() {
-    console.log('Cube 2');
   }
 
   onUpdate() {
@@ -63,7 +61,6 @@ class RotateCube2 extends ScriptComponent {
 
 class RotateCube3 extends ScriptComponent {
   onStart() {
-    console.log('Cube 3');
   }
 
   onUpdate() {

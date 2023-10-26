@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
-import { SettingsComponent } from './settings.component';
+import { HeaderComponent } from './header.component';
 import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
-    SettingsComponent
+    HeaderComponent
   ],
   imports: [
     CommonModule
   ],
   exports: [
-    SettingsComponent
+    HeaderComponent
   ]
 })
-export class SettingsModule { }
+export class HeaderModule { }

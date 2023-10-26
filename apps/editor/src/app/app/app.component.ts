@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     private uiService: UiService,
-    private editorService: EditorService,
+    public editorService: EditorService,
   ) {
     this.uiService.assetsUrl = environment.assetsUrl;
   }

@@ -1,5 +1,23 @@
 <div class="title">{{ title }}</div>
 
 <div class="content">
+  <div *ngFor="let elem of scenes">
+    {{ elem.name }}
 
+    <ng-container *ngTemplateOutlet="list; context:{ $implicit: elem.children }"></ng-container>
+  </div>
+
+
+  <ul>
+    <ng-template #list let-children>
+      <li *ngFor="let elem of children">
+        {{ elem.name }}
+
+        <ul *ngIf="elem.children.length > 0">
+          <ng-container *ngTemplateOutlet="list; context:{ $implicit: elem.children }"></ng-container>
+        </ul>
+      </li>
+    </ng-template>
+
+  </ul>
 </div>
