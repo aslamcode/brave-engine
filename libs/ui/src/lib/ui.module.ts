@@ -22,7 +22,6 @@ import { CollapseModule } from './collapse/collapse.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChipModule } from './chip/chip.module';
 import { ModalModule } from './modal/modal.module';
-import { ToggleComponent } from './toggle/toggle.component';
 import { ToggleModule } from './toggle/toggle.module';
 
 @NgModule({

@@ -5,7 +5,7 @@ import { EditorService } from '../../app/editor.service';
   selector: 'app-scene',
   templateUrl: './scene.component.html',
   styleUrls: ['./scene.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Default
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SceneComponent implements OnInit {
 

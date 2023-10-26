@@ -3,21 +3,21 @@
 ///////////////////
 
 // 1-settings (colors, typography, spacings)
-@import '1-settings/colors';
-@import '1-settings/typography';
+@import "1-settings/colors";
+@import "1-settings/typography";
 
 // 2-tools (mixins, functions)
 
 // 3-objects (elements html, cards, buttons, or generic lists, table and etc)
-@import '3-objects/angular-material';
-@import '3-objects/flexboxgrid';
-@import '3-objects/spacing';
-@import '3-objects/normalize';
-@import '3-objects/reset';
-@import '3-objects/scrollbar';
-@import '3-objects/text-transform';
-@import '3-objects/text-align';
-@import '3-objects/font-weight';
+@import "3-objects/angular-material";
+@import "3-objects/flexboxgrid";
+@import "3-objects/spacing";
+@import "3-objects/normalize";
+@import "3-objects/reset";
+@import "3-objects/scrollbar";
+@import "3-objects/text-transform";
+@import "3-objects/text-align";
+@import "3-objects/font-weight";
 
 ///////////////////
 // Global styles //
@@ -26,7 +26,7 @@
 html,
 body {
   height: 100%;
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
 }
 
 body {
