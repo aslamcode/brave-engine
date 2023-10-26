@@ -2,18 +2,24 @@
 
 <div class="content">
   <!-- Scenes -->
-  <details *ngFor="let elem of scenes" [open]="true">
+  <details class="item" *ngFor="let elem of scenes" [open]="true">
     <summary>{{ elem.name }}</summary>
     <ng-container *ngTemplateOutlet="entityList; context:{ $implicit: elem.children }"></ng-container>
   </details>
 
   <!-- Entities -->
   <ng-template #entityList let-children>
-    <details *ngFor="let elem of children">
-      <summary>{{ elem.name }}</summary>
-      <div *ngIf="elem.children.length > 0">
+    <div *ngFor="let elem of children">
+
+      <details class="item" *ngIf="elem.children.length > 0">
+        <summary>{{ elem.name }}</summary>
         <ng-container *ngTemplateOutlet="entityList; context:{ $implicit: elem.children }"></ng-container>
+      </details>
+
+      <div *ngIf="elem.children.length === 0">
+        {{ elem.name }}
       </div>
-    </details>
+    </div>
+
   </ng-template>
 </div>

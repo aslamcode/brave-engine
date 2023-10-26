@@ -27,6 +27,13 @@
 }
 
 details {
+}
+
+.item {
   padding-left: 10px;
   margin: 5px 0;
+}
+
+details summary::-webkit-details-marker {
+  display: none;
 }
