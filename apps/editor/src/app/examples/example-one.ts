@@ -10,6 +10,7 @@ export function exampleOne(braveEngine: BraveEngine) {
 
   // Create sceneObjects
   const scene = braveEngine.addScene();
+  scene.name = 'Example one';
 
   // Create a cube and add on scene
   const cube = new Cube();

@@ -19,8 +19,6 @@ export class EditorService {
 
     // Run examples
     exampleOne(this.braveEngine);
-
-    console.log(this.braveEngine.scenes);
   }
 
 }

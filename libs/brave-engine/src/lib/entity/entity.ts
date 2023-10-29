@@ -13,9 +13,7 @@ export class Entity implements LifecycleHooks {
   name = 'Entity';
 
   private innerActive = true;
-  get active() {
-    return this.innerActive;
-  }
+  get active() { return this.innerActive; }
 
   transform: TransformComponent;
 

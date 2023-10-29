@@ -3,10 +3,11 @@
   flex-direction: column;
   min-width: 100px;
   height: 100%;
-  background-color: #333;
+  background-color: #252526;
+  overflow: hidden;
 }
 
-.title {
+.header {
   display: flex;
   align-items: center;
   padding: 0 10px;
@@ -19,21 +20,39 @@
 .content {
   width: 100%;
   flex: 1;
-  background-color: #252525;
+  background-color: #252526;
   overflow-y: auto;
   overflow-x: hidden;
   font-size: 13px;
   color: #fff;
 }
 
-details {
-}
+.list {
+  user-select: none;
 
-.item {
-  padding-left: 10px;
-  margin: 5px 0;
-}
+  &__item {
+    display: block;
+  }
 
-details summary::-webkit-details-marker {
-  display: none;
+  &__item-text {
+    padding: 3px 10px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #2a2d2e;
+    }
+
+    &.-selected {
+      background-color: #004472;
+    }
+
+    &.-disabled {
+      background-color: #004472;
+    }
+
+    &.-main {
+      font-weight: bold;
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+  }
 }

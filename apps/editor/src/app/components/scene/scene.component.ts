@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { EditorService } from '../../app/editor.service';
+import { Entity } from '@brave/brave-engine';
 
 @Component({
   selector: 'app-scene',
@@ -10,6 +11,7 @@ import { EditorService } from '../../app/editor.service';
 export class SceneComponent implements OnInit {
 
   @Input() title: string;
+  itemSelected: Entity;
 
   constructor(
     public editorService: EditorService
@@ -17,6 +19,11 @@ export class SceneComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  setItemSelected(e: Event, item: Entity) {
+    e.stopPropagation();
+    this.itemSelected = item;
   }
 
   get scenes() {

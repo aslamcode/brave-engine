@@ -1,25 +1,40 @@
-<div class="title">{{ title }}</div>
+<div class="header">{{ title }}</div>
 
 <div class="content">
-  <!-- Scenes -->
-  <details class="item" *ngFor="let elem of scenes" [open]="true">
-    <summary>{{ elem.name }}</summary>
-    <ng-container *ngTemplateOutlet="entityList; context:{ $implicit: elem.children }"></ng-container>
-  </details>
 
-  <!-- Entities -->
-  <ng-template #entityList let-children>
-    <div *ngFor="let elem of children">
+  <div class="list">
+    <!-- Scenes -->
+    <details class="list__item" *ngFor="let elem of scenes" [open]="true">
+      <summary class="list__item-text -main">{{ elem.name }}</summary>
 
-      <details class="item" *ngIf="elem.children.length > 0">
-        <summary>{{ elem.name }}</summary>
-        <ng-container *ngTemplateOutlet="entityList; context:{ $implicit: elem.children }"></ng-container>
-      </details>
+      <ng-container *ngTemplateOutlet="entityList; context:{ $implicit: { children: elem.children, margin: 10 } }">
+      </ng-container>
+    </details>
 
-      <div *ngIf="elem.children.length === 0">
-        {{ elem.name }}
+
+    <!-- Entities -->
+    <ng-template #entityList let-item>
+      <div *ngFor="let elem of item.children">
+
+        <details *ngIf="elem.children.length > 0" class="list__item" (click)="setItemSelected($event, elem)">
+          <summary class="list__item-text" [class.-selected]="elem === itemSelected" [class.-disabled]="!elem.active"
+            [ngStyle]="{ 'padding-left': item.margin + 'px' }">
+            {{ elem.name }}
+          </summary>
+
+          <!-- Render list recursively -->
+          <ng-container
+            *ngTemplateOutlet="entityList; context:{ $implicit: { children: elem.children, margin: item.margin + 13 } }">
+          </ng-container>
+        </details>
+
+        <div *ngIf="elem.children.length === 0" class="list__item-text" [class.-selected]="elem === itemSelected"
+          [class.-disabled]="!elem.active" [ngStyle]="{ 'padding-left': item.margin + 'px' }"
+          (click)="setItemSelected($event, elem)">
+          {{ elem.name }}
+        </div>
       </div>
-    </div>
+    </ng-template>
+  </div>
 
-  </ng-template>
 </div>
