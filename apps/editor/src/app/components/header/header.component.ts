@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { EditorService } from '../../app/editor.service';
 
 @Component({
   selector: 'app-header',
@@ -10,8 +11,22 @@ export class HeaderComponent implements OnInit {
 
   @Input() title: string;
 
-  constructor() { }
+  constructor(
+    private editorService: EditorService
+  ) { }
 
   ngOnInit() { }
+
+  play() {
+    this.editorService.braveEngine.play();
+  }
+
+  pause() {
+    this.editorService.braveEngine.pause();
+  }
+
+  stop() {
+    this.editorService.braveEngine.stop();
+  }
 
 }

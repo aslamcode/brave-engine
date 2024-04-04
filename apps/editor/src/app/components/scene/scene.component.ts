@@ -10,7 +10,7 @@ import { Entity } from '@brave/brave-engine';
 })
 export class SceneComponent implements OnInit {
 
-  @Input() title: string;
+  @Input() name = 'Scenes';
   itemSelected: Entity;
 
   constructor(

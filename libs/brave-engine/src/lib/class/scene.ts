@@ -1,5 +1,4 @@
 import { BraveEngine } from '../brave-engine';
-import { TransformComponent } from '../component/transform-component';
 import { Entity } from '../entity/entity';
 import { BraveEngineModeEnum } from '../enum/brave-engine-mode-enum';
 import { clone } from '../util/clone';
@@ -10,6 +9,7 @@ export class Scene {
 
   private baseChildren: Entity[] = [];
   private clonedChildren: Entity[] = [];
+  private paused = false;
 
   get length() { return this.children.length; }
 
@@ -23,7 +23,15 @@ export class Scene {
           return this.clearClone();
 
         case BraveEngineModeEnum.running:
-          return this.clone();
+          if (this.paused) {
+            this.paused = false;
+            return;
+          }
+
+          return this.cloneAndStart();
+
+        case BraveEngineModeEnum.paused:
+          return this.paused = true;
       }
     });
   }
@@ -70,9 +78,9 @@ export class Scene {
     this.children.splice(index, 1);
   }
 
-  private clone() {
+  private cloneAndStart() {
     this.clonedChildren = this.baseChildren.map(entity => {
-      const cloned = clone(entity, WebGLBuffer, Shader, Scene, TransformComponent);
+      const cloned = clone(entity, WebGLBuffer, Shader, Scene);
       return cloned;
     });
 
@@ -108,6 +116,9 @@ export class Scene {
 
       case BraveEngineModeEnum.paused:
         return this.clonedChildren;
+
+      case BraveEngineModeEnum.compiled:
+        return this.baseChildren;
 
       default:
         return this.baseChildren;

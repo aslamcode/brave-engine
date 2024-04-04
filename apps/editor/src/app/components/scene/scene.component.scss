@@ -52,7 +52,28 @@
 
     &.-main {
       font-weight: bold;
-      background-color: rgba(0, 0, 0, 0.3);
+      background-color: rgba(#fff, 0.1);
     }
   }
 }
+
+// details > summary {
+//   list-style-type: "> ";
+// }
+
+// details[open] > summary {
+//   list-style-type: "^ ";
+
+//   &::marker {
+//     color: blue;
+//     transform: rotate(180deg);
+//   }
+// }
+
+// details[close] summary {
+//   pointer-events: none;
+// }
+
+// details[open] summary ::marker {
+//   pointer-events: all;
+// }

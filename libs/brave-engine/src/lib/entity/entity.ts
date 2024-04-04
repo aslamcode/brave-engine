@@ -15,7 +15,8 @@ export class Entity implements LifecycleHooks {
   private innerActive = true;
   get active() { return this.innerActive; }
 
-  transform: TransformComponent;
+  private innerTransform: TransformComponent;
+  get transform() { return this.innerTransform; }
 
   parent?: Entity;
   children = new Array<Entity>();
@@ -27,7 +28,8 @@ export class Entity implements LifecycleHooks {
   materials = new Array<MaterialComponent>();
 
   constructor() {
-    this.transform = new TransformComponent(this);
+    this.innerTransform = new TransformComponent(this);
+    this.addComponent(this.innerTransform);
   }
 
   onLoad(glContext: WebGL2RenderingContext) {
@@ -112,7 +114,7 @@ export class Entity implements LifecycleHooks {
 
   addChild(child: Entity, index?: number) {
     child.setParent(this);
-    child.transform.updateAll();
+    child.innerTransform.updateAll();
 
     if (index != undefined) {
       this.children.splice(index, 0, child);

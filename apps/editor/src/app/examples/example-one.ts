@@ -35,9 +35,6 @@ export function exampleOne(braveEngine: BraveEngine) {
   cube2.addChild(cube3); // Make cube 3 child of cube 2
 
   scene.add(cube2);
-
-  setTimeout(() => braveEngine.play(), 2000);
-  // setTimeout(() => braveEngine.stop(), 10000);
 }
 
 class RotateCube1 extends ScriptComponent {

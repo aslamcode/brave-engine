@@ -4,7 +4,7 @@
     "editor.formatOnSave": true
   },
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": false
+    "source.fixAll.eslint": "never"
   },
   "eslint.alwaysShowStatus": true,
   "editor.tabSize": 2,

@@ -8,7 +8,7 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 })
 export class SettingsComponent implements OnInit {
 
-  @Input() title: string;
+  @Input() name = 'Settings';
 
   constructor() { }
 

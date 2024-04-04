@@ -25,6 +25,17 @@ export class TransformComponent extends Component {
 
   constructor(entity?: Entity) {
     super(entity);
+
+    console.warn('Remove listen position changes from constructor when mode is compiled. Maybe create a onEditor hook can resolve this problem');
+    this.listenPositionChanges();
+    this.listenRotationChanges();
+    this.listenScaleChanges();
+    this.listenLocalPositionChanges();
+    this.listenLocalRotationChanges();
+    this.listenLocalScaleChanges();
+  }
+
+  onStart() {
     this.listenPositionChanges();
     this.listenRotationChanges();
     this.listenScaleChanges();
