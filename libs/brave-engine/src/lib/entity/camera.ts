@@ -7,7 +7,7 @@ export class Camera extends Entity {
   clearColor = new RgbaColor(0, 0, 0, 1);
   fieldOfView = 60;
   zNear = 0.01;
-  zFar = 100;
+  zFar = 1000;
   projectionMatrix = mat4.create();
 
   get fieldOfViewInRad() {
