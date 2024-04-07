@@ -2,7 +2,6 @@
 import { mat4 } from 'gl-matrix';
 import { Shader } from '../../class/shader';
 import { Entity } from '../../entity/entity';
-import { degToRad } from '../../util/deg-to-rad';
 import { Camera } from '../../entity/camera';
 
 export function renderVertexShader(glContext: WebGL2RenderingContext, camera: Camera, entity: Entity) {
@@ -10,47 +9,7 @@ export function renderVertexShader(glContext: WebGL2RenderingContext, camera: Ca
 
   // Set the drawing position to the "identity" point, which is
   // the center of the scene.
-  // const modelViewMatrix = mat4.create();
-  // entity.transform.updateTransform();
   const modelViewMatrix = mat4.clone(entity.transform.worldMatrix);
-
-  // Set position to draw the element
-  // mat4.translate(
-  //   modelViewMatrix, // destination matrix
-  //   modelViewMatrix, // matrix to translate
-  //   [entity.transform.position.x, entity.transform.position.y, entity.transform.position.z]
-  // );
-
-  // Set rotation X to draw the element
-  // mat4.rotate(
-  //   modelViewMatrix, // destination matrix
-  //   modelViewMatrix, // matrix to rotate
-  //   degToRad(entity.transform.rotation.x), // amount to rotate in radians
-  //   [1, 0, 0]
-  // ); // axis to rotate around (X)
-
-  // // Set rotation Y to draw the element
-  // mat4.rotate(
-  //   modelViewMatrix, // destination matrix
-  //   modelViewMatrix, // matrix to rotate
-  //   degToRad(entity.transform.rotation.y), // amount to rotate in radians
-  //   [0, 1, 0]
-  // ); // axis to rotate around (Y)
-
-  // // Set rotation Z to draw the element
-  // mat4.rotate(
-  //   modelViewMatrix, // destination matrix
-  //   modelViewMatrix, // matrix to rotate
-  //   degToRad(entity.transform.rotation.z), // amount to rotate in radians
-  //   [0, 0, 1]
-  // ); // axis to rotate around (Z)
-
-  // Set scale to draw the element
-  // mat4.scale(
-  //   modelViewMatrix, // destination matrix
-  //   modelViewMatrix, // matrix to scale
-  //   [entity.transform.scale.x, entity.transform.scale.y, entity.transform.scale.z]
-  // );
 
   // Render using the first material by now
   const material = entity.materials[0];

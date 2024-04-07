@@ -6,7 +6,7 @@ import { Entity } from '@brave/brave-engine';
   selector: 'app-scene',
   templateUrl: './scene.component.html',
   styleUrls: ['./scene.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class SceneComponent implements OnInit {
 

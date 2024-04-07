@@ -11,7 +11,7 @@ export class Vector3 extends Array<number> {
     this.z = z || 0;
   }
 
-  // Setters
+  //#region Setters 
 
   /** Receive a number to set x */
   set x(value: number) {
@@ -31,7 +31,9 @@ export class Vector3 extends Array<number> {
     this.onChange.next(this);
   }
 
-  // Getters
+  //#endregion Setters
+
+  //#region Getters
 
   /** Return x number value */
   get x() { return this.innerValue[0]; }
@@ -56,4 +58,51 @@ export class Vector3 extends Array<number> {
   private get innerValue() {
     return this.valueOf() as Array<number>;
   }
+
+  //#endregion Getters
+
+  //#region Extra methods
+
+  static add(vectorResult: Vector3, vectorA: Vector3, vectorB?: Vector3) {
+    if (vectorB) {
+      const { x, y, z } = vectorA;
+      const bX = vectorB.x;
+      const bY = vectorB.y;
+      const bZ = vectorB.z;
+
+      vectorResult.x = x + bX;
+      vectorResult.y = y + bY;
+      vectorResult.z = z + bZ;
+    } else {
+      vectorResult.x = vectorA.x;
+      vectorResult.y = vectorA.y;
+      vectorResult.z = vectorA.z;
+    }
+  }
+
+  static multiply(vectorResult: Vector3, vectorA: Vector3, vectorB?: Vector3) {
+    if (vectorB) {
+      const { x, y, z } = vectorA;
+      const bX = vectorB.x;
+      const bY = vectorB.y;
+      const bZ = vectorB.z;
+
+      vectorResult.x = x * bX;
+      vectorResult.y = y * bY;
+      vectorResult.z = z * bZ;
+    } else {
+      vectorResult.x = vectorA.x;
+      vectorResult.y = vectorA.y;
+      vectorResult.z = vectorA.z;
+    }
+  }
+
+  static distance(vectorA: Vector3, vectorB: Vector3) {
+    const x = vectorA.x - vectorB.x;
+    const y = vectorA.y - vectorB.y;
+    const z = vectorA.z - vectorB.z;
+    return Math.hypot(x, y, z);
+  }
+
+  //#endregion Extra methods
 }

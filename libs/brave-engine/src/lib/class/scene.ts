@@ -1,5 +1,4 @@
 import { BraveEngine } from '../brave-engine';
-import { TransformComponent } from '../component/transform-component';
 import { Entity } from '../entity/entity';
 import { BraveEngineModeEnum } from '../enum/brave-engine-mode-enum';
 import { clone } from '../util/clone';

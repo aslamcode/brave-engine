@@ -82,6 +82,7 @@ export class Entity implements LifecycleHooks {
 
   protected setParent(parent?: Entity) {
     this.parent = parent;
+    this.transform.updateTransform();
   }
 
   addComponent(component: Component) {
@@ -114,7 +115,6 @@ export class Entity implements LifecycleHooks {
 
   addChild(child: Entity, index?: number) {
     child.setParent(this);
-    child.innerTransform.updateAll();
 
     if (index != undefined) {
       this.children.splice(index, 0, child);
