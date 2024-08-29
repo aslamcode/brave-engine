@@ -7,8 +7,8 @@ import { Entity } from '../entity/entity';
 export class MaterialComponent extends Component {
   shader: Shader;
 
-  constructor(entity: Entity) {
-    super(entity);
+  constructor(entity: Entity, id?: string) {
+    super(entity, id);
     this.shader = vertexShader;
   }
 

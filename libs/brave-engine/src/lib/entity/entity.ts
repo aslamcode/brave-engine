@@ -1,13 +1,17 @@
+import { braveEngine } from '../brave-engine';
 import { Scene } from '../class/scene';
 import { Shader } from '../class/shader';
 import { Component } from '../component/component';
 import { MaterialComponent } from '../component/material-component';
 import { MeshRendererComponent } from '../component/mesh-renderer-component';
 import { TransformComponent } from '../component/transform-component';
+import { BraveEngineModeEnum } from '../enum/brave-engine-mode-enum';
 import { LifecycleHooks } from '../interface/lifecycle-hooks';
+import { Registry } from '../static/registry';
 import { clone } from '../util/clone';
 
 export class Entity implements LifecycleHooks {
+  id: string;
   scene?: Scene;
 
   name = 'Entity';
@@ -27,12 +31,19 @@ export class Entity implements LifecycleHooks {
   meshRenderer?: MeshRendererComponent;
   materials = new Array<MaterialComponent>();
 
-  constructor() {
+  constructor(id?: string) {
+    this.id = Registry.register(id);
     this.innerTransform = new TransformComponent(this);
     this.addComponent(this.innerTransform);
   }
 
-  onLoad(glContext: WebGL2RenderingContext) {
+  private start() {
+    if (braveEngine.mode != BraveEngineModeEnum.compiled) {
+      this.id = Registry.register(this, this.id);
+    }
+  }
+
+  private load(glContext: WebGL2RenderingContext) {
     // Load materials shaders
     this.materials.forEach(elem => {
       elem.loadShader(glContext);
@@ -48,6 +59,7 @@ export class Entity implements LifecycleHooks {
 
   onStart() {
     this.components.forEach(elem => {
+      elem['start']();
       if (elem.active) {
         elem.onStart();
       }
@@ -115,6 +127,10 @@ export class Entity implements LifecycleHooks {
 
   addChild(child: Entity, index?: number) {
     child.setParent(this);
+
+    if (this.scene && !child.scene) {
+      this.scene.add(child, this);
+    }
 
     if (index != undefined) {
       this.children.splice(index, 0, child);

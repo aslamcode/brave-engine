@@ -55,7 +55,7 @@ export class Scene {
     return this.children[index];
   }
 
-  add(entity: Entity) {
+  add(entity: Entity, parent?: Entity) {
     this.setSceneRecursively(entity);
 
     this.loadEntityRecursively(entity);
@@ -64,7 +64,9 @@ export class Scene {
       this.startEntityRecursively(entity);
     }
 
-    this.children.push(entity);
+    if (!parent) {
+      this.children.push(entity);
+    }
   }
 
   remove(entity: Entity) {
@@ -97,11 +99,12 @@ export class Scene {
   }
 
   private loadEntityRecursively(entity: Entity) {
-    entity.onLoad(this.glContext);
+    entity['load'](this.glContext);
     entity.children.forEach(elem => this.loadEntityRecursively(elem));
   }
 
   private startEntityRecursively(entity: Entity) {
+    entity['start']();
     entity.onStart();
     entity.children.forEach(elem => this.startEntityRecursively(elem));
   }

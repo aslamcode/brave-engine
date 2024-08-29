@@ -6,8 +6,8 @@ import { MaterialComponent } from '../../../component/material-component';
 export class Cube extends Entity {
   name = 'Cube';
 
-  constructor() {
-    super();
+  constructor(id?: string) {
+    super(id);
 
     const meshRenderer = new MeshRendererComponent(this);
     meshRenderer.mesh = new CubeMesh();

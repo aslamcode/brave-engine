@@ -20,7 +20,7 @@ export class BraveEngine {
 
   private lastUpdatedTime = 0;
 
-  constructor(canvas: HTMLCanvasElement, webgl2Context: WebGL2RenderingContext) {
+  initialize(canvas: HTMLCanvasElement, webgl2Context: WebGL2RenderingContext) {
     this.canvas = canvas;
     this.webgl2Context = webgl2Context;
 
@@ -86,3 +86,5 @@ export class BraveEngine {
     this.braveRender.setCamera(camera);
   }
 }
+
+export const braveEngine = new BraveEngine();

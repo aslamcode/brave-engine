@@ -19,8 +19,8 @@ export class TransformComponent extends Component {
   private rotationSubscription: Subscription;
   private scaleSubscription: Subscription;
 
-  constructor(entity?: Entity) {
-    super(entity);
+  constructor(entity?: Entity, id?: string) {
+    super(entity, id);
     this.listenPositionChanges();
     this.listenRotationChanges();
     this.listenScaleChanges();
