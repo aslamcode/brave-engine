@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { Time } from "./static/time";
 import { Camera } from "./entity/camera";
 import { BraveEngineVsyncModeEnum } from "./enum/brave-engine-vsync-mode.enum";
+import { Invoke } from "./static/invoke";
 
 export class BraveEngine {
 
@@ -21,7 +22,7 @@ export class BraveEngine {
   modeSubject = new Subject<BraveEngineModeEnum>();
 
   private lastUpdatedTime = 0;
-  private updateInterval?: ReturnType<typeof setInterval>;
+  private updateInterval?: number;
 
   initialize(canvas: HTMLCanvasElement, webgl2Context: WebGL2RenderingContext) {
     this.canvas = canvas;
@@ -33,7 +34,7 @@ export class BraveEngine {
 
     this.onStart();
 
-    // setInterval(() => {
+    // Invoke.setInterval(() => {
     //   console.log("FPS", Time.fps);
     //   console.log("Theorical FPS", Time.tFps);
     // }, 1000);
@@ -83,7 +84,7 @@ export class BraveEngine {
   }
 
   private createUpdateInterval() {
-    this.updateInterval = setInterval(() => {
+    this.updateInterval = Invoke.setInterval(() => {
       this.onUpdate(Date.now());
     }, 0);
   }
@@ -110,6 +111,8 @@ export class BraveEngine {
   stop() {
     this.mode = BraveEngineModeEnum.editor;
     this.modeSubject.next(this.mode);
+
+    Invoke.cancelAllInvokes();
   }
 
   // #endregion Play controls

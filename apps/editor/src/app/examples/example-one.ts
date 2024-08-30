@@ -1,4 +1,4 @@
-import { BraveEngine, Cube, ScriptComponent, Time } from '@brave/brave-engine';
+import { BraveEngine, Cube, Invoke, ScriptComponent, Time } from '@brave/brave-engine';
 
 export function exampleOne(braveEngine: BraveEngine) {
   // Create and set camera
@@ -55,23 +55,23 @@ class RotateCube1 extends ScriptComponent {
     cube4.transform.position.z = -6;
     cube4.transform.position.x = 6;
 
-    setTimeout(() => {
+    Invoke.setTimeout(() => {
       this.entity.scene.add(cube4);
     }, 1000);
 
-    setTimeout(() => {
+    Invoke.setTimeout(() => {
       this.entity.addChild(cube4);
     }, 2000);
 
-    setTimeout(() => {
+    Invoke.setTimeout(() => {
       cube4.setParent();
     }, 3000);
 
-    setTimeout(() => {
+    Invoke.setTimeout(() => {
       cube4.destroy();
     }, 4000);
 
-    setTimeout(() => {
+    Invoke.setTimeout(() => {
       this.destroy();
     }, 5000);
   }

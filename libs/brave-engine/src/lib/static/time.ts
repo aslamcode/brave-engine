@@ -6,13 +6,13 @@ export class Time {
    * Return real FPS
    */
   static get fps() {
-    return 1 / Time.deltaTime;
+    return 1 / this.deltaTime;
   }
 
   /**
    * Return theoretical FPS
    */
   static get tFps() {
-    return 1 / Time.renderTime;
+    return 1 / this.renderTime;
   }
 }

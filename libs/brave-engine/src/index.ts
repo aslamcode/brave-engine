@@ -15,7 +15,7 @@ export * from './lib/class/vector3';
 export * from './lib/component/component';
 export * from './lib/component/material-component';
 export * from './lib/component/mesh-renderer-component';
-export * from './lib/component/script-component';
+export * from './lib/component/script/script-component';
 export * from './lib/component/transform-component';
 
 // Entity
@@ -38,6 +38,8 @@ export * from './lib/shader/vertex-shader';
 
 // Static
 export * from './lib/static/time';
+export * from './lib/static/registry';
+export * from './lib/static/invoke';
 
 // Util
 export * from './lib/util/color/rgba-color-array-to-float-color-array';
