@@ -79,8 +79,9 @@ export class BraveRender {
     // Render each game object
     // Call game objects update method
     for (const scene of this.braveEngine.scenes) {
-      for (const entity of scene)
+      for (const entity of scene) {
         this.renderEntity(entity);
+      }
     }
 
     // Clear the scene objects and scene lights after render

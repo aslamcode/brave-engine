@@ -4,12 +4,15 @@ import { Shader } from '../../class/shader';
 import { Entity } from '../../entity/entity';
 import { Camera } from '../../entity/camera';
 
+// eslint-disable-next-line prefer-const
+let modelViewMatrix = mat4.create();
+
 export function renderVertexShader(glContext: WebGL2RenderingContext, camera: Camera, entity: Entity) {
   const cameraProjectionMatrix = camera.projectionMatrix;
 
   // Set the drawing position to the "identity" point, which is
   // the center of the scene.
-  const modelViewMatrix = mat4.clone(entity.transform.worldMatrix);
+  mat4.copy(modelViewMatrix, entity.transform.worldMatrix);
 
   // Render using the first material by now
   const material = entity.materials[0];

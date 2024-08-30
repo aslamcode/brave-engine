@@ -4,10 +4,12 @@ import { BraveEngineModeEnum } from "./enum/brave-engine-mode-enum";
 import { Subject } from 'rxjs';
 import { Time } from "./static/time";
 import { Camera } from "./entity/camera";
+import { BraveEngineVsyncModeEnum } from "./enum/brave-engine-vsync-mode.enum";
 
 export class BraveEngine {
 
-  mode: BraveEngineModeEnum = BraveEngineModeEnum.editor;
+  mode = BraveEngineModeEnum.editor;
+  vSyncMode = BraveEngineVsyncModeEnum.dontSync;
 
   private canvas: HTMLCanvasElement;
   private webgl2Context: WebGL2RenderingContext;
@@ -19,6 +21,7 @@ export class BraveEngine {
   modeSubject = new Subject<BraveEngineModeEnum>();
 
   private lastUpdatedTime = 0;
+  private updateInterval?: ReturnType<typeof setInterval>;
 
   initialize(canvas: HTMLCanvasElement, webgl2Context: WebGL2RenderingContext) {
     this.canvas = canvas;
@@ -29,13 +32,24 @@ export class BraveEngine {
     this.braveRender.setCamera(this.camera);
 
     this.onStart();
+
+    setInterval(() => {
+      console.log("FPS", Time.fps);
+      console.log("Theorical FPS", Time.tFps);
+    }, 1000);
   }
 
   private onStart() {
-    requestAnimationFrame(this.onUpdate.bind(this)); // Request to browser call engine update
+    if (this.vSyncMode == BraveEngineVsyncModeEnum.sync) {
+      requestAnimationFrame(this.onUpdate.bind(this)); // Request to browser call engine update
+    } else {
+      this.onUpdate(0);
+    }
   }
 
   private onUpdate(elapsedTime: number) {
+    const renderStartTime = window.performance.now();
+
     // Calculate delta time and update lastUpdatedTime
     const timeInSeconds = elapsedTime * 0.001;
     const deltaTime = timeInSeconds - this.lastUpdatedTime;
@@ -52,8 +66,31 @@ export class BraveEngine {
     // Render the scene
     this.braveRender.render();
 
+    const renderEndTime = window.performance.now();
+
+    Time.renderTime = (renderEndTime - renderStartTime) * 0.001;
+
     // Call update to render the next frame
-    requestAnimationFrame(this.onUpdate.bind(this));
+    if (this.vSyncMode == BraveEngineVsyncModeEnum.sync) {
+      if (this.updateInterval != undefined) {
+        this.cancelUpdateInterval();
+      }
+
+      requestAnimationFrame(this.onUpdate.bind(this));
+    } else if (this.updateInterval == undefined) {
+      this.createUpdateInterval();
+    }
+  }
+
+  private createUpdateInterval() {
+    this.updateInterval = setInterval(() => {
+      this.onUpdate(Date.now());
+    }, 0);
+  }
+
+  private cancelUpdateInterval() {
+    clearInterval(this.updateInterval);
+    this.updateInterval = undefined;
   }
 
   // #region Play controls

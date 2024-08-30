@@ -20,6 +20,16 @@ export function exampleOne(braveEngine: BraveEngine) {
   cube.addComponent(new RotateCube1(cube));
   scene.add(cube);
 
+  for (let i = 0; i < 1000; i++) {
+    const cubeFor = new Cube();
+    cubeFor.name = 'Cube for';
+    cubeFor.transform.position.z = -6;
+    cubeFor.transform.position.x = -3;
+    cubeFor.transform.scale.x = 0.5;
+    // cubeFor.addComponent(new RotateCube1(cubeFor));
+    scene.add(cubeFor);
+  }
+
   const cube2 = new Cube();
   cube2.name = 'Cube 2';
   cube2.transform.position.z = -6;
