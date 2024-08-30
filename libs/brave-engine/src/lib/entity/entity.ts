@@ -37,13 +37,13 @@ export class Entity implements LifecycleHooks {
     this.addComponent(this.innerTransform);
   }
 
-  private start() {
+  start() {
     if (braveEngine.mode != BraveEngineModeEnum.compiled) {
       this.id = Registry.register(this, this.id);
     }
   }
 
-  private load(glContext: WebGL2RenderingContext) {
+  load(glContext: WebGL2RenderingContext) {
     // Load materials shaders
     this.materials.forEach(elem => {
       elem.loadShader(glContext);
@@ -92,8 +92,41 @@ export class Entity implements LifecycleHooks {
     this.innerActive = value;
   }
 
-  protected setParent(parent?: Entity) {
+  setParent(parent?: Entity) {
+    if (parent == this) {
+      return;
+    }
+
+    if (this.parent) {
+      this.parent.removeChild(this);
+    }
+
+    if (parent) {
+      parent.addChild(this);
+
+      if (this.scene) {
+        const index = this.scene.findIndex(this);
+        if (index != -1) {
+          this.scene.removeAt(index);
+        }
+      }
+    } else {
+      this.scene.add(this);
+    }
+
+    this.transform.updateTransform();
+  }
+
+  protected setParentForAddRemoveChild(parent?: Entity) {
     this.parent = parent;
+
+    if (this.scene) {
+      const index = this.scene.findIndex(this);
+      if (index != -1) {
+        this.scene.removeAt(index);
+      }
+    }
+
     this.transform.updateTransform();
   }
 
@@ -126,10 +159,14 @@ export class Entity implements LifecycleHooks {
   }
 
   addChild(child: Entity, index?: number) {
-    child.setParent(this);
+    if (child == this) {
+      return;
+    }
+
+    child.setParentForAddRemoveChild(this);
 
     if (this.scene && !child.scene) {
-      this.scene.add(child, this);
+      this.scene.add(child);
     }
 
     if (index != undefined) {
@@ -140,7 +177,11 @@ export class Entity implements LifecycleHooks {
   }
 
   removeChild(child: Entity) {
-    child.setParent(undefined);
+    if (child == this) {
+      return;
+    }
+
+    child.setParentForAddRemoveChild(undefined);
 
     const index = this.children.findIndex(elem => elem === child);
     if (index != -1) {

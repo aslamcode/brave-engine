@@ -20,15 +20,15 @@ export function exampleOne(braveEngine: BraveEngine) {
   cube.addComponent(new RotateCube1(cube));
   scene.add(cube);
 
-  for (let i = 0; i < 1000; i++) {
-    const cubeFor = new Cube();
-    cubeFor.name = 'Cube for';
-    cubeFor.transform.position.z = -6;
-    cubeFor.transform.position.x = -3;
-    cubeFor.transform.scale.x = 0.5;
-    // cubeFor.addComponent(new RotateCube1(cubeFor));
-    scene.add(cubeFor);
-  }
+  // for (let i = 0; i < 3000; i++) {
+  //   const cubeFor = new Cube();
+  //   cubeFor.name = 'Cube for';
+  //   cubeFor.transform.position.z = -6;
+  //   cubeFor.transform.position.x = -3;
+  //   cubeFor.transform.scale.x = 0.5;
+  //   // cubeFor.addComponent(new RotateCube1(cubeFor));
+  //   scene.add(cubeFor);
+  // }
 
   const cube2 = new Cube();
   cube2.name = 'Cube 2';
@@ -56,8 +56,16 @@ class RotateCube1 extends ScriptComponent {
     cube4.transform.position.x = 6;
 
     setTimeout(() => {
-      this.entity.addChild(cube4);
+      this.entity.scene.add(cube4);
     }, 1000);
+
+    setTimeout(() => {
+      this.entity.addChild(cube4);
+    }, 2000);
+
+    setTimeout(() => {
+      cube4.setParent();
+    }, 3000);
   }
 
   onUpdate() {

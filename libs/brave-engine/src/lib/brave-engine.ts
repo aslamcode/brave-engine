@@ -9,7 +9,7 @@ import { BraveEngineVsyncModeEnum } from "./enum/brave-engine-vsync-mode.enum";
 export class BraveEngine {
 
   mode = BraveEngineModeEnum.editor;
-  vSyncMode = BraveEngineVsyncModeEnum.dontSync;
+  vSyncMode = BraveEngineVsyncModeEnum.sync;
 
   private canvas: HTMLCanvasElement;
   private webgl2Context: WebGL2RenderingContext;
@@ -33,10 +33,10 @@ export class BraveEngine {
 
     this.onStart();
 
-    setInterval(() => {
-      console.log("FPS", Time.fps);
-      console.log("Theorical FPS", Time.tFps);
-    }, 1000);
+    // setInterval(() => {
+    //   console.log("FPS", Time.fps);
+    //   console.log("Theorical FPS", Time.tFps);
+    // }, 1000);
   }
 
   private onStart() {
@@ -101,8 +101,10 @@ export class BraveEngine {
   }
 
   pause() {
-    this.mode = BraveEngineModeEnum.paused;
-    this.modeSubject.next(this.mode);
+    if (this.mode == BraveEngineModeEnum.running) {
+      this.mode = BraveEngineModeEnum.paused;
+      this.modeSubject.next(this.mode);
+    }
   }
 
   stop() {

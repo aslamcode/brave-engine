@@ -55,16 +55,18 @@ export class Scene {
     return this.children[index];
   }
 
-  add(entity: Entity, parent?: Entity) {
-    this.setSceneRecursively(entity);
+  add(entity: Entity) {
+    if (!entity.scene) {
+      this.setSceneRecursively(entity);
 
-    this.loadEntityRecursively(entity);
+      this.loadEntityRecursively(entity);
 
-    if (this.braveEngine.mode === BraveEngineModeEnum.running) {
-      this.startEntityRecursively(entity);
+      if (this.braveEngine.mode === BraveEngineModeEnum.running) {
+        this.startEntityRecursively(entity);
+      }
     }
 
-    if (!parent) {
+    if (!entity.parent && !this.has(entity)) {
       this.children.push(entity);
     }
   }
@@ -78,6 +80,19 @@ export class Scene {
 
   removeAt(index: number) {
     this.children.splice(index, 1);
+  }
+
+  findIndex(entity: Entity) {
+    return this.children.findIndex(elem => elem == entity);
+  }
+
+  has(entity: Entity) {
+    const index = this.children.findIndex(elem => elem == entity);
+    if (index != -1) {
+      return true;
+    }
+
+    return false;
   }
 
   private cloneAndStart() {
