@@ -66,10 +66,18 @@ class RotateCube1 extends ScriptComponent {
     setTimeout(() => {
       cube4.setParent();
     }, 3000);
+
+    setTimeout(() => {
+      cube4.destroy();
+    }, 4000);
+
+    setTimeout(() => {
+      this.destroy();
+    }, 5000);
   }
 
   onUpdate() {
-    this.entity.transform.position.x += -1 * Time.deltaTime;
+    // this.entity.transform.position.x += -1 * Time.deltaTime;
     this.entity.transform.rotation.z += 10 * Time.deltaTime;
   }
 }

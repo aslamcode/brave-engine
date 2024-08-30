@@ -55,6 +55,22 @@ export class Entity implements LifecycleHooks {
     }
   }
 
+  destroy() {
+    if (this.scene) {
+      this.scene.remove(this);
+    }
+
+    if (this.parent) {
+      this.parent.removeChild(this);
+    }
+
+    this.children.forEach(elem => elem.destroy());
+
+    this.components.forEach(elem => elem.destroy());
+
+    this.onDestroy();
+  }
+
   // #region Lifecycle hooks
 
   onStart() {
@@ -83,7 +99,7 @@ export class Entity implements LifecycleHooks {
   }
 
   onDestroy() {
-    this.components.forEach(elem => elem.onDestroy());
+
   }
 
   // #endregion Lifecycle hooks

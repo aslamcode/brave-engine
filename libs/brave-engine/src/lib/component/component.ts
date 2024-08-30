@@ -22,10 +22,17 @@ export class Component implements LifecycleHooks {
     }
   }
 
-  private start() {
+  start() {
     if (braveEngine.mode != BraveEngineModeEnum.compiled) {
       this.id = Registry.register(this, this.id);
     }
+  }
+
+  destroy() {
+    if (this.entity) {
+      this.entity.removeComponent(this);
+    }
+    this.onDestroy();
   }
 
   setActive(value: boolean) {
