@@ -2,7 +2,7 @@ import { Component } from "../component/component";
 import { Entity } from "../entity/entity";
 import { LifecycleHooks } from "../interface/lifecycle-hooks";
 
-export class BraveEngineHooks implements LifecycleHooks {
+export class Hooks implements LifecycleHooks {
 
   static items = new Set<Entity | Component>();
 
@@ -20,6 +20,10 @@ export class BraveEngineHooks implements LifecycleHooks {
 
   static onUpdate() {
     this.items.forEach(elem => elem.onUpdate());
+  }
+
+  static onRenderUpdate() {
+    this.items.forEach(elem => elem.onRenderUpdate());
   }
 
   static onFixedUpdate() {

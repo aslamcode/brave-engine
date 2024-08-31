@@ -126,19 +126,13 @@ export class BraveRender {
 
   private updateCameraTransform() {
     const cameraProjectionMatrix = this.camera.projectionMatrix;
-
-    // Set position camera render
-    mat4.translate(
-      this.camera.projectionMatrix, // destination matrix
-      this.camera.projectionMatrix, // matrix to translate
-      [-this.camera.transform.position.x, -this.camera.transform.position.y, -this.camera.transform.position.z]
-    );
+    const transform = this.camera.transform;
 
     // Set rotation X to camera
     mat4.rotate(
       cameraProjectionMatrix, // destination matrix
       cameraProjectionMatrix, // matrix to rotate
-      degToRad(-this.camera.transform.rotation.x), // amount to rotate in radians
+      degToRad(-transform.rotation.x), // amount to rotate in radians
       [1, 0, 0]
     ); // axis to rotate around (X)
 
@@ -146,7 +140,7 @@ export class BraveRender {
     mat4.rotate(
       cameraProjectionMatrix, // destination matrix
       cameraProjectionMatrix, // matrix to rotate
-      degToRad(-this.camera.transform.rotation.y), // amount to rotate in radians
+      degToRad(-transform.rotation.y), // amount to rotate in radians
       [0, 1, 0]
     ); // axis to rotate around (Y)
 
@@ -154,8 +148,15 @@ export class BraveRender {
     mat4.rotate(
       cameraProjectionMatrix, // destination matrix
       cameraProjectionMatrix, // matrix to rotate
-      degToRad(-this.camera.transform.rotation.z), // amount to rotate in radians
+      degToRad(-transform.rotation.z), // amount to rotate in radians
       [0, 0, 1]
     ); // axis to rotate around (Z)
+
+    // Set position camera render
+    mat4.translate(
+      cameraProjectionMatrix, // destination matrix
+      cameraProjectionMatrix, // matrix to translate
+      [-transform.position.x, -transform.position.y, -transform.position.z]
+    );
   }
 }

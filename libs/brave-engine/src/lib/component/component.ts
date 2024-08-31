@@ -38,7 +38,7 @@ export class Component implements LifecycleHooks {
 
   onStart() { }
   onUpdate() { }
+  onRenderUpdate() { }
   onFixedUpdate() { }
-  onDestroy() {
-  }
+  onDestroy() { }
 }

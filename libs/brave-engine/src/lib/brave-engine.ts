@@ -6,7 +6,7 @@ import { Time } from "./static/time";
 import { Camera } from "./entity/camera";
 import { BraveEngineVsyncModeEnum } from "./enum/brave-engine-vsync-mode.enum";
 import { Invoke } from "./static/invoke";
-import { BraveEngineHooks } from "./static/brave-engine-hooks";
+import { Hooks } from "./static/hooks";
 
 export class BraveEngine {
 
@@ -29,6 +29,8 @@ export class BraveEngine {
   private updateInterval?: ReturnType<typeof setInterval>;
 
   initialize(canvas: HTMLCanvasElement, webgl2Context: WebGL2RenderingContext, compiled = false) {
+    window.addEventListener('contextmenu', event => event.preventDefault());
+
     this.canvas = canvas;
     this.webgl2Context = webgl2Context;
     this.compiled = compiled;
@@ -79,8 +81,9 @@ export class BraveEngine {
     }
 
     // Update brave hooks
+    Hooks.onRenderUpdate();
     if (this.mode == BraveEngineModeEnum.compiled || this.mode == BraveEngineModeEnum.running) {
-      BraveEngineHooks.onUpdate();
+      Hooks.onUpdate();
     }
 
     // Render the scene
@@ -121,7 +124,7 @@ export class BraveEngine {
 
     Time.scale = 1;
 
-    BraveEngineHooks.onStart();
+    Hooks.onStart();
   }
 
   pause() {
@@ -141,7 +144,7 @@ export class BraveEngine {
 
       Invoke.cancelAllInvokes();
 
-      BraveEngineHooks.onDestroy();
+      Hooks.onDestroy();
     }
   }
 

@@ -22,7 +22,6 @@ export class CanvasComponent implements OnInit, AfterViewChecked {
     this.height = this.elementRef.nativeElement.height;
   }
 
-
   getContext(context: string) {
     return this.canvas.nativeElement.getContext(context);
   }

@@ -90,6 +90,14 @@ export class Entity implements LifecycleHooks {
     });
   }
 
+  onRenderUpdate() {
+    this.components.forEach(elem => {
+      if (elem.active) {
+        elem.onRenderUpdate();
+      }
+    });
+  }
+
   onFixedUpdate() {
     this.components.forEach(elem => {
       if (elem.active) {

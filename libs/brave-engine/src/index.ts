@@ -10,6 +10,7 @@ export * from './lib/class/rgba-color';
 export * from './lib/class/scene';
 export * from './lib/class/shader';
 export * from './lib/class/vector3';
+export * from './lib/class/vector2';
 
 // Components
 export * from './lib/component/component';
@@ -30,6 +31,9 @@ export * from './lib/entity/geometries/cube/cube';
 // Enums
 export * from './lib/enum/brave-engine-mode-enum';
 
+// Input event
+export * from './lib/input-event-system/input-event-system';
+
 // Interface
 export * from './lib/interface/lifecycle-hooks';
 
@@ -40,7 +44,8 @@ export * from './lib/shader/vertex-shader';
 export * from './lib/static/time';
 export * from './lib/static/registry';
 export * from './lib/static/invoke';
-export * from './lib/static/brave-engine-hooks';
+export * from './lib/static/hooks';
+export * from './lib/static/input';
 
 // Util
 export * from './lib/util/color/rgba-color-array-to-float-color-array';
