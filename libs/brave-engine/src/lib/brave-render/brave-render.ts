@@ -26,6 +26,7 @@ export class BraveRender {
   setRenderSize(width: number, height: number) {
     this.renderWidth = width;
     this.renderHeight = height;
+    this.camera.markHasChanges();
   }
 
   setCamera(camera: Camera) {

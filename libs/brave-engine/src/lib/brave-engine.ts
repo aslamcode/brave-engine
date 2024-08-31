@@ -15,6 +15,8 @@ export class BraveEngine {
 
   private canvas: HTMLCanvasElement;
   private webgl2Context: WebGL2RenderingContext;
+  private renderWidth = 0;
+  private renderHeight = 0;
 
   camera: Camera;
   braveRender: BraveRender;
@@ -66,10 +68,15 @@ export class BraveEngine {
 
     // Set render size
     // Render size is used to calculate aspect ratio
-    this.braveRender.setRenderSize(
-      this.renderWidth,
-      this.renderHeight
-    );
+    if (this.renderWidth != this.canvas?.clientWidth || this.renderHeight != this.canvas?.clientHeight) {
+      this.renderWidth = this.canvas?.clientWidth;
+      this.renderHeight = this.canvas?.clientHeight;
+
+      this.braveRender.setRenderSize(
+        this.renderWidth,
+        this.renderHeight
+      );
+    }
 
     // Update brave hooks
     if (this.mode == BraveEngineModeEnum.compiled || this.mode == BraveEngineModeEnum.running) {
@@ -150,18 +157,6 @@ export class BraveEngine {
     this.camera = camera;
     this.braveRender.setCamera(camera);
   }
-
-  //#region Gets
-
-  get renderWidth() {
-    return this.canvas?.clientWidth || 0;
-  }
-
-  get renderHeight() {
-    return this.canvas?.clientHeight || 0;
-  }
-
-  //#endregion
 }
 
 export const braveEngine = new BraveEngine();
