@@ -61,7 +61,7 @@ class RotateCube1 extends ScriptComponent {
 
     Invoke.setTimeout(() => {
       this.entity.addChild(cube4);
-      Time.scale = 0.2;
+      Time.scale = 4;
     }, 2000);
 
     Invoke.setTimeout(() => {
@@ -70,7 +70,7 @@ class RotateCube1 extends ScriptComponent {
 
     Invoke.setTimeout(() => {
       cube4.destroy();
-      Time.scale = 1;
+      Time.scale = 0.2;
     }, 4000);
 
     Invoke.setTimeout(() => {
@@ -80,6 +80,7 @@ class RotateCube1 extends ScriptComponent {
 
     Invoke.setTimeout(() => {
       this.entity.destroy();
+      Time.scale = 1;
     }, 6000);
   }
 
