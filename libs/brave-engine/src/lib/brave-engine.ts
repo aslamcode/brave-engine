@@ -112,6 +112,8 @@ export class BraveEngine {
     this.mode = this.compiled ? BraveEngineModeEnum.compiled : BraveEngineModeEnum.running;
     this.modeSubject.next(this.mode);
 
+    Time.scale = 1;
+
     BraveEngineHooks.onStart();
   }
 
