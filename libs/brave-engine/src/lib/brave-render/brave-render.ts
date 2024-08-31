@@ -30,6 +30,7 @@ export class BraveRender {
 
   setCamera(camera: Camera) {
     this.camera = camera;
+    this.camera.markHasChanges();
   }
 
   addLight(light: Light) {
@@ -73,8 +74,11 @@ export class BraveRender {
     );
 
     // Update camera projection matrix and transforms
-    this.updateCameraProjectionMatrix();
-    this.updateCameraTransform();
+    if (this.camera.hasChanges) {
+      this.updateCameraProjectionMatrix();
+      this.updateCameraTransform();
+      this.camera.markAsUpdated();
+    }
 
     // Render each game object
     // Call game objects update method
@@ -90,7 +94,7 @@ export class BraveRender {
 
   private renderEntity(entity: Entity) {
     if (entity.active) {
-      if (this.braveEngine.mode === BraveEngineModeEnum.running) {
+      if (this.braveEngine.mode === BraveEngineModeEnum.compiled || this.braveEngine.mode === BraveEngineModeEnum.running) {
         entity.onUpdate();
       }
 

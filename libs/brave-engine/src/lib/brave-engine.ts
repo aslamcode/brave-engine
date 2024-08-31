@@ -6,6 +6,7 @@ import { Time } from "./static/time";
 import { Camera } from "./entity/camera";
 import { BraveEngineVsyncModeEnum } from "./enum/brave-engine-vsync-mode.enum";
 import { Invoke } from "./static/invoke";
+import { BraveEngineHooks } from "./static/brave-engine-hooks";
 
 export class BraveEngine {
 
@@ -20,13 +21,15 @@ export class BraveEngine {
   scenes: Scene[] = [];
 
   modeSubject = new Subject<BraveEngineModeEnum>();
+  compiled = false;
 
   private lastUpdatedTime = 0;
-  private updateInterval?: number;
+  private updateInterval?: ReturnType<typeof setInterval>;
 
-  initialize(canvas: HTMLCanvasElement, webgl2Context: WebGL2RenderingContext) {
+  initialize(canvas: HTMLCanvasElement, webgl2Context: WebGL2RenderingContext, compiled = false) {
     this.canvas = canvas;
     this.webgl2Context = webgl2Context;
+    this.compiled = compiled;
 
     this.camera = new Camera();
     this.braveRender = new BraveRender(this, this.webgl2Context);
@@ -34,7 +37,11 @@ export class BraveEngine {
 
     this.onStart();
 
-    // Invoke.setInterval(() => {
+    if (compiled) {
+      this.play();
+    }
+
+    // setInterval(() => {
     //   console.log("FPS", Time.fps);
     //   console.log("Theorical FPS", Time.tFps);
     // }, 1000);
@@ -60,9 +67,14 @@ export class BraveEngine {
     // Set render size
     // Render size is used to calculate aspect ratio
     this.braveRender.setRenderSize(
-      this.canvas?.clientWidth || 0,
-      this.canvas?.clientHeight || 0
+      this.renderWidth,
+      this.renderHeight
     );
+
+    // Update brave hooks
+    if (this.mode == BraveEngineModeEnum.compiled || this.mode == BraveEngineModeEnum.running) {
+      BraveEngineHooks.onUpdate();
+    }
 
     // Render the scene
     this.braveRender.render();
@@ -84,7 +96,7 @@ export class BraveEngine {
   }
 
   private createUpdateInterval() {
-    this.updateInterval = Invoke.setInterval(() => {
+    this.updateInterval = setInterval(() => {
       this.onUpdate(Date.now());
     }, 0);
   }
@@ -97,22 +109,31 @@ export class BraveEngine {
   // #region Play controls
 
   play() {
-    this.mode = BraveEngineModeEnum.running;
+    this.mode = this.compiled ? BraveEngineModeEnum.compiled : BraveEngineModeEnum.running;
     this.modeSubject.next(this.mode);
+
+    BraveEngineHooks.onStart();
   }
 
   pause() {
     if (this.mode == BraveEngineModeEnum.running) {
       this.mode = BraveEngineModeEnum.paused;
-      this.modeSubject.next(this.mode);
+    } else if (this.mode == BraveEngineModeEnum.compiled) {
+      this.mode = BraveEngineModeEnum.compiledPaused;
     }
+
+    this.modeSubject.next(this.mode);
   }
 
   stop() {
-    this.mode = BraveEngineModeEnum.editor;
-    this.modeSubject.next(this.mode);
+    if (!this.compiled) {
+      this.mode = BraveEngineModeEnum.editor;
+      this.modeSubject.next(this.mode);
 
-    Invoke.cancelAllInvokes();
+      Invoke.cancelAllInvokes();
+
+      BraveEngineHooks.onDestroy();
+    }
   }
 
   // #endregion Play controls
@@ -127,6 +148,18 @@ export class BraveEngine {
     this.camera = camera;
     this.braveRender.setCamera(camera);
   }
+
+  //#region Gets
+
+  get renderWidth() {
+    return this.canvas?.clientWidth || 0;
+  }
+
+  get renderHeight() {
+    return this.canvas?.clientHeight || 0;
+  }
+
+  //#endregion
 }
 
 export const braveEngine = new BraveEngine();

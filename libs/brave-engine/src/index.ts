@@ -40,6 +40,7 @@ export * from './lib/shader/vertex-shader';
 export * from './lib/static/time';
 export * from './lib/static/registry';
 export * from './lib/static/invoke';
+export * from './lib/static/brave-engine-hooks';
 
 // Util
 export * from './lib/util/color/rgba-color-array-to-float-color-array';

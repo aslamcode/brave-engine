@@ -4,13 +4,64 @@ import { degToRad } from '../util/deg-to-rad';
 import { Entity } from './entity';
 
 export class Camera extends Entity {
-  clearColor = new RgbaColor(0, 0, 0, 1);
-  fieldOfView = 60;
-  zNear = 0.01;
-  zFar = 1000;
-  projectionMatrix = mat4.create();
+  private innerClearColor = new RgbaColor(0, 0, 0, 1);
+  private innerFieldOfView = 60;
+  private innerZNear = 0.01;
+  private innerZFar = 1000;
+  private innerProjectionMatrix = mat4.create();
 
-  get fieldOfViewInRad() {
-    return degToRad(this.fieldOfView);
+  hasChanges = false;
+
+  constructor(id?: string) {
+    super(id);
+    this.listenTransformChanges();
   }
+
+  markHasChanges() {
+    this.hasChanges = true;
+  }
+
+  markAsUpdated() {
+    this.hasChanges = false;
+  }
+
+  private listenTransformChanges() {
+    this.transform.position.onChange.subscribe(() => this.markHasChanges());
+    this.transform.rotation.onChange.subscribe(() => this.markHasChanges());
+  }
+
+  //#region Getters
+
+  get clearColor() { return this.innerClearColor; }
+  get fieldOfView() { return this.innerFieldOfView; }
+  get fieldOfViewInRad() { return degToRad(this.innerFieldOfView); }
+  get zNear() { return this.innerZNear; }
+  get zFar() { return this.innerZFar; }
+  get projectionMatrix() { return this.innerProjectionMatrix; }
+
+  //#endregion Getters
+
+  //#region Setters
+
+  set clearColor(value: RgbaColor) {
+    this.innerClearColor = value;
+    this.markHasChanges();
+  }
+
+  set fieldOfView(value: number) {
+    this.innerFieldOfView = value;
+    this.markHasChanges();
+  }
+
+  set zNear(value: number) {
+    this.innerZNear = value;
+    this.markHasChanges();
+  }
+
+  set zFar(value: number) {
+    this.innerZFar = value;
+    this.markHasChanges();
+  }
+
+  //#endregion Setters
 }

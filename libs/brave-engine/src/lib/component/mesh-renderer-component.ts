@@ -24,20 +24,4 @@ export class MeshRendererComponent extends Component {
       this.isBuffersLoaded = true;
     }
   }
-
-  clearBuffers() {
-    if (this.glContext) {
-      this.glContext.deleteBuffer(this.vertexBuffer);
-      this.glContext.deleteBuffer(this.indexBuffer);
-      this.glContext.deleteBuffer(this.colorBuffer);
-    }
-  }
-
-  onStart() {
-    return true;
-  }
-
-  onDestroy() {
-    this.clearBuffers();
-  }
 }

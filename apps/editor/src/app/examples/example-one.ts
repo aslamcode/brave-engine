@@ -26,7 +26,7 @@ export function exampleOne(braveEngine: BraveEngine) {
   //   cubeFor.transform.position.z = -6;
   //   cubeFor.transform.position.x = -3;
   //   cubeFor.transform.scale.x = 0.5;
-  //   // cubeFor.addComponent(new RotateCube1(cubeFor));
+  //   cubeFor.addComponent(new RotateCube1(cubeFor));
   //   scene.add(cubeFor);
   // }
 
@@ -73,7 +73,12 @@ class RotateCube1 extends ScriptComponent {
 
     Invoke.setTimeout(() => {
       this.destroy();
+      this.entity.removeComponent(this);
     }, 5000);
+
+    Invoke.setTimeout(() => {
+      this.entity.destroy();
+    }, 6000);
   }
 
   onUpdate() {

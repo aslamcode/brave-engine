@@ -29,9 +29,6 @@ export class Component implements LifecycleHooks {
   }
 
   destroy() {
-    if (this.entity) {
-      this.entity.removeComponent(this);
-    }
     this.onDestroy();
   }
 
@@ -42,5 +39,6 @@ export class Component implements LifecycleHooks {
   onStart() { }
   onUpdate() { }
   onFixedUpdate() { }
-  onDestroy() { }
+  onDestroy() {
+  }
 }

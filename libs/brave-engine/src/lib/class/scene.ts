@@ -30,10 +30,29 @@ export class Scene {
 
           return this.cloneAndStart();
 
+        case BraveEngineModeEnum.compiled:
+          if (this.paused) {
+            this.paused = false;
+            return;
+          }
+
+          return this.start();
+
         case BraveEngineModeEnum.paused:
+          return this.paused = true;
+
+        case BraveEngineModeEnum.compiledPaused:
           return this.paused = true;
       }
     });
+  }
+
+  start() {
+    this.children.forEach(elem => this.startEntityRecursively(elem));
+  }
+
+  destroy() {
+    this.children.forEach(elem => elem.destroy());
   }
 
   // Permits iterate scene on for using for of
@@ -61,7 +80,7 @@ export class Scene {
 
       this.loadEntityRecursively(entity);
 
-      if (this.braveEngine.mode === BraveEngineModeEnum.running) {
+      if (this.braveEngine.mode === BraveEngineModeEnum.compiled || this.braveEngine.mode === BraveEngineModeEnum.running) {
         this.startEntityRecursively(entity);
       }
     }
@@ -101,10 +120,11 @@ export class Scene {
       return cloned;
     });
 
-    this.clonedChildren.forEach(elem => this.startEntityRecursively(elem));
+    this.start();
   }
 
   private clearClone() {
+    this.clonedChildren.forEach(elem => elem.destroy());
     this.clonedChildren = [];
   }
 
@@ -136,6 +156,9 @@ export class Scene {
         return this.clonedChildren;
 
       case BraveEngineModeEnum.compiled:
+        return this.baseChildren;
+
+      case BraveEngineModeEnum.compiledPaused:
         return this.baseChildren;
 
       default:
