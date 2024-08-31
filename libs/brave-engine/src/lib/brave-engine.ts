@@ -62,7 +62,7 @@ export class BraveEngine {
     const timeInSeconds = elapsedTime * 0.001;
     const deltaTime = timeInSeconds - this.lastUpdatedTime;
     this.lastUpdatedTime = timeInSeconds;
-    Time.deltaTime = deltaTime;
+    Time.unscaledDeltaTime = deltaTime;
 
     // Set render size
     // Render size is used to calculate aspect ratio
