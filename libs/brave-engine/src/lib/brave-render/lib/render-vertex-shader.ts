@@ -26,6 +26,13 @@ export function renderVertexShader(glContext: WebGL2RenderingContext, camera: Ca
   // into the vertexColor attribute.
   setColorAttribute(glContext, entity.meshRenderer!.colorBuffer, shader);
 
+  if (material.cullingFace) {
+    glContext.enable(glContext.CULL_FACE);
+    glContext.cullFace(material.cullingMode);
+  } else {
+    glContext.disable(glContext.CULL_FACE);
+  }
+
   // Tell WebGL which indices to use to index the vertices
   glContext.bindBuffer(glContext.ELEMENT_ARRAY_BUFFER, entity.meshRenderer!.indexBuffer);
 

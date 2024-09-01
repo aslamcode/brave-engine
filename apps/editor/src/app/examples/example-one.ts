@@ -1,4 +1,4 @@
-import { BraveEngine, Cube, Invoke, ScriptComponent, Time } from '@brave/brave-engine';
+import { BraveEngine, Cube, Invoke, MaterialComponent, MaterialCullingModeEnum, ScriptComponent, Time } from '@brave/brave-engine';
 
 export function exampleOne(braveEngine: BraveEngine) {
   // Create and set camera
@@ -26,7 +26,7 @@ export function exampleOne(braveEngine: BraveEngine) {
   //   cubeFor.transform.position.z = -6;
   //   cubeFor.transform.position.x = -3;
   //   cubeFor.transform.scale.x = 0.5;
-  //   cubeFor.addComponent(new RotateCube1(cubeFor));
+  //   // cubeFor.addComponent(new RotateCube1(cubeFor));
   //   scene.add(cubeFor);
   // }
 

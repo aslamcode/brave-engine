@@ -6,6 +6,8 @@ import { Entity } from '../entity/entity';
 
 export class MaterialComponent extends Component {
   shader: Shader;
+  cullingFace = true;
+  cullingMode = MaterialCullingModeEnum.back;
 
   constructor(entity: Entity, id?: string) {
     super(entity, id);
@@ -36,4 +38,10 @@ export class MaterialComponent extends Component {
       this.shader.isLoaded = true;
     }
   }
+}
+
+export enum MaterialCullingModeEnum {
+  back = 1029,
+  front = 1028,
+  frontAndBack = 1032,
 }

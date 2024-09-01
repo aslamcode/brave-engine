@@ -89,7 +89,7 @@ export class TransformComponent extends Component {
       mat4.multiply(this.worldMatrix, parentWorldMatrix, this.localMatrix);
     } else {
       // If don't has parent just copy local matrix to world matrix
-      mat4.copy(this.localMatrix, this.worldMatrix);
+      mat4.copy(this.worldMatrix, this.localMatrix);
     }
 
     // Update all children transforms
