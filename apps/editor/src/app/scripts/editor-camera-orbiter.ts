@@ -1,12 +1,16 @@
-import { Entity, ScriptComponent, Vector2, Vector3 } from '@brave/brave-engine';
+import { Camera, Entity, ScriptComponent, Time, Vector2, Vector3 } from '@brave/brave-engine';
 import { editorInputEvent } from '../input-event/editor-input-event';
 import { editorViewInputEvent } from '../input-event/editor-view-input-event';
+import { mat4, quat } from 'gl-matrix';
 
 export class EditorCameraOrbiter extends ScriptComponent {
+
+  private camera: Camera;
 
   canUpdate = false;
   canUpdateCameraRotation = false;
   mouseSensibility = 5;
+  moveSpeed = 3;
 
   private startMouseX = 0;
   private startMouseY = 0;
@@ -19,6 +23,7 @@ export class EditorCameraOrbiter extends ScriptComponent {
 
   constructor(entity: Entity, id?: string) {
     super(entity, id);
+    this.camera = this.entity as Camera;
     this.listenInputEvents();
   }
 
@@ -41,10 +46,28 @@ export class EditorCameraOrbiter extends ScriptComponent {
       return;
     }
 
-    // Vector3.multiply(this.entity.transform.position, this.entity.transform.rotation, new Vector3(this.movePosition.x, 0, this.movePosition.y));
+    // const direction = new Vector3();
+    // Vector3.multiply(direction, this.entity.transform.rotation, new Vector3(this.movePosition.x, 0, this.movePosition.y));
 
-    this.entity.transform.position.x += this.movePosition.x;
-    this.entity.transform.position.z += this.movePosition.y;
+    // const rotationQ = quat.create();
+    // mat4.getRotation(rotationQ, this.entity.transform.localMatrix);
+
+    // mat4.fromRotationTranslation(this.entity.transform.worldMatrix, rotationQ, [direction.x, direction.y, direction.z]);
+
+    // console.log(rotationQ);
+
+    // console.log(this.entity.transform.forward);
+
+    const forward = this.entity.transform.backward;
+
+    const speed = this.movePosition.y * this.moveSpeed * Time.unscaledDeltaTime;
+
+    Vector3.multiply(forward, forward, new Vector3(speed, speed, speed));
+
+    Vector3.add(this.entity.transform.position, this.entity.transform.position, forward);
+
+    // this.entity.transform.position.x += this.movePosition.x * this.moveSpeed * Time.unscaledDeltaTime;
+    // this.entity.transform.position.z += (this.movePosition.y * -1) * this.moveSpeed * Time.unscaledDeltaTime;
   }
 
   private listenInputEvents() {
@@ -90,11 +113,11 @@ export class EditorCameraOrbiter extends ScriptComponent {
 
     editorInputEvent.keyDown((event) => {
       if (event.code == 'KeyW') {
-        this.movePosition.y = -1;
+        this.movePosition.y = 1;
       }
 
       if (event.code == 'KeyS') {
-        this.movePosition.y = 1;
+        this.movePosition.y = -1;
       }
 
       if (event.code == 'KeyD') {

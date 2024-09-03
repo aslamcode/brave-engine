@@ -2,7 +2,7 @@ import { Component } from './component';
 import { Vector3 } from '../class/vector3';
 import { Subscription } from 'rxjs';
 import { Entity } from '../entity/entity';
-import { mat4 } from 'gl-matrix';
+import { mat4, quat, vec3 } from 'gl-matrix';
 import { degToRad } from '../util/deg-to-rad';
 
 export class TransformComponent extends Component {
@@ -52,27 +52,24 @@ export class TransformComponent extends Component {
     );
 
     // Set rotation X
-    mat4.rotate(
+    mat4.rotateX(
       this.localMatrix, // destination matrix
       this.localMatrix, // matrix to rotate
       degToRad(this.rotation.x), // amount to rotate in radians
-      [1, 0, 0]
     );
 
     // Set rotation Y
-    mat4.rotate(
+    mat4.rotateY(
       this.localMatrix, // destination matrix
       this.localMatrix, // matrix to rotate
       degToRad(this.rotation.y), // amount to rotate in radians
-      [0, 1, 0]
     );
 
     // Set rotation Z
-    mat4.rotate(
+    mat4.rotateZ(
       this.localMatrix, // destination matrix
       this.localMatrix, // matrix to rotate
       degToRad(this.rotation.z), // amount to rotate in radians
-      [0, 0, 1]
     );
 
     // Set scale
@@ -113,6 +110,57 @@ export class TransformComponent extends Component {
   get position() { return this.innerPosition; }
   get rotation() { return this.innerRotation; }
   get scale() { return this.innerScale; }
+
+  get globalPosition() {
+    const position = vec3.create();
+    mat4.getTranslation(position, this.worldMatrix);
+    return new Vector3(position[0], position[1], position[2]);
+  }
+
+  get localPosition() {
+    const position = vec3.create();
+    mat4.getTranslation(position, this.localMatrix);
+    return new Vector3(position[0], position[1], position[2]);
+  }
+
+  get globalRotation() {
+    const quaternion = quat.create();
+    mat4.getRotation(quaternion, this.worldMatrix);
+    return quaternion;
+    // return new Vector3(rotation[0], rotation[1], rotation[2]);
+  }
+
+  get forward() {
+    const inverse = mat4.create();
+    mat4.invert(inverse, this.worldMatrix);
+    const forward = vec3.create();
+    vec3.set(forward, inverse[2], inverse[6], inverse[10]);
+    vec3.normalize(forward, forward);
+
+    return new Vector3(forward[0], forward[1], forward[2]);
+  }
+
+  get backward() {
+    const forward = this.forward;
+    Vector3.multiply(forward, forward, new Vector3(-1, -1, -1));
+    return forward;
+  }
+
+  // get right() {
+
+  // }
+
+  // get left() {
+
+  // }
+
+  // get up() {
+
+  // }
+
+  // get down() {
+
+  // }
 
   //#endregion Getters
 

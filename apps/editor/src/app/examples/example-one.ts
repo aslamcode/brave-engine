@@ -1,21 +1,36 @@
-import { BraveEngine, Cube, Invoke, MaterialComponent, MaterialCullingModeEnum, ScriptComponent, Time } from '@brave/brave-engine';
+import { BraveEngine, Cube, Entity, Hooks, Invoke, MaterialComponent, MaterialCullingModeEnum, ScriptComponent, Time } from '@brave/brave-engine';
+import { EditorCameraOrbiter } from '../scripts/editor-camera-orbiter';
 
 export function exampleOne(braveEngine: BraveEngine) {
   // Create and set camera
   const camera = braveEngine.camera;
   camera.transform.position.x = 0;
-  camera.transform.position.y = 0;
-  camera.transform.position.z = 10;
+  camera.transform.position.y = 0.8;
+  camera.transform.position.z = 1;
+  camera.transform.rotation.y = 0;
 
   // Create sceneObjects
   const scene = braveEngine.addScene();
   scene.name = 'Example one';
 
+  // const empty = new Cube();
+  // empty.transform.position.z = -1;
+  // empty.transform.position.y = -0.5;
+  // empty.transform.scale.x = 0.5;
+  // empty.transform.scale.y = 0.5;
+  // empty.transform.scale.z = 0.5;
+  // scene.add(empty);
+  // empty.addChild(camera);
+  // // camera.addChild(empty);
+  // // scene.add(camera);
+  // empty.addComponent(new EditorCameraOrbiter(empty));
+  // Hooks.register(empty);
+
   // Create a cube and add on scene
   const cube = new Cube();
   cube.name = 'Cube 1';
   cube.transform.position.z = -6;
-  cube.transform.position.x = -3;
+  cube.transform.position.x = -1.5;
   cube.transform.scale.x = 0.5;
   cube.addComponent(new RotateCube1(cube));
   scene.add(cube);
@@ -39,7 +54,7 @@ export function exampleOne(braveEngine: BraveEngine) {
   const cube3 = new Cube();
   cube3.name = 'Cube 3';
   cube3.transform.position.z = 0;
-  cube3.transform.position.x = 3;
+  cube3.transform.position.x = 1.5;
   cube3.transform.position.y = 0;
   cube3.addComponent(new RotateCube3(cube3));
 

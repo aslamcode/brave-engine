@@ -6,6 +6,7 @@ import { mat4 } from 'gl-matrix';
 import { renderVertexShader } from './lib/render-vertex-shader';
 import { degToRad } from '../util/deg-to-rad';
 import { BraveEngineModeEnum } from '../enum/brave-engine-mode-enum';
+import * as quatToEuler from 'quaternion-to-euler';
 
 export class BraveRender {
   private camera: Camera;
@@ -75,9 +76,9 @@ export class BraveRender {
     );
 
     // Update camera projection matrix and transforms
+    this.updateCameraProjectionMatrix();
+    this.updateCameraTransform();
     if (this.camera.hasChanges) {
-      this.updateCameraProjectionMatrix();
-      this.updateCameraTransform();
       this.camera.markAsUpdated();
     }
 
@@ -102,7 +103,9 @@ export class BraveRender {
       // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       // To Do: Filtrar objectos que sao luz
       // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      this.renderVertexShader(entity);
+      if (entity.materials.length > 0) {
+        this.renderVertexShader(entity);
+      }
 
       // Render deep each entity
       entity.children.forEach(elem => this.renderEntity(elem));
@@ -128,13 +131,8 @@ export class BraveRender {
     const cameraProjectionMatrix = this.camera.projectionMatrix;
     const transform = this.camera.transform;
 
-    // Set rotation X to camera
-    mat4.rotate(
-      cameraProjectionMatrix, // destination matrix
-      cameraProjectionMatrix, // matrix to rotate
-      degToRad(-transform.rotation.x), // amount to rotate in radians
-      [1, 0, 0]
-    ); // axis to rotate around (X)
+    // const rotation = quatToEuler(transform.globalRotation);
+    // console.log(rotation);
 
     // Set rotation Y to camera
     mat4.rotate(
@@ -143,6 +141,14 @@ export class BraveRender {
       degToRad(-transform.rotation.y), // amount to rotate in radians
       [0, 1, 0]
     ); // axis to rotate around (Y)
+
+    // Set rotation X to camera
+    mat4.rotate(
+      cameraProjectionMatrix, // destination matrix
+      cameraProjectionMatrix, // matrix to rotate
+      degToRad(-transform.rotation.x), // amount to rotate in radians
+      [1, 0, 0]
+    ); // axis to rotate around (X)
 
     // Set rotation Z to camera
     mat4.rotate(
@@ -156,7 +162,32 @@ export class BraveRender {
     mat4.translate(
       cameraProjectionMatrix, // destination matrix
       cameraProjectionMatrix, // matrix to translate
-      [-transform.position.x, -transform.position.y, -transform.position.z]
+      [-transform.globalPosition.x, -transform.globalPosition.y, -transform.globalPosition.z]
+    );
+
+    // mat4.multiply(cameraProjectionMatrix, cameraProjectionMatrix, transform.worldMatrix);
+
+    // cameraProjectionMatrix[1] *= -1;
+    // cameraProjectionMatrix[6] *= -1;
+    // cameraProjectionMatrix[11] *= -1;
+
+    // cameraProjectionMatrix.forEach((elem, i) => {
+    //   cameraProjectionMatrix[i] *= -1;
+    // });
+
+    // cameraProjectionMatrix[1] *= -1;
+    // cameraProjectionMatrix[5] *= -1;
+    // cameraProjectionMatrix[9] *= -1;
+
+    // cameraProjectionMatrix[2] *= -1;
+    // cameraProjectionMatrix[6] *= -1;
+    // cameraProjectionMatrix[10] *= -1;
+
+    // Set scale
+    mat4.scale(
+      cameraProjectionMatrix, // destination matrix
+      cameraProjectionMatrix, // matrix to scale
+      [transform.scale.x, transform.scale.y, transform.scale.z]
     );
   }
 }
