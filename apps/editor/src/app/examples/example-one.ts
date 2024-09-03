@@ -20,7 +20,7 @@ export function exampleOne(braveEngine: BraveEngine) {
   // empty.transform.scale.y = 0.5;
   // empty.transform.scale.z = 0.5;
   // scene.add(empty);
-  // empty.addChild(camera);
+  // // empty.addChild(camera);
   // // camera.addChild(empty);
   // // scene.add(camera);
   // empty.addComponent(new EditorCameraOrbiter(empty));

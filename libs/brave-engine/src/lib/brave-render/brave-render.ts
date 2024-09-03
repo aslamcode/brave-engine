@@ -76,9 +76,9 @@ export class BraveRender {
     );
 
     // Update camera projection matrix and transforms
-    this.updateCameraProjectionMatrix();
-    this.updateCameraTransform();
     if (this.camera.hasChanges) {
+      this.updateCameraProjectionMatrix();
+      this.updateCameraTransform();
       this.camera.markAsUpdated();
     }
 
@@ -134,14 +134,6 @@ export class BraveRender {
     // const rotation = quatToEuler(transform.globalRotation);
     // console.log(rotation);
 
-    // Set rotation Y to camera
-    mat4.rotate(
-      cameraProjectionMatrix, // destination matrix
-      cameraProjectionMatrix, // matrix to rotate
-      degToRad(-transform.rotation.y), // amount to rotate in radians
-      [0, 1, 0]
-    ); // axis to rotate around (Y)
-
     // Set rotation X to camera
     mat4.rotate(
       cameraProjectionMatrix, // destination matrix
@@ -149,6 +141,14 @@ export class BraveRender {
       degToRad(-transform.rotation.x), // amount to rotate in radians
       [1, 0, 0]
     ); // axis to rotate around (X)
+
+    // Set rotation Y to camera
+    mat4.rotate(
+      cameraProjectionMatrix, // destination matrix
+      cameraProjectionMatrix, // matrix to rotate
+      degToRad(-transform.rotation.y), // amount to rotate in radians
+      [0, 1, 0]
+    ); // axis to rotate around (Y)
 
     // Set rotation Z to camera
     mat4.rotate(

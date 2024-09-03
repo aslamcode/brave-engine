@@ -51,18 +51,18 @@ export class TransformComponent extends Component {
       [this.position.x, this.position.y, this.position.z]
     );
 
-    // Set rotation X
-    mat4.rotateX(
-      this.localMatrix, // destination matrix
-      this.localMatrix, // matrix to rotate
-      degToRad(this.rotation.x), // amount to rotate in radians
-    );
-
     // Set rotation Y
     mat4.rotateY(
       this.localMatrix, // destination matrix
       this.localMatrix, // matrix to rotate
       degToRad(this.rotation.y), // amount to rotate in radians
+    );
+
+    // Set rotation X
+    mat4.rotateX(
+      this.localMatrix, // destination matrix
+      this.localMatrix, // matrix to rotate
+      degToRad(this.rotation.x), // amount to rotate in radians
     );
 
     // Set rotation Z
@@ -154,9 +154,15 @@ export class TransformComponent extends Component {
 
   // }
 
-  // get up() {
+  get up() {
+    const inverse = mat4.create();
+    mat4.invert(inverse, this.worldMatrix);
+    const forward = vec3.create();
+    vec3.set(forward, inverse[1], inverse[5], inverse[9]);
+    vec3.normalize(forward, forward);
 
-  // }
+    return new Vector3(forward[0], forward[1], forward[2]);
+  }
 
   // get down() {
 
