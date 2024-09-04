@@ -27,7 +27,7 @@ export class EditorCameraOrbiter extends ScriptComponent {
   }
 
   override onRenderUpdate() {
-    // this.look();
+    this.look();
     this.move();
   }
 
@@ -38,6 +38,9 @@ export class EditorCameraOrbiter extends ScriptComponent {
 
     this.entity.transform.rotation.x += this.targetMouseX * this.mouseSensibility * Time.unscaledDeltaTime;
     this.entity.transform.rotation.y += this.targetMouseY * this.mouseSensibility * Time.unscaledDeltaTime;
+
+    this.targetMouseX = 0;
+    this.targetMouseY = 0;
   }
 
   move() {
@@ -74,14 +77,12 @@ export class EditorCameraOrbiter extends ScriptComponent {
     editorViewInputEvent.mouseUp((event) => {
       if (event.button == 2) {
         this.canUpdate = false;
-        this.resetMouseLook();
       }
     });
 
     editorInputEvent.mouseUp((event) => {
       if (event.button == 2) {
         this.canUpdate = false;
-        this.resetMouseLook();
       }
     });
 
@@ -96,8 +97,6 @@ export class EditorCameraOrbiter extends ScriptComponent {
 
         this.startMouseX = this.currentMouseX;
         this.startMouseY = this.currentMouseY;
-
-        this.look();
       }
     });
 
@@ -136,12 +135,5 @@ export class EditorCameraOrbiter extends ScriptComponent {
         this.movePosition.x = 0;
       }
     });
-  }
-
-  private resetMouseLook() {
-    this.startMouseX = 0;
-    this.startMouseY = 0;
-    this.currentMouseX = 0;
-    this.currentMouseY = 0;
   }
 }
