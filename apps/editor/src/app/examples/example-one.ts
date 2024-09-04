@@ -68,7 +68,7 @@ class RotateCube1 extends ScriptComponent {
     const cube4 = new Cube();
     cube4.name = 'Cube 4';
     cube4.transform.position.z = -6;
-    cube4.transform.position.x = 6;
+    cube4.transform.position.x = 3;
 
     Invoke.setTimeout(() => {
       this.entity.scene.add(cube4);
