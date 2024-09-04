@@ -8,7 +8,7 @@ export class EditorCameraOrbiter extends ScriptComponent {
 
   canUpdate = false;
   canUpdateCameraRotation = false;
-  mouseSensibility = 5;
+  mouseSensibility = 10;
   moveSpeed = 3;
 
   private startMouseX = 0;
