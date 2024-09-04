@@ -7,16 +7,18 @@ export class EditorCameraOrbiter extends ScriptComponent {
   private camera: Camera;
 
   canUpdate = false;
-  canUpdateCameraRotation = false;
   mouseSensibility = 10;
   moveSpeed = 3;
 
   private startMouseX = 0;
   private startMouseY = 0;
-  private currentMouseX = 0;
-  private currentMouseY = 0;
   private targetMouseX = 0;
   private targetMouseY = 0;
+
+  private lookSamplesX: number[] = [];
+  private lookSamplesY: number[] = [];
+  private lookNumberOfSamples = 5;
+  private lookSampleIndex = 0;
 
   private movePosition = new Vector2();
 
@@ -36,8 +38,20 @@ export class EditorCameraOrbiter extends ScriptComponent {
       return;
     }
 
-    this.entity.transform.rotation.x += this.targetMouseX * this.mouseSensibility * Time.unscaledDeltaTime;
-    this.entity.transform.rotation.y += this.targetMouseY * this.mouseSensibility * Time.unscaledDeltaTime;
+    if (this.lookSampleIndex > this.lookNumberOfSamples - 1) {
+      this.lookSampleIndex = 0;
+    }
+
+    this.lookSamplesX[this.lookSampleIndex] = this.targetMouseX;
+    this.lookSamplesY[this.lookSampleIndex] = this.targetMouseY;
+
+    this.lookSampleIndex++;
+
+    const targetMouseXSmooth = this.lookSamplesX.reduce((previous, current) => previous + current) / this.lookNumberOfSamples;
+    const targetMouseYSmooth = this.lookSamplesY.reduce((previous, current) => previous + current) / this.lookNumberOfSamples;
+
+    this.entity.transform.rotation.x += -targetMouseXSmooth * this.mouseSensibility * Time.unscaledDeltaTime;
+    this.entity.transform.rotation.y += -targetMouseYSmooth * this.mouseSensibility * Time.unscaledDeltaTime;
 
     this.targetMouseX = 0;
     this.targetMouseY = 0;
@@ -64,13 +78,17 @@ export class EditorCameraOrbiter extends ScriptComponent {
   }
 
   private listenInputEvents() {
+    editorInputEvent.keyDown((event) => {
+      if (event.code == 'KeyW') {
+        this.movePosition.y = 1;
+      }
+    });
+
     editorViewInputEvent.mouseDown((event) => {
       if (event.button == 2) {
         this.canUpdate = true;
         this.startMouseX = event.x;
         this.startMouseY = event.y;
-        this.currentMouseX = event.x;
-        this.currentMouseY = event.y;
       }
     });
 
@@ -88,15 +106,11 @@ export class EditorCameraOrbiter extends ScriptComponent {
 
     editorInputEvent.mouseMove((event) => {
       if (this.canUpdate) {
-        this.canUpdateCameraRotation = true;
-        this.currentMouseX = event.x;
-        this.currentMouseY = event.y;
+        this.targetMouseX = event.y - this.startMouseY;
+        this.targetMouseY = event.x - this.startMouseX;
 
-        this.targetMouseX = this.startMouseY - this.currentMouseY;
-        this.targetMouseY = this.startMouseX - this.currentMouseX;
-
-        this.startMouseX = this.currentMouseX;
-        this.startMouseY = this.currentMouseY;
+        this.startMouseX = event.x;
+        this.startMouseY = event.y;
       }
     });
 
