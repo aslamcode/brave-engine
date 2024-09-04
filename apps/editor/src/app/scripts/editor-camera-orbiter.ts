@@ -45,10 +45,19 @@ export class EditorCameraOrbiter extends ScriptComponent {
       return;
     }
 
-    const backward = this.entity.transform.backward;
-    const speed = this.movePosition.y * this.moveSpeed * Time.unscaledDeltaTime;
-    Vector3.multiply(backward, backward, new Vector3(speed, speed, speed));
-    Vector3.add(this.entity.transform.position, this.entity.transform.position, backward);
+    const backwardDirection = this.entity.transform.backward;
+    const rightDirection = this.entity.transform.right;
+    const frontMove = Vector3.one;
+    const sideMove = Vector3.one;
+
+    const frontSpeed = this.movePosition.y * this.moveSpeed * Time.unscaledDeltaTime;
+    const sideSpeed = this.movePosition.x * this.moveSpeed * Time.unscaledDeltaTime;
+
+    Vector3.multiply(frontMove, backwardDirection, new Vector3(frontSpeed, frontSpeed, frontSpeed));
+    Vector3.multiply(sideMove, rightDirection, new Vector3(sideSpeed, sideSpeed, sideSpeed));
+
+    Vector3.add(this.entity.transform.position, this.entity.transform.position, frontMove);
+    Vector3.add(this.entity.transform.position, this.entity.transform.position, sideMove);
   }
 
   private listenInputEvents() {

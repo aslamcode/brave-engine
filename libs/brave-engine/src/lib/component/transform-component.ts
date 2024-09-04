@@ -141,32 +141,42 @@ export class TransformComponent extends Component {
   }
 
   get backward() {
-    const forward = this.forward;
-    Vector3.multiply(forward, forward, new Vector3(-1, -1, -1));
-    return forward;
+    const backward = this.forward;
+    Vector3.multiply(backward, backward, new Vector3(-1, -1, -1));
+    return backward;
   }
 
-  // get right() {
-
-  // }
-
-  // get left() {
-
-  // }
-
-  get up() {
+  get right() {
     const inverse = mat4.create();
     mat4.invert(inverse, this.worldMatrix);
     const forward = vec3.create();
-    vec3.set(forward, inverse[1], inverse[5], inverse[9]);
+    vec3.set(forward, inverse[0], inverse[4], inverse[8]);
     vec3.normalize(forward, forward);
 
     return new Vector3(forward[0], forward[1], forward[2]);
   }
 
-  // get down() {
+  get left() {
+    const left = this.right;
+    Vector3.multiply(left, left, new Vector3(-1, -1, -1));
+    return left;
+  }
 
-  // }
+  get up() {
+    const inverse = mat4.create();
+    mat4.invert(inverse, this.worldMatrix);
+    const forward = vec3.create();
+    vec3.set(forward, inverse[9], inverse[5], inverse[9]);
+    vec3.normalize(forward, forward);
+
+    return new Vector3(forward[0], forward[1], forward[2]);
+  }
+
+  get down() {
+    const down = this.up;
+    Vector3.multiply(down, down, new Vector3(-1, -1, -1));
+    return down;
+  }
 
   //#endregion Getters
 
