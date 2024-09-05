@@ -109,76 +109,72 @@ export class EditorCameraOrbiter extends ScriptComponent {
       }
     });
 
-    editorInputEvent.keyDown((event) => {
-      if (event.code == 'KeyW') {
-        this.frontDirectionActive = true;
-        this.movePosition.y = 1;
-      }
+    editorInputEvent.keyboard.keyW.down(() => {
+      this.frontDirectionActive = true;
+      this.movePosition.y = 1;
+    });
 
-      if (event.code == 'KeyS') {
-        this.backDirectionActive = true;
+    editorInputEvent.keyboard.keyS.down(() => {
+      this.backDirectionActive = true;
+      this.movePosition.y = -1;
+    });
+
+    editorInputEvent.keyboard.keyD.down(() => {
+      this.rightDirectionActive = true;
+      this.movePosition.x = 1;
+    });
+
+    editorInputEvent.keyboard.keyA.down(() => {
+      this.leftDirectionActive = true;
+      this.movePosition.x = -1;
+    });
+
+    editorInputEvent.keyboard.shiftLeft.down(() => {
+      this.running = true;
+    });
+
+    editorInputEvent.keyboard.keyW.up(() => {
+      this.frontDirectionActive = false;
+
+      if (!this.backDirectionActive) {
+        this.movePosition.y = 0;
+      } else {
         this.movePosition.y = -1;
-      }
-
-      if (event.code == 'KeyD') {
-        this.rightDirectionActive = true;
-        this.movePosition.x = 1;
-      }
-
-      if (event.code == 'KeyA') {
-        this.leftDirectionActive = true;
-        this.movePosition.x = -1;
-      }
-
-      if (event.code == 'ShiftLeft') {
-        this.running = true;
       }
     });
 
-    editorInputEvent.keyUp((event) => {
-      if (event.code == 'KeyW') {
-        this.frontDirectionActive = false;
+    editorInputEvent.keyboard.keyS.up(() => {
+      this.backDirectionActive = false;
 
-        if (!this.backDirectionActive) {
-          this.movePosition.y = 0;
-        } else {
-          this.movePosition.y = -1;
-        }
+      if (!this.frontDirectionActive) {
+        this.movePosition.y = 0;
+      } else {
+        this.movePosition.y = 1;
       }
+    });
 
-      if (event.code == 'KeyS') {
-        this.backDirectionActive = false;
+    editorInputEvent.keyboard.keyD.up(() => {
+      this.rightDirectionActive = false;
 
-        if (!this.frontDirectionActive) {
-          this.movePosition.y = 0;
-        } else {
-          this.movePosition.y = 1;
-        }
+      if (!this.leftDirectionActive) {
+        this.movePosition.x = 0;
+      } else {
+        this.movePosition.x = -1;
       }
+    });
 
-      if (event.code == 'KeyD') {
-        this.rightDirectionActive = false;
+    editorInputEvent.keyboard.keyA.up(() => {
+      this.leftDirectionActive = false;
 
-        if (!this.leftDirectionActive) {
-          this.movePosition.x = 0;
-        } else {
-          this.movePosition.x = -1;
-        }
+      if (!this.rightDirectionActive) {
+        this.movePosition.x = 0;
+      } else {
+        this.movePosition.x = 1;
       }
+    });
 
-      if (event.code == 'KeyA') {
-        this.leftDirectionActive = false;
-
-        if (!this.rightDirectionActive) {
-          this.movePosition.x = 0;
-        } else {
-          this.movePosition.x = 1;
-        }
-      }
-
-      if (event.code == 'ShiftLeft') {
-        this.running = false;
-      }
+    editorInputEvent.keyboard.shiftLeft.up(() => {
+      this.running = false;
     });
   }
 }

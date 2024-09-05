@@ -17,17 +17,15 @@ export class EditorService {
   onStart(canvas: CanvasComponent) {
     this.canvas = canvas;
 
+    editorViewInputEvent.context = this.canvas.canvasElement.nativeElement;
+
     const webgl2Context = this.canvas.webgl2Context;
     this.braveEngine = braveEngine;
 
     this.braveEngine.initialize(this.canvas.canvasElement.nativeElement, webgl2Context);
 
-    editorViewInputEvent.setContext(this.canvas.canvasElement.nativeElement);
-
     this.camera = this.braveEngine.camera;
     this.camera.addComponent(new EditorCameraOrbiter(this.camera));
-
-    editorViewInputEvent.setContext(this.canvas.canvasElement.nativeElement);
 
     Hooks.register(this.camera);
 

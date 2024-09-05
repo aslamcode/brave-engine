@@ -1,21 +1,25 @@
+import { InputEventSystemKeyboard } from "./input-event-system-keyboard";
+
 export class InputEventSystem {
 
-  innerActive = true;
+  private innerActive = true;
   get active() { return this.innerActive; }
-  listners: EventListner[] = [];
-  context: Window | Document | HTMLElement = window;
+  set active(active: boolean) { this.innerActive = active; }
 
-  setActive(active: boolean) {
-    this.innerActive = active;
-  }
+  private listners: EventListner[] = [];
+  private innerContext: Window | Document | HTMLElement = window;
+  get context() { return this.innerContext; }
+  set context(context: Window | Document | HTMLElement) { this.removeAllListners(); this.innerContext = context; }
 
-  setContext(context: Window | Document | HTMLElement) {
-    this.context = context;
+  keyboard: InputEventSystemKeyboard;
+
+  constructor() {
+    this.keyboard = new InputEventSystemKeyboard(this);
   }
 
   //#region Base events
 
-  keyDown(...callback: EventCallback<KeyboardEvent>[]) {
+  keyDown(...callback: InputEventSystemCallback<KeyboardEvent>[]) {
     const type = 'keydown';
     const next = this.createChainingMiddlewareFunctions<KeyboardEvent>(callback);
     const listnerFn = (event: KeyboardEvent) => {
@@ -24,14 +28,14 @@ export class InputEventSystem {
       }
     };
 
-    this.context.addEventListener(type, listnerFn);
+    this.innerContext.addEventListener(type, listnerFn);
 
     const listner: EventListner = { type, listnerFn };
     this.listners.push(listner);
     return listner;
   }
 
-  keyPress(...callback: EventCallback<KeyboardEvent>[]) {
+  keyPress(...callback: InputEventSystemCallback<KeyboardEvent>[]) {
     const type = 'keypress';
     const next = this.createChainingMiddlewareFunctions<KeyboardEvent>(callback);
     const listnerFn = (event: KeyboardEvent) => {
@@ -40,14 +44,14 @@ export class InputEventSystem {
       }
     };
 
-    this.context.addEventListener(type, listnerFn);
+    this.innerContext.addEventListener(type, listnerFn);
 
     const listner: EventListner = { type, listnerFn };
     this.listners.push(listner);
     return listner;
   }
 
-  keyUp(...callback: EventCallback<KeyboardEvent>[]) {
+  keyUp(...callback: InputEventSystemCallback<KeyboardEvent>[]) {
     const type = 'keyup';
     const next = this.createChainingMiddlewareFunctions<KeyboardEvent>(callback);
     const listnerFn = (event: KeyboardEvent) => {
@@ -56,14 +60,14 @@ export class InputEventSystem {
       }
     };
 
-    this.context.addEventListener(type, listnerFn);
+    this.innerContext.addEventListener(type, listnerFn);
 
     const listner: EventListner = { type, listnerFn };
     this.listners.push(listner);
     return listner;
   }
 
-  mouseDown(...callback: EventCallback<MouseEvent>[]) {
+  mouseDown(...callback: InputEventSystemCallback<MouseEvent>[]) {
     const type = 'mousedown';
     const next = this.createChainingMiddlewareFunctions<MouseEvent>(callback);
     const listnerFn = (event: MouseEvent) => {
@@ -72,14 +76,14 @@ export class InputEventSystem {
       }
     };
 
-    this.context.addEventListener(type, listnerFn);
+    this.innerContext.addEventListener(type, listnerFn);
 
     const listner: EventListner = { type, listnerFn };
     this.listners.push(listner);
     return listner;
   }
 
-  mouseEnter(...callback: EventCallback<MouseEvent>[]) {
+  mouseEnter(...callback: InputEventSystemCallback<MouseEvent>[]) {
     const type = 'mouseenter';
     const next = this.createChainingMiddlewareFunctions<MouseEvent>(callback);
     const listnerFn = (event: MouseEvent) => {
@@ -88,14 +92,14 @@ export class InputEventSystem {
       }
     };
 
-    this.context.addEventListener(type, listnerFn);
+    this.innerContext.addEventListener(type, listnerFn);
 
     const listner: EventListner = { type, listnerFn };
     this.listners.push(listner);
     return listner;
   }
 
-  mouseLeave(...callback: EventCallback<MouseEvent>[]) {
+  mouseLeave(...callback: InputEventSystemCallback<MouseEvent>[]) {
     const type = 'mouseleave';
     const next = this.createChainingMiddlewareFunctions<MouseEvent>(callback);
     const listnerFn = (event: MouseEvent) => {
@@ -104,14 +108,14 @@ export class InputEventSystem {
       }
     };
 
-    this.context.addEventListener(type, listnerFn);
+    this.innerContext.addEventListener(type, listnerFn);
 
     const listner: EventListner = { type, listnerFn };
     this.listners.push(listner);
     return listner;
   }
 
-  mouseMove(...callback: EventCallback<MouseEvent>[]) {
+  mouseMove(...callback: InputEventSystemCallback<MouseEvent>[]) {
     const type = 'mousemove';
     const next = this.createChainingMiddlewareFunctions<MouseEvent>(callback);
     const listnerFn = (event: MouseEvent) => {
@@ -120,14 +124,14 @@ export class InputEventSystem {
       }
     };
 
-    this.context.addEventListener(type, listnerFn);
+    this.innerContext.addEventListener(type, listnerFn);
 
     const listner: EventListner = { type, listnerFn };
     this.listners.push(listner);
     return listner;
   }
 
-  mouseOut(...callback: EventCallback<MouseEvent>[]) {
+  mouseOut(...callback: InputEventSystemCallback<MouseEvent>[]) {
     const type = 'mouseout';
     const next = this.createChainingMiddlewareFunctions<MouseEvent>(callback);
     const listnerFn = (event: MouseEvent) => {
@@ -136,14 +140,14 @@ export class InputEventSystem {
       }
     };
 
-    this.context.addEventListener(type, listnerFn);
+    this.innerContext.addEventListener(type, listnerFn);
 
     const listner: EventListner = { type, listnerFn };
     this.listners.push(listner);
     return listner;
   }
 
-  mouseOver(...callback: EventCallback<MouseEvent>[]) {
+  mouseOver(...callback: InputEventSystemCallback<MouseEvent>[]) {
     const type = 'mouseover';
     const next = this.createChainingMiddlewareFunctions<MouseEvent>(callback);
     const listnerFn = (event: MouseEvent) => {
@@ -152,14 +156,14 @@ export class InputEventSystem {
       }
     };
 
-    this.context.addEventListener(type, listnerFn);
+    this.innerContext.addEventListener(type, listnerFn);
 
     const listner: EventListner = { type, listnerFn };
     this.listners.push(listner);
     return listner;
   }
 
-  mouseUp(...callback: EventCallback<MouseEvent>[]) {
+  mouseUp(...callback: InputEventSystemCallback<MouseEvent>[]) {
     const type = 'mouseup';
     const next = this.createChainingMiddlewareFunctions<MouseEvent>(callback);
     const listnerFn = (event: MouseEvent) => {
@@ -168,7 +172,7 @@ export class InputEventSystem {
       }
     };
 
-    this.context.addEventListener(type, listnerFn);
+    this.innerContext.addEventListener(type, listnerFn);
 
     const listner: EventListner = { type, listnerFn };
     this.listners.push(listner);
@@ -178,15 +182,19 @@ export class InputEventSystem {
   //#endregion Base events
 
   removeListner(listner: EventListner) {
-    this.context.removeEventListener(listner.type, listner.listnerFn);
+    this.innerContext.removeEventListener(listner.type, listner.listnerFn);
+    const index = this.listners.findIndex(elem => elem == listner);
+    if (index != -1) {
+      this.listners.splice(index, 1);
+    }
   }
 
   removeAllListners() {
-    this.listners.forEach(elem => this.context.removeEventListener(elem.type, elem.listnerFn));
+    this.listners.forEach(elem => this.innerContext.removeEventListener(elem.type, elem.listnerFn));
     this.listners = [];
   }
 
-  private createChainingMiddlewareFunctions<T>(functions: EventCallback<T>[]) {
+  private createChainingMiddlewareFunctions<T>(functions: InputEventSystemCallback<T>[]) {
     let callbackIndex = 0;
 
     const nextFn = (event: T) => {
@@ -205,16 +213,13 @@ export class InputEventSystem {
 
 }
 
-interface EventListner {
+export interface EventListner {
   type: string;
   listnerFn: ((...any: any) => any);
 }
 
-type EventCallback<T> = (event: T, next?: EventCallback<T>) => void
+export type InputEventSystemCallback<T> = (event: T, next?: InputEventSystemCallback<T>) => void
 
-// editorViewInputEvent.keyW.down(() => {
-
-// });
 
 // editorViewInputEvent.mouseLeft.down(() => {
 
@@ -241,9 +246,5 @@ type EventCallback<T> = (event: T, next?: EventCallback<T>) => void
 // });
 
 // editorViewInputEvent.look(() => {
-
-// });
-
-// editorViewInputEvent.shiftLeft(() => {
 
 // });
