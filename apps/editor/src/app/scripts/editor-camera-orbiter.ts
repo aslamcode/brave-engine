@@ -1,10 +1,8 @@
-import { Camera, Entity, ScriptComponent, Time, Vector2, Vector3 } from '@brave/brave-engine';
+import { Entity, ScriptComponent, Time, Vector2, Vector3 } from '@brave/brave-engine';
 import { editorInputEvent } from '../input-event/editor-input-event';
 import { editorViewInputEvent } from '../input-event/editor-view-input-event';
 
 export class EditorCameraOrbiter extends ScriptComponent {
-
-  private camera: Camera;
 
   private canUpdate = false;
   private running = false;
@@ -24,10 +22,13 @@ export class EditorCameraOrbiter extends ScriptComponent {
   private lookSampleIndex = 0;
 
   private movePosition = new Vector2();
+  private frontDirectionActive = false;
+  private backDirectionActive = false;
+  private rightDirectionActive = false;
+  private leftDirectionActive = false;
 
   constructor(entity: Entity, id?: string) {
     super(entity, id);
-    this.camera = this.entity as Camera;
     this.listenInputEvents();
   }
 
@@ -103,7 +104,6 @@ export class EditorCameraOrbiter extends ScriptComponent {
       if (this.canUpdate) {
         this.targetMouseX = event.y - this.startMouseY;
         this.targetMouseY = event.x - this.startMouseX;
-
         this.startMouseX = event.x;
         this.startMouseY = event.y;
       }
@@ -111,18 +111,22 @@ export class EditorCameraOrbiter extends ScriptComponent {
 
     editorInputEvent.keyDown((event) => {
       if (event.code == 'KeyW') {
+        this.frontDirectionActive = true;
         this.movePosition.y = 1;
       }
 
       if (event.code == 'KeyS') {
+        this.backDirectionActive = true;
         this.movePosition.y = -1;
       }
 
       if (event.code == 'KeyD') {
+        this.rightDirectionActive = true;
         this.movePosition.x = 1;
       }
 
       if (event.code == 'KeyA') {
+        this.leftDirectionActive = true;
         this.movePosition.x = -1;
       }
 
@@ -133,19 +137,43 @@ export class EditorCameraOrbiter extends ScriptComponent {
 
     editorInputEvent.keyUp((event) => {
       if (event.code == 'KeyW') {
-        this.movePosition.y = 0;
+        this.frontDirectionActive = false;
+
+        if (!this.backDirectionActive) {
+          this.movePosition.y = 0;
+        } else {
+          this.movePosition.y = -1;
+        }
       }
 
       if (event.code == 'KeyS') {
-        this.movePosition.y = 0;
+        this.backDirectionActive = false;
+
+        if (!this.frontDirectionActive) {
+          this.movePosition.y = 0;
+        } else {
+          this.movePosition.y = 1;
+        }
       }
 
       if (event.code == 'KeyD') {
-        this.movePosition.x = 0;
+        this.rightDirectionActive = false;
+
+        if (!this.leftDirectionActive) {
+          this.movePosition.x = 0;
+        } else {
+          this.movePosition.x = -1;
+        }
       }
 
       if (event.code == 'KeyA') {
-        this.movePosition.x = 0;
+        this.leftDirectionActive = false;
+
+        if (!this.rightDirectionActive) {
+          this.movePosition.x = 0;
+        } else {
+          this.movePosition.x = 1;
+        }
       }
 
       if (event.code == 'ShiftLeft') {
