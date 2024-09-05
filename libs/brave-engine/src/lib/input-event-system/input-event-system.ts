@@ -13,118 +13,204 @@ export class InputEventSystem {
     this.context = context;
   }
 
-  keyDown(callback: (event: KeyboardEvent) => void) {
+  //#region Base events
+
+  keyDown(...callback: EventCallback<KeyboardEvent>[]) {
     const type = 'keydown';
-    this.listners.push({ type, callback });
-
-    return this.context.addEventListener(type, (event: KeyboardEvent) => {
+    const next = this.createChainingMiddlewareFunctions<KeyboardEvent>(callback);
+    const listnerFn = (event: KeyboardEvent) => {
       if (this.innerActive) {
-        callback(event);
+        next(event);
       }
-    });
+    };
+
+    this.context.addEventListener(type, listnerFn);
+
+    const listner: EventListner = { type, listnerFn };
+    this.listners.push(listner);
+    return listner;
   }
 
-  keyPress(callback: (event: KeyboardEvent) => void) {
+  keyPress(...callback: EventCallback<KeyboardEvent>[]) {
     const type = 'keypress';
-    this.listners.push({ type, callback });
-    return this.context.addEventListener(type, (event: KeyboardEvent) => {
+    const next = this.createChainingMiddlewareFunctions<KeyboardEvent>(callback);
+    const listnerFn = (event: KeyboardEvent) => {
       if (this.innerActive) {
-        callback(event);
+        next(event);
       }
-    });
+    };
+
+    this.context.addEventListener(type, listnerFn);
+
+    const listner: EventListner = { type, listnerFn };
+    this.listners.push(listner);
+    return listner;
   }
 
-  keyUp(callback: (event: KeyboardEvent) => void) {
+  keyUp(...callback: EventCallback<KeyboardEvent>[]) {
     const type = 'keyup';
-    this.listners.push({ type, callback });
-    return this.context.addEventListener(type, (event: KeyboardEvent) => {
+    const next = this.createChainingMiddlewareFunctions<KeyboardEvent>(callback);
+    const listnerFn = (event: KeyboardEvent) => {
       if (this.innerActive) {
-        callback(event);
+        next(event);
       }
-    });
+    };
+
+    this.context.addEventListener(type, listnerFn);
+
+    const listner: EventListner = { type, listnerFn };
+    this.listners.push(listner);
+    return listner;
   }
 
-  mouseDown(callback: (event: MouseEvent) => void) {
+  mouseDown(...callback: EventCallback<MouseEvent>[]) {
     const type = 'mousedown';
-    this.listners.push({ type, callback });
-    return this.context.addEventListener(type, (event: MouseEvent) => {
+    const next = this.createChainingMiddlewareFunctions<MouseEvent>(callback);
+    const listnerFn = (event: MouseEvent) => {
       if (this.innerActive) {
-        callback(event);
+        next(event);
       }
-    });
+    };
+
+    this.context.addEventListener(type, listnerFn);
+
+    const listner: EventListner = { type, listnerFn };
+    this.listners.push(listner);
+    return listner;
   }
 
-  mouseEnter(callback: (event: MouseEvent) => void) {
+  mouseEnter(...callback: EventCallback<MouseEvent>[]) {
     const type = 'mouseenter';
-    this.listners.push({ type, callback });
-    return this.context.addEventListener(type, (event: MouseEvent) => {
+    const next = this.createChainingMiddlewareFunctions<MouseEvent>(callback);
+    const listnerFn = (event: MouseEvent) => {
       if (this.innerActive) {
-        callback(event);
+        next(event);
       }
-    });
+    };
+
+    this.context.addEventListener(type, listnerFn);
+
+    const listner: EventListner = { type, listnerFn };
+    this.listners.push(listner);
+    return listner;
   }
 
-  mouseLeave(callback: (event: MouseEvent) => void) {
+  mouseLeave(...callback: EventCallback<MouseEvent>[]) {
     const type = 'mouseleave';
-    this.listners.push({ type, callback });
-    return this.context.addEventListener(type, (event: MouseEvent) => {
+    const next = this.createChainingMiddlewareFunctions<MouseEvent>(callback);
+    const listnerFn = (event: MouseEvent) => {
       if (this.innerActive) {
-        callback(event);
+        next(event);
       }
-    });
+    };
+
+    this.context.addEventListener(type, listnerFn);
+
+    const listner: EventListner = { type, listnerFn };
+    this.listners.push(listner);
+    return listner;
   }
 
-  mouseMove(callback: (event: MouseEvent) => void) {
+  mouseMove(...callback: EventCallback<MouseEvent>[]) {
     const type = 'mousemove';
-    this.listners.push({ type, callback });
-    return this.context.addEventListener(type, (event: MouseEvent) => {
+    const next = this.createChainingMiddlewareFunctions<MouseEvent>(callback);
+    const listnerFn = (event: MouseEvent) => {
       if (this.innerActive) {
-        callback(event);
+        next(event);
       }
-    });
+    };
+
+    this.context.addEventListener(type, listnerFn);
+
+    const listner: EventListner = { type, listnerFn };
+    this.listners.push(listner);
+    return listner;
   }
 
-  mouseOut(callback: (event: MouseEvent) => void) {
+  mouseOut(...callback: EventCallback<MouseEvent>[]) {
     const type = 'mouseout';
-    this.listners.push({ type, callback });
-    return this.context.addEventListener(type, (event: MouseEvent) => {
+    const next = this.createChainingMiddlewareFunctions<MouseEvent>(callback);
+    const listnerFn = (event: MouseEvent) => {
       if (this.innerActive) {
-        callback(event);
+        next(event);
       }
-    });
+    };
+
+    this.context.addEventListener(type, listnerFn);
+
+    const listner: EventListner = { type, listnerFn };
+    this.listners.push(listner);
+    return listner;
   }
 
-  mouseOver(callback: (event: MouseEvent) => void) {
+  mouseOver(...callback: EventCallback<MouseEvent>[]) {
     const type = 'mouseover';
-    this.listners.push({ type, callback });
-    return this.context.addEventListener(type, (event: MouseEvent) => {
+    const next = this.createChainingMiddlewareFunctions<MouseEvent>(callback);
+    const listnerFn = (event: MouseEvent) => {
       if (this.innerActive) {
-        callback(event);
+        next(event);
       }
-    });
+    };
+
+    this.context.addEventListener(type, listnerFn);
+
+    const listner: EventListner = { type, listnerFn };
+    this.listners.push(listner);
+    return listner;
   }
 
-  mouseUp(callback: (event: MouseEvent) => void) {
+  mouseUp(...callback: EventCallback<MouseEvent>[]) {
     const type = 'mouseup';
-    this.listners.push({ type, callback });
-    return this.context.addEventListener(type, (event: MouseEvent) => {
+    const next = this.createChainingMiddlewareFunctions<MouseEvent>(callback);
+    const listnerFn = (event: MouseEvent) => {
       if (this.innerActive) {
-        callback(event);
+        next(event);
       }
-    });
+    };
+
+    this.context.addEventListener(type, listnerFn);
+
+    const listner: EventListner = { type, listnerFn };
+    this.listners.push(listner);
+    return listner;
+  }
+
+  //#endregion Base events
+
+  removeListner(listner: EventListner) {
+    this.context.removeEventListener(listner.type, listner.listnerFn);
   }
 
   removeAllListners() {
-    this.listners.forEach(elem => this.context.removeEventListener(elem.type, elem.callback));
+    this.listners.forEach(elem => this.context.removeEventListener(elem.type, elem.listnerFn));
     this.listners = [];
+  }
+
+  private createChainingMiddlewareFunctions<T>(functions: EventCallback<T>[]) {
+    let callbackIndex = 0;
+
+    const nextFn = (event: T) => {
+      if (functions[callbackIndex]) {
+        functions[callbackIndex++](event, nextFn);
+      }
+    };
+
+    const callback = (event: T) => {
+      callbackIndex = 0;
+      nextFn(event);
+    };
+
+    return callback;
   }
 
 }
 
 interface EventListner {
   type: string;
-  callback: ((...any: any) => any);
+  listnerFn: ((...any: any) => any);
 }
+
+type EventCallback<T> = (event: T, next?: EventCallback<T>) => void
 
 // editorViewInputEvent.keyW.down(() => {
 

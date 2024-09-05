@@ -15,23 +15,43 @@ export class Hooks implements LifecycleHooks {
   }
 
   static onStart() {
-    this.items.forEach(elem => elem.onStart());
+    this.items.forEach(elem => {
+      if (elem.active) {
+        elem.onStart();
+      }
+    });
   }
 
   static onUpdate() {
-    this.items.forEach(elem => elem.onUpdate());
+    this.items.forEach(elem => {
+      if (elem.active) {
+        elem.onUpdate();
+      }
+    });
   }
 
   static onRenderUpdate() {
-    this.items.forEach(elem => elem.onRenderUpdate());
+    this.items.forEach(elem => {
+      if (elem.active) {
+        elem.onRenderUpdate();
+      }
+    });
   }
 
   static onFixedUpdate() {
-    this.items.forEach(elem => elem.onFixedUpdate());
+    this.items.forEach(elem => {
+      if (elem.active) {
+        elem.onFixedUpdate();
+      }
+    });
   }
 
   static onDestroy() {
-    this.items.forEach(elem => elem.onDestroy());
+    this.items.forEach(elem => {
+      if (elem.active) {
+        elem.onDestroy();
+      }
+    });
   }
 
 }
