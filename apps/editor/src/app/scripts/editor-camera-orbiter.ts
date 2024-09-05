@@ -6,9 +6,12 @@ export class EditorCameraOrbiter extends ScriptComponent {
 
   private camera: Camera;
 
-  canUpdate = false;
+  private canUpdate = false;
+  private running = false;
+
   mouseSensibility = 10;
   moveSpeed = 3;
+  runSpeed = 7;
 
   private startMouseX = 0;
   private startMouseY = 0;
@@ -34,10 +37,6 @@ export class EditorCameraOrbiter extends ScriptComponent {
   }
 
   look() {
-    if (!this.canUpdate) {
-      return;
-    }
-
     if (this.lookSampleIndex > this.lookNumberOfSamples - 1) {
       this.lookSampleIndex = 0;
     }
@@ -62,13 +61,15 @@ export class EditorCameraOrbiter extends ScriptComponent {
       return;
     }
 
+    const speed = this.running ? this.runSpeed : this.moveSpeed;
+
     const backwardDirection = this.entity.transform.backward;
     const rightDirection = this.entity.transform.right;
     const frontMove = Vector3.one;
     const sideMove = Vector3.one;
 
-    const frontSpeed = this.movePosition.y * this.moveSpeed * Time.unscaledDeltaTime;
-    const sideSpeed = this.movePosition.x * this.moveSpeed * Time.unscaledDeltaTime;
+    const frontSpeed = this.movePosition.y * speed * Time.unscaledDeltaTime;
+    const sideSpeed = this.movePosition.x * speed * Time.unscaledDeltaTime;
 
     Vector3.multiply(frontMove, backwardDirection, new Vector3(frontSpeed, frontSpeed, frontSpeed));
     Vector3.multiply(sideMove, rightDirection, new Vector3(sideSpeed, sideSpeed, sideSpeed));
@@ -78,12 +79,6 @@ export class EditorCameraOrbiter extends ScriptComponent {
   }
 
   private listenInputEvents() {
-    editorInputEvent.keyDown((event) => {
-      if (event.code == 'KeyW') {
-        this.movePosition.y = 1;
-      }
-    });
-
     editorViewInputEvent.mouseDown((event) => {
       if (event.button == 2) {
         this.canUpdate = true;
@@ -130,6 +125,10 @@ export class EditorCameraOrbiter extends ScriptComponent {
       if (event.code == 'KeyA') {
         this.movePosition.x = -1;
       }
+
+      if (event.code == 'ShiftLeft') {
+        this.running = true;
+      }
     });
 
     editorInputEvent.keyUp((event) => {
@@ -147,6 +146,10 @@ export class EditorCameraOrbiter extends ScriptComponent {
 
       if (event.code == 'KeyA') {
         this.movePosition.x = 0;
+      }
+
+      if (event.code == 'ShiftLeft') {
+        this.running = false;
       }
     });
   }
