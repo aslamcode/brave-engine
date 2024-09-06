@@ -26,8 +26,7 @@ export class Camera extends Entity {
   }
 
   private listenTransformChanges() {
-    this.transform.position.onChange.subscribe(() => this.markHasChanges());
-    this.transform.rotation.onChange.subscribe(() => this.markHasChanges());
+    this.transform.onChange.subscribe(() => this.markHasChanges());
   }
 
   //#region Getters

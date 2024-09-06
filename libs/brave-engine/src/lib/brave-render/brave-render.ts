@@ -4,9 +4,7 @@ import { Entity } from '../entity/entity';
 import { Light } from '../entity/light';
 import { mat4 } from 'gl-matrix';
 import { renderVertexShader } from './lib/render-vertex-shader';
-import { degToRad } from '../util/deg-to-rad';
 import { BraveEngineModeEnum } from '../enum/brave-engine-mode-enum';
-import * as quatToEuler from 'quaternion-to-euler';
 
 export class BraveRender {
   private camera: Camera;
@@ -15,8 +13,6 @@ export class BraveRender {
 
   private renderWidth = 0;
   private renderHeight = 0;
-
-  private lastUpdatedTime = 0;
 
   constructor(
     private braveEngine: BraveEngine,
@@ -131,63 +127,10 @@ export class BraveRender {
     const cameraProjectionMatrix = this.camera.projectionMatrix;
     const transform = this.camera.transform;
 
-    // const rotation = quatToEuler(transform.globalRotation);
-    // console.log(rotation);
-
-    // Set rotation X to camera
-    mat4.rotate(
-      cameraProjectionMatrix, // destination matrix
-      cameraProjectionMatrix, // matrix to rotate
-      degToRad(-transform.rotation.x), // amount to rotate in radians
-      [1, 0, 0]
-    ); // axis to rotate around (X)
-
-    // Set rotation Y to camera
-    mat4.rotate(
-      cameraProjectionMatrix, // destination matrix
-      cameraProjectionMatrix, // matrix to rotate
-      degToRad(-transform.rotation.y), // amount to rotate in radians
-      [0, 1, 0]
-    ); // axis to rotate around (Y)
-
-    // Set rotation Z to camera
-    mat4.rotate(
-      cameraProjectionMatrix, // destination matrix
-      cameraProjectionMatrix, // matrix to rotate
-      degToRad(-transform.rotation.z), // amount to rotate in radians
-      [0, 0, 1]
-    ); // axis to rotate around (Z)
-
-    // Set position camera render
-    mat4.translate(
-      cameraProjectionMatrix, // destination matrix
-      cameraProjectionMatrix, // matrix to translate
-      [-transform.globalPosition.x, -transform.globalPosition.y, -transform.globalPosition.z]
-    );
-
-    // mat4.multiply(cameraProjectionMatrix, cameraProjectionMatrix, transform.worldMatrix);
-
-    // cameraProjectionMatrix[1] *= -1;
-    // cameraProjectionMatrix[6] *= -1;
-    // cameraProjectionMatrix[11] *= -1;
-
-    // cameraProjectionMatrix.forEach((elem, i) => {
-    //   cameraProjectionMatrix[i] *= -1;
-    // });
-
-    // cameraProjectionMatrix[1] *= -1;
-    // cameraProjectionMatrix[5] *= -1;
-    // cameraProjectionMatrix[9] *= -1;
-
-    // cameraProjectionMatrix[2] *= -1;
-    // cameraProjectionMatrix[6] *= -1;
-    // cameraProjectionMatrix[10] *= -1;
-
-    // Set scale
-    mat4.scale(
-      cameraProjectionMatrix, // destination matrix
-      cameraProjectionMatrix, // matrix to scale
-      [transform.scale.x, transform.scale.y, transform.scale.z]
-    );
+    // Multiply the camera transform matrix by projection matrix
+    // This is necessary because camera can have a parent
+    const transformWithoutPosition = mat4.clone(transform.worldMatrix);
+    mat4.invert(transformWithoutPosition, transformWithoutPosition);
+    mat4.multiply(cameraProjectionMatrix, cameraProjectionMatrix, transformWithoutPosition);
   }
 }

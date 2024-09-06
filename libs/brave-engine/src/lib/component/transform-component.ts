@@ -1,11 +1,13 @@
 import { Component } from './component';
 import { Vector3 } from '../class/vector3';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { Entity } from '../entity/entity';
 import { mat4, quat, vec3 } from 'gl-matrix';
 import { degToRad } from '../util/deg-to-rad';
 
 export class TransformComponent extends Component {
+
+  onChange = new Subject<TransformComponent>();
 
   localMatrix = mat4.create();
   worldMatrix = mat4.create();
@@ -91,6 +93,8 @@ export class TransformComponent extends Component {
 
     // Update all children transforms
     this.entity.children.forEach(elem => elem.transform.updateTransform());
+
+    this.onChange.next(this);
   }
 
   private listenPositionChanges() {
