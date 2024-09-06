@@ -217,6 +217,7 @@ export class InputEventSystem {
   }
 
   move(...callback: InputEventSystemCallback<Vector2>[]) {
+    const type = 'customMove';
     const next = this.createChainingMiddlewareFunctions<Vector2>(callback);
 
     let move = new Vector2();
@@ -226,7 +227,7 @@ export class InputEventSystem {
     let rightDirectionActive = false;
     let leftDirectionActive = false;
 
-    this.keyDown((event) => {
+    const keyDownListner = this.keyDown((event) => {
       if (!keys.includes(event.code)) {
         return;
       }
@@ -258,7 +259,7 @@ export class InputEventSystem {
       next(move);
     });
 
-    this.keyUp((event) => {
+    const keyUpListner = this.keyUp((event) => {
       if (!keys.includes(event.code)) {
         return;
       }
@@ -309,12 +310,27 @@ export class InputEventSystem {
 
       next(move);
     });
+
+    const children: EventListner[] = [];
+    children.push(keyDownListner);
+    children.push(keyUpListner);
+
+    const listner: EventListner = { type, children, custom: true };
+    this.listners.push(listner);
+    return listner;
   }
 
   //#endregion Custom events
 
   removeListner(listner: EventListner) {
-    this.innerContext.removeEventListener(listner.type, listner.listnerFn);
+    if (listner.custom) {
+      listner.children?.forEach(elem => {
+        this.innerContext.removeEventListener(elem.type, elem.listnerFn);
+      });
+    } else {
+      this.innerContext.removeEventListener(listner.type, listner.listnerFn);
+    }
+
     const index = this.listners.findIndex(elem => elem == listner);
     if (index != -1) {
       this.listners.splice(index, 1);
@@ -322,7 +338,15 @@ export class InputEventSystem {
   }
 
   removeAllListners() {
-    this.listners.forEach(elem => this.innerContext.removeEventListener(elem.type, elem.listnerFn));
+    this.listners.forEach(listner => {
+      if (listner.custom) {
+        listner.children?.forEach(elem => {
+          this.innerContext.removeEventListener(elem.type, elem.listnerFn);
+        });
+      } else {
+        this.innerContext.removeEventListener(listner.type, listner.listnerFn);
+      }
+    });
     this.listners = [];
   }
 
@@ -347,7 +371,9 @@ export class InputEventSystem {
 
 export interface EventListner {
   type: string;
-  listnerFn: ((...any: any) => any);
+  listnerFn?: ((...any: any) => any);
+  custom?: boolean;
+  children?: EventListner[];
 }
 
 export type InputEventSystemCallback<T> = (event: T, next?: InputEventSystemCallback<T>) => void
