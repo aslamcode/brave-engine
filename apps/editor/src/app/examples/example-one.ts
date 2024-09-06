@@ -5,7 +5,7 @@ export function exampleOne(braveEngine: BraveEngine) {
   // Create and set camera
   const camera = braveEngine.camera;
   camera.transform.position.x = 0;
-  camera.transform.position.y = 0.8;
+  camera.transform.position.y = 0;
   camera.transform.position.z = 1;
   camera.transform.rotation.y = 0;
 

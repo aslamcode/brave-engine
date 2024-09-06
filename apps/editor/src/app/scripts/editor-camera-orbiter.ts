@@ -80,27 +80,29 @@ export class EditorCameraOrbiter extends ScriptComponent {
   }
 
   private listenInputEvents() {
-    editorViewInputEvent.mouseDown((event) => {
-      if (event.button == 2) {
-        this.canUpdate = true;
-        this.startMouseX = event.x;
-        this.startMouseY = event.y;
-      }
+    editorViewInputEvent.mouse.right.down((event) => {
+      this.canUpdate = true;
+      this.startMouseX = event.x;
+      this.startMouseY = event.y;
     });
 
-    editorViewInputEvent.mouseUp((event) => {
-      if (event.button == 2) {
-        this.canUpdate = false;
-      }
+    editorViewInputEvent.mouse.right.up(() => {
+      this.canUpdate = false;
     });
 
-    editorInputEvent.mouseUp((event) => {
-      if (event.button == 2) {
-        this.canUpdate = false;
-      }
+    editorInputEvent.mouse.right.up(() => {
+      this.canUpdate = false;
     });
 
-    editorInputEvent.mouseMove((event) => {
+    editorInputEvent.mouse.wheel.up((event) => {
+
+    });
+
+    editorInputEvent.mouse.wheel.down((event) => {
+
+    });
+
+    editorInputEvent.mouse.move((event) => {
       if (this.canUpdate) {
         this.targetMouseX = event.y - this.startMouseY;
         this.targetMouseY = event.x - this.startMouseX;

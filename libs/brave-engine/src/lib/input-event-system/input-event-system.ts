@@ -1,4 +1,5 @@
 import { InputEventSystemKeyboard } from "./input-event-system-keyboard";
+import { InputEventSystemMouse } from "./input-event-system-mouse";
 
 export class InputEventSystem {
 
@@ -12,9 +13,11 @@ export class InputEventSystem {
   set context(context: Window | Document | HTMLElement) { this.removeAllListners(); this.innerContext = context; }
 
   keyboard: InputEventSystemKeyboard;
+  mouse: InputEventSystemMouse;
 
   constructor() {
     this.keyboard = new InputEventSystemKeyboard(this);
+    this.mouse = new InputEventSystemMouse(this);
   }
 
   //#region Base events
@@ -165,6 +168,22 @@ export class InputEventSystem {
 
   mouseUp(...callback: InputEventSystemCallback<MouseEvent>[]) {
     const type = 'mouseup';
+    const next = this.createChainingMiddlewareFunctions<MouseEvent>(callback);
+    const listnerFn = (event: MouseEvent) => {
+      if (this.innerActive) {
+        next(event);
+      }
+    };
+
+    this.innerContext.addEventListener(type, listnerFn);
+
+    const listner: EventListner = { type, listnerFn };
+    this.listners.push(listner);
+    return listner;
+  }
+
+  mouseWheel(...callback: InputEventSystemCallback<MouseEvent>[]) {
+    const type = 'wheel';
     const next = this.createChainingMiddlewareFunctions<MouseEvent>(callback);
     const listnerFn = (event: MouseEvent) => {
       if (this.innerActive) {

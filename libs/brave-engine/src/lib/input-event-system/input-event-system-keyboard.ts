@@ -111,10 +111,10 @@ export class InputEventSystemKeyboard {
   constructor(
     private inputEventSystem: InputEventSystem
   ) {
-    this.createEventKeys();
+    this.createEvents();
   }
 
-  private createEventKeys() {
+  private createEvents() {
     keyboardKeyEventNames.forEach(keyName => {
       const prop = `${keyName[0].toLowerCase()}${keyName.substring(1)}`;
       this[prop] = new InputEventSystemKey(this.inputEventSystem, keyName);
@@ -122,7 +122,7 @@ export class InputEventSystemKeyboard {
   }
 };
 
-class InputEventSystemKey {
+export class InputEventSystemKey {
   private filter: InputEventSystemCallback<KeyboardEvent>;
 
   constructor(
