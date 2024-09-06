@@ -1,4 +1,4 @@
-import { Entity, ScriptComponent, Time, Vector2, Vector3 } from '@brave/brave-engine';
+import { Entity, MovingAverage, ScriptComponent, Time, Vector2, Vector3 } from '@brave/brave-engine';
 import { editorInputEvent } from '../input-event/editor-input-event';
 import { editorViewInputEvent } from '../input-event/editor-view-input-event';
 
@@ -11,24 +11,17 @@ export class EditorCameraOrbiter extends ScriptComponent {
   moveSpeed = 3;
   runSpeed = 7;
 
-  private startMouseX = 0;
-  private startMouseY = 0;
-  private targetMouseX = 0;
-  private targetMouseY = 0;
-
-  private lookSamplesX: number[] = [];
-  private lookSamplesY: number[] = [];
+  private lookAverageX: MovingAverage;
+  private lookAverageY: MovingAverage;
   private lookNumberOfSamples = 5;
-  private lookSampleIndex = 0;
 
+  private lookPosition = new Vector2();
   private movePosition = new Vector2();
-  private frontDirectionActive = false;
-  private backDirectionActive = false;
-  private rightDirectionActive = false;
-  private leftDirectionActive = false;
 
   constructor(entity: Entity, id?: string) {
     super(entity, id);
+    this.lookAverageX = new MovingAverage(this.lookNumberOfSamples);
+    this.lookAverageY = new MovingAverage(this.lookNumberOfSamples);
     this.listenInputEvents();
   }
 
@@ -38,23 +31,13 @@ export class EditorCameraOrbiter extends ScriptComponent {
   }
 
   look() {
-    if (this.lookSampleIndex > this.lookNumberOfSamples - 1) {
-      this.lookSampleIndex = 0;
-    }
+    const targetMouseXSmooth = this.lookAverageX.calculate(this.lookPosition.x);
+    const targetMouseYSmooth = this.lookAverageY.calculate(this.lookPosition.y);
 
-    this.lookSamplesX[this.lookSampleIndex] = this.targetMouseX;
-    this.lookSamplesY[this.lookSampleIndex] = this.targetMouseY;
+    this.entity.transform.rotation.x += -targetMouseYSmooth * this.mouseSensibility * Time.unscaledDeltaTime;
+    this.entity.transform.rotation.y += -targetMouseXSmooth * this.mouseSensibility * Time.unscaledDeltaTime;
 
-    this.lookSampleIndex++;
-
-    const targetMouseXSmooth = this.lookSamplesX.reduce((previous, current) => previous + current) / this.lookNumberOfSamples;
-    const targetMouseYSmooth = this.lookSamplesY.reduce((previous, current) => previous + current) / this.lookNumberOfSamples;
-
-    this.entity.transform.rotation.x += -targetMouseXSmooth * this.mouseSensibility * Time.unscaledDeltaTime;
-    this.entity.transform.rotation.y += -targetMouseYSmooth * this.mouseSensibility * Time.unscaledDeltaTime;
-
-    this.targetMouseX = 0;
-    this.targetMouseY = 0;
+    this.lookPosition = Vector2.zero;
   }
 
   move() {
@@ -80,10 +63,8 @@ export class EditorCameraOrbiter extends ScriptComponent {
   }
 
   private listenInputEvents() {
-    editorViewInputEvent.mouse.right.down((event) => {
+    editorViewInputEvent.mouse.right.down(() => {
       this.canUpdate = true;
-      this.startMouseX = event.x;
-      this.startMouseY = event.y;
     });
 
     editorViewInputEvent.mouse.right.up(() => {
@@ -94,85 +75,18 @@ export class EditorCameraOrbiter extends ScriptComponent {
       this.canUpdate = false;
     });
 
-    editorInputEvent.mouse.wheel.up((event) => {
-
-    });
-
-    editorInputEvent.mouse.wheel.down((event) => {
-
-    });
-
-    editorInputEvent.mouse.move((event) => {
+    editorInputEvent.look(1, (event) => {
       if (this.canUpdate) {
-        this.targetMouseX = event.y - this.startMouseY;
-        this.targetMouseY = event.x - this.startMouseX;
-        this.startMouseX = event.x;
-        this.startMouseY = event.y;
+        this.lookPosition = event;
       }
     });
 
-    editorInputEvent.keyboard.keyW.down(() => {
-      this.frontDirectionActive = true;
-      this.movePosition.y = 1;
-    });
-
-    editorInputEvent.keyboard.keyS.down(() => {
-      this.backDirectionActive = true;
-      this.movePosition.y = -1;
-    });
-
-    editorInputEvent.keyboard.keyD.down(() => {
-      this.rightDirectionActive = true;
-      this.movePosition.x = 1;
-    });
-
-    editorInputEvent.keyboard.keyA.down(() => {
-      this.leftDirectionActive = true;
-      this.movePosition.x = -1;
+    editorInputEvent.move((event) => {
+      this.movePosition = event;
     });
 
     editorInputEvent.keyboard.shiftLeft.down(() => {
       this.running = true;
-    });
-
-    editorInputEvent.keyboard.keyW.up(() => {
-      this.frontDirectionActive = false;
-
-      if (!this.backDirectionActive) {
-        this.movePosition.y = 0;
-      } else {
-        this.movePosition.y = -1;
-      }
-    });
-
-    editorInputEvent.keyboard.keyS.up(() => {
-      this.backDirectionActive = false;
-
-      if (!this.frontDirectionActive) {
-        this.movePosition.y = 0;
-      } else {
-        this.movePosition.y = 1;
-      }
-    });
-
-    editorInputEvent.keyboard.keyD.up(() => {
-      this.rightDirectionActive = false;
-
-      if (!this.leftDirectionActive) {
-        this.movePosition.x = 0;
-      } else {
-        this.movePosition.x = -1;
-      }
-    });
-
-    editorInputEvent.keyboard.keyA.up(() => {
-      this.leftDirectionActive = false;
-
-      if (!this.rightDirectionActive) {
-        this.movePosition.x = 0;
-      } else {
-        this.movePosition.x = 1;
-      }
     });
 
     editorInputEvent.keyboard.shiftLeft.up(() => {

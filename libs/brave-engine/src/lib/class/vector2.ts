@@ -1,4 +1,5 @@
 import { Subject } from "rxjs";
+import { Vector3 } from "./vector3";
 
 export class Vector2 extends Array<number> {
 
@@ -48,6 +49,10 @@ export class Vector2 extends Array<number> {
   }
 
   //#endregion Getters
+
+  clone() {
+    return new Vector2(this.x, this.y);
+  }
 
   //#region Extra methods
 

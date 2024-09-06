@@ -61,6 +61,10 @@ export class Vector3 extends Array<number> {
 
   //#endregion Getters
 
+  clone() {
+    return new Vector3(this.x, this.y, this.z);
+  }
+
   //#region Extra methods
 
   static add(vectorResult: Vector3, vectorA: Vector3, vectorB?: Vector3) {

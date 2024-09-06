@@ -1,3 +1,5 @@
+import { Vector2 } from "../class/vector2";
+import { MovingAverage } from "../util/class/moving-average";
 import { InputEventSystemKeyboard } from "./input-event-system-keyboard";
 import { InputEventSystemMouse } from "./input-event-system-mouse";
 
@@ -200,6 +202,117 @@ export class InputEventSystem {
 
   //#endregion Base events
 
+  //#region Custom events
+
+  look(smoothSamples = 1, ...callback: InputEventSystemCallback<Vector2>[]) {
+    const next = this.createChainingMiddlewareFunctions<Vector2>(callback);
+
+    const averageX = new MovingAverage(smoothSamples);
+    const averageY = new MovingAverage(smoothSamples);
+
+    this.mouseMove((event) => {
+      const look = new Vector2(averageX.calculate(event.movementX), averageY.calculate(event.movementY));
+      next(look);
+    });
+  }
+
+  move(...callback: InputEventSystemCallback<Vector2>[]) {
+    const next = this.createChainingMiddlewareFunctions<Vector2>(callback);
+
+    let move = new Vector2();
+    const keys = ['KeyW', 'KeyS', 'KeyD', 'KeyA'];
+    let frontDirectionActive = false;
+    let backDirectionActive = false;
+    let rightDirectionActive = false;
+    let leftDirectionActive = false;
+
+    this.keyDown((event) => {
+      if (!keys.includes(event.code)) {
+        return;
+      }
+
+      move = move.clone();
+
+      switch (event.code) {
+        case 'KeyW':
+          frontDirectionActive = true;
+          move.y = 1;
+          break;
+
+        case 'KeyS':
+          backDirectionActive = true;
+          move.y = -1;
+          break;
+
+        case 'KeyD':
+          rightDirectionActive = true;
+          move.x = 1;
+          break;
+
+        case 'KeyA':
+          leftDirectionActive = true;
+          move.x = -1;
+          break;
+      }
+
+      next(move);
+    });
+
+    this.keyUp((event) => {
+      if (!keys.includes(event.code)) {
+        return;
+      }
+
+      move = move.clone();
+
+      switch (event.code) {
+        case 'KeyW':
+          frontDirectionActive = false;
+
+          if (!backDirectionActive) {
+            move.y = 0;
+          } else {
+            move.y = -1;
+          }
+          break;
+
+        case 'KeyS':
+          backDirectionActive = false;
+
+          if (!frontDirectionActive) {
+            move.y = 0;
+          } else {
+            move.y = 1;
+          }
+          break;
+
+        case 'KeyD':
+          rightDirectionActive = false;
+
+          if (!leftDirectionActive) {
+            move.x = 0;
+          } else {
+            move.x = -1;
+          }
+          break;
+
+        case 'KeyA':
+          leftDirectionActive = false;
+
+          if (!rightDirectionActive) {
+            move.x = 0;
+          } else {
+            move.x = 1;
+          }
+          break;
+      }
+
+      next(move);
+    });
+  }
+
+  //#endregion Custom events
+
   removeListner(listner: EventListner) {
     this.innerContext.removeEventListener(listner.type, listner.listnerFn);
     const index = this.listners.findIndex(elem => elem == listner);
@@ -238,32 +351,3 @@ export interface EventListner {
 }
 
 export type InputEventSystemCallback<T> = (event: T, next?: InputEventSystemCallback<T>) => void
-
-
-// editorViewInputEvent.mouseLeft.down(() => {
-
-// });
-
-// editorViewInputEvent.mouseMiddle.down(() => {
-
-// });
-
-// editorViewInputEvent.mouseRight.down(() => {
-
-// });
-
-// editorViewInputEvent.scroll.up(() => {
-
-// });
-
-// editorViewInputEvent.scroll.down(() => {
-
-// });
-
-// editorViewInputEvent.move(() => {
-
-// });
-
-// editorViewInputEvent.look(() => {
-
-// });

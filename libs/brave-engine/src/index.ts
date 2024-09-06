@@ -56,4 +56,5 @@ export * from './lib/util/shader/create-shader-program';
 export * from './lib/util/shader/load-shader';
 export * from './lib/util/clone';
 export * from './lib/util/deg-to-rad';
+export * from './lib/util/class/moving-average';
 
