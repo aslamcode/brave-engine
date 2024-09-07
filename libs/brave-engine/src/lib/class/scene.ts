@@ -20,7 +20,9 @@ export class Scene {
     this.braveEngine.modeSubject.subscribe(() => {
       switch (this.braveEngine.mode) {
         case BraveEngineModeEnum.editor:
-          return this.clearClone();
+          this.paused = false;
+          this.clearClone();
+          return;
 
         case BraveEngineModeEnum.running:
           if (this.paused) {
