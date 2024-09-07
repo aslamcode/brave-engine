@@ -1,4 +1,4 @@
-import { BraveEngine, Cube, Entity, Hooks, Invoke, MaterialComponent, MaterialCullingModeEnum, ScriptComponent, Time } from '@brave/brave-engine';
+import { BraveEngine, Cube, Entity, Hooks, Invoke, MaterialComponent, MaterialCullingModeEnum, Plane, Quad, ScriptComponent, Time } from '@brave/brave-engine';
 import { EditorCameraOrbiter } from '../scripts/editor-camera-orbiter';
 
 export function exampleOne(braveEngine: BraveEngine) {
@@ -6,7 +6,7 @@ export function exampleOne(braveEngine: BraveEngine) {
   const camera = braveEngine.camera;
   camera.transform.position.x = 0;
   camera.transform.position.y = 1;
-  camera.transform.position.z = 1;
+  camera.transform.position.z = 5;
   camera.transform.rotation.y = 0;
 
   // Create sceneObjects
@@ -29,8 +29,9 @@ export function exampleOne(braveEngine: BraveEngine) {
   // Create a cube and add on scene
   const cube = new Cube();
   cube.name = 'Cube 1';
-  cube.transform.position.z = -6;
   cube.transform.position.x = -1.5;
+  cube.transform.position.y = 0.5;
+  cube.transform.position.z = 0;
   cube.transform.scale.x = 0.5;
   cube.addComponent(new RotateCube1(cube));
   scene.add(cube);
@@ -47,28 +48,36 @@ export function exampleOne(braveEngine: BraveEngine) {
 
   const cube2 = new Cube();
   cube2.name = 'Cube 2';
-  cube2.transform.position.z = -6;
   cube2.transform.position.x = 0;
+  cube2.transform.position.y = 0.5;
+  cube2.transform.position.z = 0;
   cube2.addComponent(new RotateCube2(cube2));
 
   const cube3 = new Cube();
   cube3.name = 'Cube 3';
-  cube3.transform.position.z = 0;
   cube3.transform.position.x = 1.5;
   cube3.transform.position.y = 0;
+  cube3.transform.position.z = 0;
   cube3.addComponent(new RotateCube3(cube3));
 
   cube2.addChild(cube3); // Make cube 3 child of cube 2
 
   scene.add(cube2);
+
+  const plane = new Plane();
+  plane.transform.position.x = 0;
+  plane.transform.position.y = 0;
+  plane.transform.position.z = 0;
+  scene.add(plane);
 }
 
 class RotateCube1 extends ScriptComponent {
   onStart() {
     const cube4 = new Cube();
     cube4.name = 'Cube 4';
-    cube4.transform.position.z = -6;
     cube4.transform.position.x = 3;
+    cube4.transform.position.y = 0.5;
+    cube4.transform.position.z = 0;
 
     Invoke.setTimeout(() => {
       this.entity.scene.add(cube4);

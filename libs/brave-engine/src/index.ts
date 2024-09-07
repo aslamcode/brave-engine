@@ -27,6 +27,10 @@ export * from './lib/entity/light';
 // Entity geometries
 export * from './lib/entity/geometries/cube/cube-mesh';
 export * from './lib/entity/geometries/cube/cube';
+export * from './lib/entity/geometries/plane/plane-mesh';
+export * from './lib/entity/geometries/plane/plane';
+export * from './lib/entity/geometries/quad/quad-mesh';
+export * from './lib/entity/geometries/quad/quad';
 
 // Enums
 export * from './lib/enum/brave-engine-mode-enum';

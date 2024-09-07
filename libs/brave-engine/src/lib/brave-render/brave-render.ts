@@ -8,6 +8,7 @@ import { BraveEngineModeEnum } from '../enum/brave-engine-mode-enum';
 
 export class BraveRender {
   private camera: Camera;
+  private transformForProjection = mat4.create();
 
   public lights = new Array<Entity>();
 
@@ -126,11 +127,12 @@ export class BraveRender {
   private updateCameraTransform() {
     const cameraProjectionMatrix = this.camera.projectionMatrix;
     const transform = this.camera.transform;
+    const transformForProjection = this.transformForProjection;
 
     // Multiply the camera transform matrix by projection matrix
     // This is necessary because camera can have a parent
-    const transformWithoutPosition = mat4.clone(transform.worldMatrix);
-    mat4.invert(transformWithoutPosition, transformWithoutPosition);
-    mat4.multiply(cameraProjectionMatrix, cameraProjectionMatrix, transformWithoutPosition);
+    mat4.copy(transformForProjection, transform.worldMatrix);
+    mat4.invert(transformForProjection, transformForProjection); // Invert transform because projection is inverted
+    mat4.multiply(cameraProjectionMatrix, cameraProjectionMatrix, transformForProjection);
   }
 }
