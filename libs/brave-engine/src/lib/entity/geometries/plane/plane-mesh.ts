@@ -21,7 +21,7 @@ export class PlaneMesh extends Mesh {
 
     // Fill colors
     const faceColors = [
-      [0.9, 0.9, 0.9, 1.0]
+      [0.95, 0.95, 0.95, 1.0]
     ];
 
     // Convert the array of colors into a table for all the vertices.

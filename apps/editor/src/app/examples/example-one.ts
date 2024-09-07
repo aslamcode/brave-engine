@@ -1,4 +1,4 @@
-import { BraveEngine, Cube, Entity, Hooks, Invoke, MaterialComponent, MaterialCullingModeEnum, Plane, Quad, ScriptComponent, Time } from '@brave/brave-engine';
+import { BraveEngine, Cube, Entity, Hooks, Invoke, MaterialComponent, MaterialCullingModeEnum, Plane, Pyramid, Quad, ScriptComponent, Sphere, Time } from '@brave/brave-engine';
 import { EditorCameraOrbiter } from '../scripts/editor-camera-orbiter';
 
 export function exampleOne(braveEngine: BraveEngine) {
@@ -12,6 +12,12 @@ export function exampleOne(braveEngine: BraveEngine) {
   // Create sceneObjects
   const scene = braveEngine.addScene();
   scene.name = 'Example one';
+
+  const plane = new Plane();
+  plane.transform.position.x = 0;
+  plane.transform.position.y = 0;
+  plane.transform.position.z = 0;
+  scene.add(plane);
 
   // const empty = new Cube();
   // empty.transform.position.z = -1;
@@ -61,14 +67,21 @@ export function exampleOne(braveEngine: BraveEngine) {
   cube3.addComponent(new RotateCube3(cube3));
 
   cube2.addChild(cube3); // Make cube 3 child of cube 2
-
   scene.add(cube2);
 
-  const plane = new Plane();
-  plane.transform.position.x = 0;
-  plane.transform.position.y = 0;
-  plane.transform.position.z = 0;
-  scene.add(plane);
+  const pyramid = new Pyramid();
+  pyramid.transform.position.x = 0;
+  pyramid.transform.position.y = 0.5;
+  pyramid.transform.position.z = 3;
+  pyramid.transform.rotation.z = 0;
+  scene.add(pyramid);
+
+  const sphere = new Sphere();
+  sphere.transform.position.x = 0;
+  sphere.transform.position.y = 0.5;
+  sphere.transform.position.z = -3;
+  sphere.transform.rotation.z = 0;
+  scene.add(sphere);
 }
 
 class RotateCube1 extends ScriptComponent {

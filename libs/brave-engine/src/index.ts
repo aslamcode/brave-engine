@@ -29,8 +29,13 @@ export * from './lib/entity/geometries/cube/cube-mesh';
 export * from './lib/entity/geometries/cube/cube';
 export * from './lib/entity/geometries/plane/plane-mesh';
 export * from './lib/entity/geometries/plane/plane';
+export * from './lib/entity/geometries/pyramid/pyramid-mesh';
+export * from './lib/entity/geometries/pyramid/pyramid';
 export * from './lib/entity/geometries/quad/quad-mesh';
 export * from './lib/entity/geometries/quad/quad';
+export * from './lib/entity/geometries/sphere/sphere-mesh';
+export * from './lib/entity/geometries/sphere/sphere';
+
 
 // Enums
 export * from './lib/enum/brave-engine-mode-enum';

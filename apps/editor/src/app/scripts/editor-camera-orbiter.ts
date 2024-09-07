@@ -8,8 +8,8 @@ export class EditorCameraOrbiter extends ScriptComponent {
   private running = false;
 
   mouseSensibility = 10;
-  moveSpeed = 3;
-  runSpeed = 7;
+  moveSpeed = 5;
+  runSpeed = 10;
 
   private lookAverageX: MovingAverage;
   private lookAverageY: MovingAverage;
