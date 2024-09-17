@@ -4,6 +4,7 @@ export class Cursor {
 
   /**
    * Lock cursor in game view or in an element if needed
+   * Is necessary call lock from a real event, like a button click for example
    */
   static lock(element?: HTMLElement, options: CursorLockOptions = { unadjustedMovement: true }) {
     if (element) {
