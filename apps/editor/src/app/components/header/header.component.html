@@ -1,4 +1,12 @@
 <div class="container">
+  <ui-button class="mx-1" [whiteRipple]="false" [disabled]="false" flat color="primary" (click)="editorView()">
+    <div>Editor View</div>
+  </ui-button>
+
+  <ui-button class="mx-1" [whiteRipple]="false" [disabled]="false" flat color="primary" (click)="sceneView()">
+    <div>Scene View </div>
+  </ui-button>
+
   <ui-button class="mx-1" [whiteRipple]="false" [disabled]="false" flat color="primary" (click)="pause()">
     <div>⏸</div>
     <div>pause</div>

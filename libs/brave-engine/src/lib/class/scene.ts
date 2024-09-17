@@ -5,7 +5,7 @@ import { clone } from '../util/clone';
 import { Shader } from './shader';
 
 export class Scene {
-  public name = 'New scene';
+  name = 'New scene';
 
   private baseChildren: Entity[] = [];
   private clonedChildren: Entity[] = [];

@@ -1,4 +1,4 @@
-import { Entity, MovingAverage, ScriptComponent, Time, Vector2, Vector3 } from '@brave/brave-engine';
+import { Entity, eventActive, InputEventSystemCallback, MovingAverage, ScriptComponent, Time, Vector2, Vector3 } from '@brave/brave-engine';
 import { editorInputEvent } from '../input-event/editor-input-event';
 import { editorViewInputEvent } from '../input-event/editor-view-input-event';
 
@@ -63,34 +63,36 @@ export class EditorCameraOrbiter extends ScriptComponent {
   }
 
   private listenInputEvents() {
-    editorViewInputEvent.mouse.right.down(() => {
+    editorViewInputEvent.mouse.right.down(eventActive(this.entity), () => {
       this.canUpdate = true;
     });
 
-    editorViewInputEvent.mouse.right.up(() => {
+    editorViewInputEvent.mouse.right.up(eventActive(this.entity), () => {
       this.canUpdate = false;
     });
 
-    editorInputEvent.mouse.right.up(() => {
+    editorInputEvent.mouse.right.up(eventActive(this.entity), () => {
       this.canUpdate = false;
     });
 
-    editorInputEvent.look(1, (event) => {
+    editorInputEvent.look(1, eventActive(this.entity), (event) => {
       if (this.canUpdate) {
         this.lookPosition = event;
       }
     });
 
-    editorInputEvent.move((event) => {
+    editorInputEvent.move(eventActive(this.entity), (event) => {
       this.movePosition = event;
     });
 
-    editorInputEvent.keyboard.shiftLeft.down(() => {
+    editorInputEvent.keyboard.shiftLeft.down(eventActive(this.entity), () => {
       this.running = true;
     });
 
-    editorInputEvent.keyboard.shiftLeft.up(() => {
+    editorInputEvent.keyboard.shiftLeft.up(eventActive(this.entity), () => {
       this.running = false;
     });
   }
+
+
 }

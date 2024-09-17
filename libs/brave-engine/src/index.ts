@@ -36,12 +36,12 @@ export * from './lib/entity/geometries/quad/quad';
 export * from './lib/entity/geometries/sphere/sphere-mesh';
 export * from './lib/entity/geometries/sphere/sphere';
 
-
 // Enums
 export * from './lib/enum/brave-engine-mode-enum';
 
 // Input event
 export * from './lib/input-event-system/input-event-system';
+export * from './lib/input-event-system/middlewares/event-active';
 
 // Interface
 export * from './lib/interface/lifecycle-hooks';

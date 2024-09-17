@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { EditorService } from '../../app/editor.service';
+import { EditorCameraModeEnum, EditorService } from '../../app/editor.service';
 
 @Component({
   selector: 'app-header',
@@ -27,6 +27,14 @@ export class HeaderComponent implements OnInit {
 
   stop() {
     this.editorService.braveEngine.stop();
+  }
+
+  editorView() {
+    this.editorService.setCameraMode(EditorCameraModeEnum.editor);
+  }
+
+  sceneView() {
+    this.editorService.setCameraMode(EditorCameraModeEnum.scene);
   }
 
 }

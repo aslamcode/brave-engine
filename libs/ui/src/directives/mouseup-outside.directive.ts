@@ -11,10 +11,10 @@ export class MouseupOutsideDirective {
   }
 
   @Output()
-  public mouseupOutside = new EventEmitter<MouseEvent>();
+  mouseupOutside = new EventEmitter<MouseEvent>();
 
   @HostListener('document:mouseup', ['$event', '$event.target'])
-  public onMouseup(event: MouseEvent, targetElement: HTMLElement): void {
+  onMouseup(event: MouseEvent, targetElement: HTMLElement): void {
     if (!targetElement) {
       return;
     }

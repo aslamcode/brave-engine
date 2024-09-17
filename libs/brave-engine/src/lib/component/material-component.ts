@@ -6,7 +6,7 @@ import { Entity } from '../entity/entity';
 
 export class MaterialComponent extends Component {
   shader: Shader;
-  cullingFace = true;
+  cullingFace = false;
   cullingMode = MaterialCullingModeEnum.back;
 
   constructor(entity: Entity, id?: string) {
@@ -24,10 +24,7 @@ export class MaterialComponent extends Component {
       };
 
       const uniformLocations = {
-        projectionMatrix: glContext.getUniformLocation(
-          shaderProgram,
-          'uProjectionMatrix'
-        ),
+        projectionMatrix: glContext.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
         modelViewMatrix: glContext.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
       };
 

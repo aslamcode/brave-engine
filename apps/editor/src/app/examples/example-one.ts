@@ -1,17 +1,25 @@
-import { BraveEngine, Cube, Entity, Hooks, Invoke, MaterialComponent, MaterialCullingModeEnum, Plane, Pyramid, Quad, ScriptComponent, Sphere, Time } from '@brave/brave-engine';
+import { BraveEngine, Camera, Cube, Entity, Hooks, Invoke, MaterialComponent, MaterialCullingModeEnum, Plane, Pyramid, Quad, ScriptComponent, Sphere, Time } from '@brave/brave-engine';
 import { EditorCameraOrbiter } from '../scripts/editor-camera-orbiter';
 
 export function exampleOne(braveEngine: BraveEngine) {
   // Create and set camera
-  const camera = braveEngine.camera;
-  camera.transform.position.x = 0;
-  camera.transform.position.y = 1;
-  camera.transform.position.z = 5;
-  camera.transform.rotation.y = 0;
+  const editorCamera = braveEngine.priorityCamera;
+  editorCamera.transform.position.x = 0;
+  editorCamera.transform.position.y = 1;
+  editorCamera.transform.position.z = 5;
+  editorCamera.transform.rotation.y = 0;
 
   // Create sceneObjects
   const scene = braveEngine.addScene();
   scene.name = 'Example one';
+
+  // Add a main camera
+  const camera = new Camera();
+  camera.mainCamera = true;
+  camera.transform.position.x = 0;
+  camera.transform.position.y = 1;
+  camera.transform.position.z = 5;
+  camera.transform.rotation.y = 0;
 
   const plane = new Plane();
   plane.transform.position.x = 0;

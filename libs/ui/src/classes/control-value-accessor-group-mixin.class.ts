@@ -9,7 +9,7 @@ import { FormGroup, FormControl, ValidatorFn } from '@angular/forms';
 export class ControlValueAccessorGroupMixin extends ControlValueAccessorMixin implements AfterContentChecked {
 
   @Input() replicateValidators = true;
-  @Input() public arrayMode = false;
+  @Input() arrayMode = false;
 
   form!: FormGroup;
   formArrayValues!: any[];

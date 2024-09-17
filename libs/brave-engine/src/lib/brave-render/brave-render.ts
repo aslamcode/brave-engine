@@ -7,10 +7,10 @@ import { renderVertexShader } from './lib/render-vertex-shader';
 import { BraveEngineModeEnum } from '../enum/brave-engine-mode-enum';
 
 export class BraveRender {
-  private camera: Camera;
+  private camera?: Camera;
   private transformForProjection = mat4.create();
 
-  public lights = new Array<Entity>();
+  lights = new Array<Entity>();
 
   private renderWidth = 0;
   private renderHeight = 0;
@@ -24,12 +24,12 @@ export class BraveRender {
   setRenderSize(width: number, height: number) {
     this.renderWidth = width;
     this.renderHeight = height;
-    this.camera.markHasChanges();
+    this.camera?.markHasChanges();
   }
 
-  setCamera(camera: Camera) {
+  setCamera(camera?: Camera) {
     this.camera = camera;
-    this.camera.markHasChanges();
+    this.camera?.markHasChanges();
   }
 
   addLight(light: Light) {

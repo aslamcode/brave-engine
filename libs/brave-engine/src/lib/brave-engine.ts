@@ -18,7 +18,8 @@ export class BraveEngine {
   private renderWidth = 0;
   private renderHeight = 0;
 
-  camera: Camera;
+  camera?: Camera;
+  priorityCamera?: Camera;
   braveRender: BraveRender;
   scenes: Scene[] = [];
 
@@ -35,9 +36,7 @@ export class BraveEngine {
     this.webgl2Context = webgl2Context;
     this.compiled = compiled;
 
-    this.camera = new Camera();
     this.braveRender = new BraveRender(this, this.webgl2Context);
-    this.braveRender.setCamera(this.camera);
 
     this.onStart();
 
@@ -119,15 +118,22 @@ export class BraveEngine {
   // #region Play controls
 
   play() {
-    this.mode = this.compiled ? BraveEngineModeEnum.compiled : BraveEngineModeEnum.running;
+    const mode = this.compiled ? BraveEngineModeEnum.compiled : BraveEngineModeEnum.running;
+    if (this.mode == mode) {
+      return;
+    }
+
+    this.mode = mode;
     this.modeSubject.next(this.mode);
-
     Time.scale = 1;
-
     Hooks.onStart();
   }
 
   pause() {
+    if (this.mode === BraveEngineModeEnum.compiledPaused || this.mode === BraveEngineModeEnum.paused) {
+      return;
+    }
+
     if (this.mode == BraveEngineModeEnum.running) {
       this.mode = BraveEngineModeEnum.paused;
     } else if (this.mode == BraveEngineModeEnum.compiled) {
@@ -139,6 +145,10 @@ export class BraveEngine {
 
   stop() {
     if (!this.compiled) {
+      if (this.mode === BraveEngineModeEnum.editor) {
+        return;
+      }
+
       this.mode = BraveEngineModeEnum.editor;
       this.modeSubject.next(this.mode);
 
@@ -158,7 +168,20 @@ export class BraveEngine {
 
   setCamera(camera: Camera) {
     this.camera = camera;
+
+    if (!this.priorityCamera) {
+      this.braveRender.setCamera(camera);
+    }
+  }
+
+  setPriorityCamera(camera: Camera) {
+    this.priorityCamera = camera;
     this.braveRender.setCamera(camera);
+  }
+
+  removePriorityCamera() {
+    this.priorityCamera = null;
+    this.braveRender.setCamera(this.camera);
   }
 }
 

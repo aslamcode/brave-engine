@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { braveEngine, BraveEngine, Camera, Hooks } from '@brave/brave-engine';
+import { braveEngine, BraveEngine, BraveEngineModeEnum, Camera, Hooks } from '@brave/brave-engine';
 import { CanvasComponent } from '../components/canvas/canvas.component';
 import { exampleOne } from '../examples/example-one';
 import { EditorCameraOrbiter } from '../scripts/editor-camera-orbiter';
@@ -10,9 +10,11 @@ import { editorViewInputEvent } from '../input-event/editor-view-input-event';
 })
 export class EditorService {
 
-  public braveEngine: BraveEngine;
-  public canvas: CanvasComponent;
-  public camera: Camera;
+  braveEngine: BraveEngine;
+  canvas: CanvasComponent;
+  camera: Camera;
+  cameraMode: EditorCameraModeEnum = EditorCameraModeEnum.editor;
+  lastCameraModeBeforeStart = this.cameraMode;
 
   onStart(canvas: CanvasComponent) {
     this.canvas = canvas;
@@ -23,9 +25,11 @@ export class EditorService {
     this.braveEngine = braveEngine;
 
     this.braveEngine.initialize(this.canvas.canvasElement.nativeElement, webgl2Context);
+    this.braveEngine.modeSubject.subscribe(value => this.changeBraveMode(value));
 
-    this.camera = this.braveEngine.camera;
+    this.camera = new Camera();
     this.camera.addComponent(new EditorCameraOrbiter(this.camera));
+    this.braveEngine.setPriorityCamera(this.camera);
 
     Hooks.register(this.camera);
 
@@ -33,4 +37,38 @@ export class EditorService {
     exampleOne(this.braveEngine);
   }
 
+  changeBraveMode(mode: BraveEngineModeEnum) {
+    switch (mode) {
+      case BraveEngineModeEnum.running:
+        this.lastCameraModeBeforeStart = this.cameraMode;
+        this.setCameraMode(EditorCameraModeEnum.scene);
+        break;
+
+      case BraveEngineModeEnum.editor:
+        this.setCameraMode(this.lastCameraModeBeforeStart);
+        break;
+    }
+  }
+
+  setCameraMode(mode: EditorCameraModeEnum) {
+    this.cameraMode = mode;
+
+    if (mode === EditorCameraModeEnum.editor) {
+      this.camera.setActive(true);
+      this.braveEngine.setPriorityCamera(this.camera);
+      return;
+    }
+
+    if (mode === EditorCameraModeEnum.scene) {
+      this.camera.setActive(false);
+      this.braveEngine.removePriorityCamera();
+      return;
+    }
+  }
+
+}
+
+export enum EditorCameraModeEnum {
+  editor,
+  scene
 }

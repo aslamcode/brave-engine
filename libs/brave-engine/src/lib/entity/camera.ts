@@ -2,6 +2,7 @@ import { mat4 } from 'gl-matrix';
 import { RgbaColor } from '../class/rgba-color';
 import { degToRad } from '../util/deg-to-rad';
 import { Entity } from './entity';
+import { braveEngine } from '../brave-engine';
 
 export class Camera extends Entity {
   private innerClearColor = new RgbaColor(0, 0, 0, 1);
@@ -9,24 +10,36 @@ export class Camera extends Entity {
   private innerZNear = 0.01;
   private innerZFar = 1000;
   private innerProjectionMatrix = mat4.create();
-
-  hasChanges = false;
+  private innerHasChanges = false;
+  private innerMainCamera = false;
 
   constructor(id?: string) {
     super(id);
     this.listenTransformChanges();
   }
 
+  onStart() {
+    this.updateAsMainCamera();
+  }
+
   markHasChanges() {
-    this.hasChanges = true;
+    this.innerHasChanges = true;
   }
 
   markAsUpdated() {
-    this.hasChanges = false;
+    this.innerHasChanges = false;
   }
 
   private listenTransformChanges() {
     this.transform.onChange.subscribe(() => this.markHasChanges());
+  }
+
+  private updateAsMainCamera() {
+    if (this.innerMainCamera) {
+      braveEngine.setCamera(this);
+    } else if (braveEngine.camera === this) {
+      braveEngine.setCamera(null);
+    }
   }
 
   //#region Getters
@@ -37,6 +50,8 @@ export class Camera extends Entity {
   get zNear() { return this.innerZNear; }
   get zFar() { return this.innerZFar; }
   get projectionMatrix() { return this.innerProjectionMatrix; }
+  get hasChanges() { return this.innerHasChanges; }
+  get mainCamera() { return this.innerMainCamera; }
 
   //#endregion Getters
 
@@ -60,6 +75,11 @@ export class Camera extends Entity {
   set zFar(value: number) {
     this.innerZFar = value;
     this.markHasChanges();
+  }
+
+  set mainCamera(value: boolean) {
+    this.innerMainCamera = value;
+    this.updateAsMainCamera();
   }
 
   //#endregion Setters
