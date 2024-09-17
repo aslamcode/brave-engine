@@ -1,4 +1,4 @@
-import { Entity, eventActive, InputEventSystemCallback, MovingAverage, ScriptComponent, Time, Vector2, Vector3 } from '@brave/brave-engine';
+import { Entity, eventActive, MovingAverage, ScriptComponent, Time, Vector2, Vector3 } from '@brave/brave-engine';
 import { editorInputEvent } from '../input-event/editor-input-event';
 import { editorViewInputEvent } from '../input-event/editor-view-input-event';
 
@@ -25,7 +25,7 @@ export class EditorCameraOrbiter extends ScriptComponent {
     this.listenInputEvents();
   }
 
-  override onRenderUpdate() {
+  onRenderUpdate() {
     this.look();
     this.move();
   }
@@ -93,6 +93,5 @@ export class EditorCameraOrbiter extends ScriptComponent {
       this.running = false;
     });
   }
-
 
 }

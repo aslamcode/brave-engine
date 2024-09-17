@@ -1,10 +1,14 @@
 import { mat4 } from 'gl-matrix';
 import { RgbaColor } from '../class/rgba-color';
 import { degToRad } from '../util/deg-to-rad';
-import { Entity } from './entity';
+import { Entity, EntityTypeEnum } from './entity';
 import { braveEngine } from '../brave-engine';
+import { Subscription } from 'rxjs';
 
 export class Camera extends Entity {
+  name = 'Camera';
+  type = EntityTypeEnum.camera;
+
   private innerClearColor = new RgbaColor(0, 0, 0, 1);
   private innerFieldOfView = 60;
   private innerZNear = 0.01;
@@ -13,13 +17,33 @@ export class Camera extends Entity {
   private innerHasChanges = false;
   private innerMainCamera = false;
 
+  private transformSubscription: Subscription;
+
   constructor(id?: string) {
     super(id);
     this.listenTransformChanges();
   }
 
-  onStart() {
+  override onStart() {
+    super.onStart();
+
+    // Is necessary cancel all events and listen again
+    // because the entity is cloned when scene starts
+
+    // Cancel all events
+    this.transformSubscription.unsubscribe();
+
+    // Listen events again
+    this.listenTransformChanges();
+
+    // Clone a new projection matrix because the entity was cloned
+    this.innerProjectionMatrix = mat4.clone(this.innerProjectionMatrix);
+
     this.updateAsMainCamera();
+  }
+
+  override onDestroy() {
+    super.onDestroy();
   }
 
   markHasChanges() {
@@ -31,13 +55,13 @@ export class Camera extends Entity {
   }
 
   private listenTransformChanges() {
-    this.transform.onChange.subscribe(() => this.markHasChanges());
+    this.transformSubscription = this.transform.onChange.subscribe(() => this.markHasChanges());
   }
 
   private updateAsMainCamera() {
     if (this.innerMainCamera) {
       braveEngine.setCamera(this);
-    } else if (braveEngine.camera === this) {
+    } else if (braveEngine.camera == this) {
       braveEngine.setCamera(null);
     }
   }

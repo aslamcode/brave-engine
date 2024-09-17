@@ -12,6 +12,7 @@ import { clone } from '../util/clone';
 
 export class Entity implements LifecycleHooks {
   id: string;
+  type = EntityTypeEnum.default;
   scene?: Scene;
 
   name = 'Entity';
@@ -64,10 +65,6 @@ export class Entity implements LifecycleHooks {
       this.parent.removeChild(this);
     }
 
-    this.children.forEach(elem => elem.destroy());
-
-    this.components.forEach(elem => elem.destroy());
-
     this.onDestroy();
   }
 
@@ -75,7 +72,7 @@ export class Entity implements LifecycleHooks {
 
   onStart() {
     this.components.forEach(elem => {
-      elem['start']();
+      elem.start();
       if (elem.active) {
         elem.onStart();
       }
@@ -107,7 +104,8 @@ export class Entity implements LifecycleHooks {
   }
 
   onDestroy() {
-
+    this.components.forEach(elem => elem.destroy());
+    this.children.forEach(elem => elem.destroy());
   }
 
   // #endregion Lifecycle hooks
@@ -216,4 +214,10 @@ export class Entity implements LifecycleHooks {
   clone() {
     return clone(this, WebGLBuffer, Shader);
   }
+}
+
+export enum EntityTypeEnum {
+  default,
+  camera,
+  light
 }

@@ -1,6 +1,6 @@
 import { BraveEngine } from '../brave-engine';
 import { Camera } from '../entity/camera';
-import { Entity } from '../entity/entity';
+import { Entity, EntityTypeEnum } from '../entity/entity';
 import { Light } from '../entity/light';
 import { mat4 } from 'gl-matrix';
 import { renderVertexShader } from './lib/render-vertex-shader';
@@ -100,7 +100,7 @@ export class BraveRender {
       // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       // To Do: Filtrar objectos que sao luz
       // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      if (entity.materials.length > 0) {
+      if (entity.type == EntityTypeEnum.default && entity.materials.length > 0) {
         this.renderVertexShader(entity);
       }
 

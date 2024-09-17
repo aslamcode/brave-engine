@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { braveEngine, BraveEngine, BraveEngineModeEnum, Camera, Hooks } from '@brave/brave-engine';
+import { braveEngine, BraveEngine, BraveEngineModeEnum, Camera, Hooks, Input } from '@brave/brave-engine';
 import { CanvasComponent } from '../components/canvas/canvas.component';
 import { exampleOne } from '../examples/example-one';
 import { EditorCameraOrbiter } from '../scripts/editor-camera-orbiter';
@@ -45,6 +45,7 @@ export class EditorService {
         break;
 
       case BraveEngineModeEnum.editor:
+        this.braveEngine.resetToSceneCamera();
         this.setCameraMode(this.lastCameraModeBeforeStart);
         break;
     }
@@ -56,12 +57,14 @@ export class EditorService {
     if (mode === EditorCameraModeEnum.editor) {
       this.camera.setActive(true);
       this.braveEngine.setPriorityCamera(this.camera);
+      Input.active = false;
       return;
     }
 
     if (mode === EditorCameraModeEnum.scene) {
       this.camera.setActive(false);
       this.braveEngine.removePriorityCamera();
+      Input.active = true;
       return;
     }
   }

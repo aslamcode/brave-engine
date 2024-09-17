@@ -136,12 +136,12 @@ export class Scene {
   }
 
   private loadEntityRecursively(entity: Entity) {
-    entity['load'](this.glContext);
+    entity.load(this.glContext);
     entity.children.forEach(elem => this.loadEntityRecursively(elem));
   }
 
   private startEntityRecursively(entity: Entity) {
-    entity['start']();
+    entity.start();
     entity.onStart();
     entity.children.forEach(elem => this.startEntityRecursively(elem));
   }

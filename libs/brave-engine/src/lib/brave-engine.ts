@@ -7,6 +7,7 @@ import { Camera } from "./entity/camera";
 import { BraveEngineVsyncModeEnum } from "./enum/brave-engine-vsync-mode.enum";
 import { Invoke } from "./static/invoke";
 import { Hooks } from "./static/hooks";
+import { Input } from "./static/input";
 
 export class BraveEngine {
 
@@ -20,6 +21,7 @@ export class BraveEngine {
 
   camera?: Camera;
   priorityCamera?: Camera;
+  sceneCamera?: Camera;
   braveRender: BraveRender;
   scenes: Scene[] = [];
 
@@ -130,7 +132,7 @@ export class BraveEngine {
   }
 
   pause() {
-    if (this.mode === BraveEngineModeEnum.compiledPaused || this.mode === BraveEngineModeEnum.paused) {
+    if (this.mode === BraveEngineModeEnum.compiledPaused || this.mode === BraveEngineModeEnum.paused || this.mode === BraveEngineModeEnum.editor) {
       return;
     }
 
@@ -153,7 +155,7 @@ export class BraveEngine {
       this.modeSubject.next(this.mode);
 
       Invoke.cancelAllInvokes();
-
+      Input.removeAllListners();
       Hooks.onDestroy();
     }
   }
@@ -169,9 +171,18 @@ export class BraveEngine {
   setCamera(camera: Camera) {
     this.camera = camera;
 
+    if (this.mode != BraveEngineModeEnum.running) {
+      this.sceneCamera = camera;
+    }
+
     if (!this.priorityCamera) {
       this.braveRender.setCamera(camera);
     }
+  }
+
+  resetToSceneCamera() {
+    this.camera = this.sceneCamera;
+    this.braveRender.setCamera(this.camera);
   }
 
   setPriorityCamera(camera: Camera) {
