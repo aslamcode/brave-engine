@@ -20,7 +20,7 @@ export function exampleOne(braveEngine: BraveEngine) {
   camera.transform.position.y = 1;
   camera.transform.position.z = 10;
   camera.transform.rotation.y = 0;
-  camera.addComponent(new MoveCamera(camera));
+  camera.addComponent(new FreeCamera(camera));
   scene.add(camera);
 
   const plane = new Plane();
@@ -157,8 +157,7 @@ class RotateCube3 extends ScriptComponent {
   }
 }
 
-class MoveCamera extends ScriptComponent {
-  private canUpdate = false;
+class FreeCamera extends ScriptComponent {
   private running = false;
 
   mouseSensibility = 10;
@@ -198,10 +197,6 @@ class MoveCamera extends ScriptComponent {
   }
 
   move() {
-    if (!this.canUpdate) {
-      return;
-    }
-
     const speed = this.running ? this.runSpeed : this.moveSpeed;
 
     const backwardDirection = this.entity.transform.backward;
@@ -220,22 +215,8 @@ class MoveCamera extends ScriptComponent {
   }
 
   private listenInputEvents() {
-    Input.mouse.right.down(() => {
-      this.canUpdate = true;
-    });
-
-    Input.mouse.right.up(() => {
-      this.canUpdate = false;
-    });
-
-    Input.mouse.right.up(() => {
-      this.canUpdate = false;
-    });
-
     Input.look(1, (event) => {
-      if (this.canUpdate) {
-        this.lookPosition = event;
-      }
+      this.lookPosition = event;
     });
 
     Input.move((event) => {

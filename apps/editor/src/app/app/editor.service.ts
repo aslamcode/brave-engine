@@ -4,6 +4,7 @@ import { CanvasComponent } from '../components/canvas/canvas.component';
 import { exampleOne } from '../examples/example-one';
 import { EditorCameraOrbiter } from '../scripts/editor-camera-orbiter';
 import { editorViewInputEvent } from '../input-event/editor-view-input-event';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,9 @@ export class EditorService {
   braveEngine: BraveEngine;
   canvas: CanvasComponent;
   camera: Camera;
-  cameraMode: EditorCameraModeEnum = EditorCameraModeEnum.editor;
-  lastCameraModeBeforeStart = this.cameraMode;
+  viewMode: EditorViewModeEnum = EditorViewModeEnum.editor;
+  viewModeSubject = new Subject<EditorViewModeEnum>();
+  lastCameraModeBeforeStart = this.viewMode;
 
   onStart(canvas: CanvasComponent) {
     this.canvas = canvas;
@@ -40,38 +42,40 @@ export class EditorService {
   changeBraveMode(mode: BraveEngineModeEnum) {
     switch (mode) {
       case BraveEngineModeEnum.running:
-        this.lastCameraModeBeforeStart = this.cameraMode;
-        this.setCameraMode(EditorCameraModeEnum.scene);
+        this.lastCameraModeBeforeStart = this.viewMode;
+        this.setViewMode(EditorViewModeEnum.scene);
         break;
 
       case BraveEngineModeEnum.editor:
         this.braveEngine.resetToSceneCamera();
-        this.setCameraMode(this.lastCameraModeBeforeStart);
+        this.setViewMode(this.lastCameraModeBeforeStart);
         break;
     }
   }
 
-  setCameraMode(mode: EditorCameraModeEnum) {
-    this.cameraMode = mode;
+  setViewMode(mode: EditorViewModeEnum) {
+    this.viewMode = mode;
 
-    if (mode === EditorCameraModeEnum.editor) {
+    if (mode === EditorViewModeEnum.editor) {
       this.camera.setActive(true);
       this.braveEngine.setPriorityCamera(this.camera);
       Input.active = false;
       return;
     }
 
-    if (mode === EditorCameraModeEnum.scene) {
+    if (mode === EditorViewModeEnum.scene) {
       this.camera.setActive(false);
       this.braveEngine.removePriorityCamera();
       Input.active = true;
       return;
     }
+
+    this.viewModeSubject.next(this.viewMode);
   }
 
 }
 
-export enum EditorCameraModeEnum {
+export enum EditorViewModeEnum {
   editor,
   scene
 }

@@ -50,11 +50,12 @@ export * from './lib/interface/lifecycle-hooks';
 export * from './lib/shader/vertex-shader';
 
 // Static
-export * from './lib/static/time';
-export * from './lib/static/registry';
-export * from './lib/static/invoke';
+export * from './lib/static/cursor';
 export * from './lib/static/hooks';
 export * from './lib/static/input';
+export * from './lib/static/invoke';
+export * from './lib/static/registry';
+export * from './lib/static/time';
 
 // Util
 export * from './lib/util/color/rgba-color-array-to-float-color-array';

@@ -1,1 +1,3 @@
-<canvas #canvas class="canvas" [width]="width" [height]="height"></canvas>
+<canvas #canvas class="canvas" [width]="width" [height]="height" (mousedown)="mouseDown($event)"
+  (mouseup)="mouseUp($event)">
+</canvas>

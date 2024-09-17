@@ -194,6 +194,15 @@ export class BraveEngine {
     this.priorityCamera = null;
     this.braveRender.setCamera(this.camera);
   }
+
+  //#region Getters
+
+  get canvasElement() {
+    return this.canvas;
+  }
+
+  //#endregion Getters
+
 }
 
 export const braveEngine = new BraveEngine();

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { EditorCameraModeEnum, EditorService } from '../../app/editor.service';
+import { EditorViewModeEnum, EditorService } from '../../app/editor.service';
 
 @Component({
   selector: 'app-header',
@@ -30,11 +30,11 @@ export class HeaderComponent implements OnInit {
   }
 
   editorView() {
-    this.editorService.setCameraMode(EditorCameraModeEnum.editor);
+    this.editorService.setViewMode(EditorViewModeEnum.editor);
   }
 
   sceneView() {
-    this.editorService.setCameraMode(EditorCameraModeEnum.scene);
+    this.editorService.setViewMode(EditorViewModeEnum.scene);
   }
 
 }
