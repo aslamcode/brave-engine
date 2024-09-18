@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { braveEngine, BraveEngine, BraveEngineModeEnum, Camera, Hooks, Input } from '@brave/brave-engine';
+import { AudioSystem, braveEngine, BraveEngine, BraveEngineModeEnum, Camera, Hooks, Input } from '@brave/brave-engine';
 import { CanvasComponent } from '../components/canvas/canvas.component';
 import { exampleOne } from '../examples/example-one';
 import { EditorCameraOrbiter } from '../scripts/editor-camera-orbiter';
 import { editorViewInputEvent } from '../input-event/editor-view-input-event';
 import { Subject } from 'rxjs';
+import { EditorAudioListener } from '../scripts/editor-audio-listener';
 
 @Injectable({
   providedIn: 'root'
@@ -31,9 +32,13 @@ export class EditorService {
 
     this.camera = new Camera();
     this.camera.addComponent(new EditorCameraOrbiter(this.camera));
+    this.camera.addComponent(new EditorAudioListener(this.camera));
+
     this.braveEngine.setPriorityCamera(this.camera);
 
     Hooks.register(this.camera);
+
+    AudioSystem.initialize();
 
     // Run examples
     exampleOne(this.braveEngine);
@@ -58,6 +63,7 @@ export class EditorService {
 
     if (mode === EditorViewModeEnum.editor) {
       this.camera.setActive(true);
+      this.braveEngine.camera?.setActive(false); // Disable scene camera
       this.braveEngine.setPriorityCamera(this.camera);
       Input.active = false;
       return;
@@ -65,6 +71,7 @@ export class EditorService {
 
     if (mode === EditorViewModeEnum.scene) {
       this.camera.setActive(false);
+      this.braveEngine.camera?.setActive(true); // Active scene camera
       this.braveEngine.removePriorityCamera();
       Input.active = true;
       return;

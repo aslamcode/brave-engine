@@ -41,4 +41,20 @@ export class Component implements LifecycleHooks {
   onRenderUpdate() { }
   onFixedUpdate() { }
   onDestroy() { }
+
+  //#region Getters
+
+  get activeInHierarchy() {
+    if (!this.active) {
+      return false;
+    }
+
+    if (this.entity && this.entity.parent) {
+      return this.entity.parent.activeInHierarchy;
+    }
+
+    return true;
+  }
+
+  //#endregion Getters
 }

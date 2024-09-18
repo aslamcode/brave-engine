@@ -1,4 +1,4 @@
-import { InputEventSystemCallback } from "./input-event-system";
+import { InputEventSystemCallback } from './input-event-system';
 
 export function filterKeyboardEvent<T>(eventCode: string) {
   return (event: KeyboardEvent, next?: InputEventSystemCallback<T>) => {

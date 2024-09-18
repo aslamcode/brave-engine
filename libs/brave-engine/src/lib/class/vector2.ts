@@ -1,5 +1,5 @@
-import { Subject } from "rxjs";
-import { Vector3 } from "./vector3";
+import { Subject } from 'rxjs';
+import { Vector3 } from './vector3';
 
 export class Vector2 extends Array<number> {
 

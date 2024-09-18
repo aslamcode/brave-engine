@@ -1,6 +1,6 @@
-import { filterKeyboardEvent } from "./filter-keyboard-event";
-import { InputEventSystemCallback, InputEventSystem } from "./input-event-system";
-import { keyboardKeyEventNames } from "./keyboard-key-event-names";
+import { filterKeyboardEvent } from './filter-keyboard-event';
+import { InputEventSystemCallback, InputEventSystem } from './input-event-system';
+import { keyboardKeyEventNames } from './keyboard-key-event-names';
 
 export class InputEventSystemKeyboard {
 

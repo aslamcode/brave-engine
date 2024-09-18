@@ -1,13 +1,13 @@
-import { BraveRender } from "./brave-render/brave-render";
-import { Scene } from "./class/scene";
-import { BraveEngineModeEnum } from "./enum/brave-engine-mode-enum";
+import { BraveRender } from './brave-render/brave-render';
+import { Scene } from './class/scene';
+import { BraveEngineModeEnum } from './enum/brave-engine-mode-enum';
 import { Subject } from 'rxjs';
-import { Time } from "./static/time";
-import { Camera } from "./entity/camera";
-import { BraveEngineVsyncModeEnum } from "./enum/brave-engine-vsync-mode.enum";
-import { Invoke } from "./static/invoke";
-import { Hooks } from "./static/hooks";
-import { Input } from "./static/input";
+import { Time } from './static/time';
+import { Camera } from './entity/camera';
+import { BraveEngineVsyncModeEnum } from './enum/brave-engine-vsync-mode.enum';
+import { Invoke } from './static/invoke';
+import { Hooks } from './static/hooks';
+import { Input } from './static/input';
 
 export class BraveEngine {
 

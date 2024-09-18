@@ -15,8 +15,6 @@ export class CanvasComponent implements OnInit, AfterViewChecked {
 
   @ViewChild('canvas', { static: true }) canvas!: ElementRef<HTMLCanvasElement>;
 
-  // canShowCursor = true;
-
   constructor(
     private elementRef: ElementRef,
     private editorService: EditorService
@@ -28,18 +26,6 @@ export class CanvasComponent implements OnInit, AfterViewChecked {
   ngAfterViewChecked() {
     this.width = this.elementRef.nativeElement.width;
     this.height = this.elementRef.nativeElement.height;
-  }
-
-  listenEditorCameraModeChange(mode: EditorViewModeEnum) {
-    if (braveEngine.mode == BraveEngineModeEnum.running || braveEngine.mode == BraveEngineModeEnum.compiled) {
-      if (mode == EditorViewModeEnum.editor) {
-        this.showCursor();
-      } else {
-        this.hideCursor();
-      }
-    } else {
-      this.showCursor();
-    }
   }
 
   mouseDown(event: MouseEvent) {

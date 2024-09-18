@@ -1,7 +1,7 @@
-import { Vector2 } from "../class/vector2";
-import { MovingAverage } from "../util/class/moving-average";
-import { InputEventSystemKeyboard } from "./input-event-system-keyboard";
-import { InputEventSystemMouse } from "./input-event-system-mouse";
+import { Vector2 } from '../class/vector2';
+import { MovingAverage } from '../util/class/moving-average';
+import { InputEventSystemKeyboard } from './input-event-system-keyboard';
+import { InputEventSystemMouse } from './input-event-system-mouse';
 
 export class InputEventSystem {
 
@@ -35,9 +35,9 @@ export class InputEventSystem {
 
     this.innerContext.addEventListener(type, listnerFn);
 
-    const listner: EventListner = { type, listnerFn };
-    this.listners.push(listner);
-    return listner;
+    const listener: EventListner = { type, listnerFn };
+    this.listners.push(listener);
+    return listener;
   }
 
   keyPress(...callback: InputEventSystemCallback<KeyboardEvent>[]) {
@@ -51,9 +51,9 @@ export class InputEventSystem {
 
     this.innerContext.addEventListener(type, listnerFn);
 
-    const listner: EventListner = { type, listnerFn };
-    this.listners.push(listner);
-    return listner;
+    const listener: EventListner = { type, listnerFn };
+    this.listners.push(listener);
+    return listener;
   }
 
   keyUp(...callback: InputEventSystemCallback<KeyboardEvent>[]) {
@@ -67,9 +67,9 @@ export class InputEventSystem {
 
     this.innerContext.addEventListener(type, listnerFn);
 
-    const listner: EventListner = { type, listnerFn };
-    this.listners.push(listner);
-    return listner;
+    const listener: EventListner = { type, listnerFn };
+    this.listners.push(listener);
+    return listener;
   }
 
   mouseDown(...callback: InputEventSystemCallback<MouseEvent>[]) {
@@ -83,9 +83,9 @@ export class InputEventSystem {
 
     this.innerContext.addEventListener(type, listnerFn);
 
-    const listner: EventListner = { type, listnerFn };
-    this.listners.push(listner);
-    return listner;
+    const listener: EventListner = { type, listnerFn };
+    this.listners.push(listener);
+    return listener;
   }
 
   mouseEnter(...callback: InputEventSystemCallback<MouseEvent>[]) {
@@ -99,9 +99,9 @@ export class InputEventSystem {
 
     this.innerContext.addEventListener(type, listnerFn);
 
-    const listner: EventListner = { type, listnerFn };
-    this.listners.push(listner);
-    return listner;
+    const listener: EventListner = { type, listnerFn };
+    this.listners.push(listener);
+    return listener;
   }
 
   mouseLeave(...callback: InputEventSystemCallback<MouseEvent>[]) {
@@ -115,9 +115,9 @@ export class InputEventSystem {
 
     this.innerContext.addEventListener(type, listnerFn);
 
-    const listner: EventListner = { type, listnerFn };
-    this.listners.push(listner);
-    return listner;
+    const listener: EventListner = { type, listnerFn };
+    this.listners.push(listener);
+    return listener;
   }
 
   mouseMove(...callback: InputEventSystemCallback<MouseEvent>[]) {
@@ -131,9 +131,9 @@ export class InputEventSystem {
 
     this.innerContext.addEventListener(type, listnerFn);
 
-    const listner: EventListner = { type, listnerFn };
-    this.listners.push(listner);
-    return listner;
+    const listener: EventListner = { type, listnerFn };
+    this.listners.push(listener);
+    return listener;
   }
 
   mouseOut(...callback: InputEventSystemCallback<MouseEvent>[]) {
@@ -147,9 +147,9 @@ export class InputEventSystem {
 
     this.innerContext.addEventListener(type, listnerFn);
 
-    const listner: EventListner = { type, listnerFn };
-    this.listners.push(listner);
-    return listner;
+    const listener: EventListner = { type, listnerFn };
+    this.listners.push(listener);
+    return listener;
   }
 
   mouseOver(...callback: InputEventSystemCallback<MouseEvent>[]) {
@@ -163,9 +163,9 @@ export class InputEventSystem {
 
     this.innerContext.addEventListener(type, listnerFn);
 
-    const listner: EventListner = { type, listnerFn };
-    this.listners.push(listner);
-    return listner;
+    const listener: EventListner = { type, listnerFn };
+    this.listners.push(listener);
+    return listener;
   }
 
   mouseUp(...callback: InputEventSystemCallback<MouseEvent>[]) {
@@ -179,9 +179,9 @@ export class InputEventSystem {
 
     this.innerContext.addEventListener(type, listnerFn);
 
-    const listner: EventListner = { type, listnerFn };
-    this.listners.push(listner);
-    return listner;
+    const listener: EventListner = { type, listnerFn };
+    this.listners.push(listener);
+    return listener;
   }
 
   mouseWheel(...callback: InputEventSystemCallback<MouseEvent>[]) {
@@ -195,9 +195,9 @@ export class InputEventSystem {
 
     this.innerContext.addEventListener(type, listnerFn);
 
-    const listner: EventListner = { type, listnerFn };
-    this.listners.push(listner);
-    return listner;
+    const listener: EventListner = { type, listnerFn };
+    this.listners.push(listener);
+    return listener;
   }
 
   //#endregion Base events
@@ -315,36 +315,36 @@ export class InputEventSystem {
     children.push(keyDownListner);
     children.push(keyUpListner);
 
-    const listner: EventListner = { type, children, custom: true };
-    this.listners.push(listner);
-    return listner;
+    const listener: EventListner = { type, children, custom: true };
+    this.listners.push(listener);
+    return listener;
   }
 
   //#endregion Custom events
 
-  removeListner(listner: EventListner) {
-    if (listner.custom) {
-      listner.children?.forEach(elem => {
+  removeListner(listener: EventListner) {
+    if (listener.custom) {
+      listener.children?.forEach(elem => {
         this.innerContext.removeEventListener(elem.type, elem.listnerFn);
       });
     } else {
-      this.innerContext.removeEventListener(listner.type, listner.listnerFn);
+      this.innerContext.removeEventListener(listener.type, listener.listnerFn);
     }
 
-    const index = this.listners.findIndex(elem => elem == listner);
+    const index = this.listners.findIndex(elem => elem == listener);
     if (index != -1) {
       this.listners.splice(index, 1);
     }
   }
 
   removeAllListners() {
-    this.listners.forEach(listner => {
-      if (listner.custom) {
-        listner.children?.forEach(elem => {
+    this.listners.forEach(listener => {
+      if (listener.custom) {
+        listener.children?.forEach(elem => {
           this.innerContext.removeEventListener(elem.type, elem.listnerFn);
         });
       } else {
-        this.innerContext.removeEventListener(listner.type, listner.listnerFn);
+        this.innerContext.removeEventListener(listener.type, listener.listnerFn);
       }
     });
     this.listners = [];

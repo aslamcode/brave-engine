@@ -1,5 +1,5 @@
-import { filterMouseButtonEvent } from "./filter-mouse-event";
-import { InputEventSystemCallback, InputEventSystem } from "./input-event-system";
+import { filterMouseButtonEvent } from './filter-mouse-event';
+import { InputEventSystemCallback, InputEventSystem } from './input-event-system';
 
 export class InputEventSystemMouse {
 

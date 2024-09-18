@@ -74,8 +74,8 @@ export class Input {
 
   //#endregion Custom events
 
-  static removeListner(listner: EventListner) {
-    return this.inputEvent.removeListner(listner);
+  static removeListner(listener: EventListner) {
+    return this.inputEvent.removeListner(listener);
   }
 
   static removeAllListners() {

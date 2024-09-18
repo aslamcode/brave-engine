@@ -16,8 +16,12 @@ export * from './lib/class/vector2';
 export * from './lib/component/component';
 export * from './lib/component/material-component';
 export * from './lib/component/mesh-renderer-component';
-export * from './lib/component/script/script-component';
 export * from './lib/component/transform-component';
+
+// Components: Script components
+export * from './lib/component/script/script-component';
+export * from './lib/component/script/free-camera-component';
+export * from './lib/component/script/audio-listener-component';
 
 // Entity
 export * from './lib/entity/entity';
@@ -50,6 +54,7 @@ export * from './lib/interface/lifecycle-hooks';
 export * from './lib/shader/vertex-shader';
 
 // Static
+export * from './lib/static/audio-system';
 export * from './lib/static/cursor';
 export * from './lib/static/hooks';
 export * from './lib/static/input';

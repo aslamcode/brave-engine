@@ -214,6 +214,22 @@ export class Entity implements LifecycleHooks {
   clone() {
     return clone(this, WebGLBuffer, Shader);
   }
+
+  //#region Getters
+
+  get activeInHierarchy() {
+    if (!this.active) {
+      return false;
+    }
+
+    if (this.parent) {
+      return this.parent.activeInHierarchy;
+    }
+
+    return true;
+  }
+
+  //#endregion Getters
 }
 
 export enum EntityTypeEnum {

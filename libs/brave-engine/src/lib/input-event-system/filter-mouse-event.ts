@@ -1,4 +1,4 @@
-import { InputEventSystemCallback } from "./input-event-system";
+import { InputEventSystemCallback } from './input-event-system';
 
 export function filterMouseButtonEvent<T>(button: number) {
   return (event: MouseEvent, next?: InputEventSystemCallback<T>) => {
