@@ -85,15 +85,15 @@ export class AudioSourceComponent extends ScriptComponent {
     const transform = this.entity.transform;
     const position = this.entity.transform.position;
 
-    this.panner.positionX.value = position.x;
-    this.panner.positionY.value = position.y;
-    this.panner.positionZ.value = position.z;
+    this.panner.positionX.setTargetAtTime(position.x, AudioSystem.context.currentTime, 0.03);
+    this.panner.positionY.setTargetAtTime(position.y, AudioSystem.context.currentTime, 0.03);
+    this.panner.positionZ.setTargetAtTime(position.z, AudioSystem.context.currentTime, 0.03);
 
     // Set rotation using projection vector
     const projection = transform.forward;
-    this.panner.orientationX.value = projection.x;
+    this.panner.orientationX.setTargetAtTime(projection.x, AudioSystem.context.currentTime, 0.03);
     this.panner.orientationY.value = 0;
-    this.panner.orientationZ.value = projection.z;
+    this.panner.orientationZ.setTargetAtTime(projection.z, AudioSystem.context.currentTime, 0.03);
   }
 
   protected listenTransformChanges() {

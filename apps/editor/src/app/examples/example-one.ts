@@ -170,6 +170,6 @@ class RotatePyramid extends ScriptComponent {
   }
 
   onUpdate() {
-    this.entity.transform.rotation.y += 30 * Time.deltaTime;
+    this.entity.transform.rotation.y += 40 * Time.deltaTime;
   }
 }

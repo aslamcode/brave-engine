@@ -38,8 +38,6 @@ export class EditorService {
 
     Hooks.register(this.camera);
 
-    AudioSystem.initialize();
-
     // Run examples
     exampleOne(this.braveEngine);
   }
