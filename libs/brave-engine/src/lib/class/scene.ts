@@ -1,4 +1,5 @@
 import { BraveEngine } from '../brave-engine';
+import { AudioSourceComponent } from '../component/script/audio-source-component';
 import { Entity } from '../entity/entity';
 import { BraveEngineModeEnum } from '../enum/brave-engine-mode-enum';
 import { clone } from '../util/clone';
@@ -118,7 +119,7 @@ export class Scene {
 
   private cloneAndStart() {
     this.clonedChildren = this.baseChildren.map(entity => {
-      const cloned = clone(entity, WebGLBuffer, Shader, Scene);
+      const cloned = clone(entity, WebGLBuffer, Shader, Scene, PannerNode, HTMLAudioElement, MediaElementAudioSourceNode);
       return cloned;
     });
 

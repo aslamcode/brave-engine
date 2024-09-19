@@ -14,7 +14,7 @@ export class EditorAudioListener extends AudioListenerComponent {
   onRenderUpdate() {
     if (this.activeInHierarchy && this.hasChanges) {
       this.hasChanges = false;
-      this.updateListener();
+      this.updateOrientation();
     }
   }
 

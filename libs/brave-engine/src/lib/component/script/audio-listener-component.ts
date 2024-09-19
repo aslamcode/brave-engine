@@ -1,20 +1,27 @@
 import { Subscription } from 'rxjs';
 import { ScriptComponent } from './script-component';
 import { AudioSystem } from '../../static/audio-system';
+import { Entity } from '../../entity/entity';
 
 export class AudioListenerComponent extends ScriptComponent {
 
   protected transformSubscription: Subscription;
   protected hasChanges = false;
 
+  constructor(entity: Entity, id?: string) {
+    super(entity, id);
+    this.updateOrientation();
+  }
+
   onStart() {
     this.listenTransformChanges();
+    this.updateOrientation();
   }
 
   onUpdate() {
     if (this.hasChanges) {
       this.hasChanges = false;
-      this.updateListener();
+      this.updateOrientation();
     }
   }
 
@@ -22,8 +29,8 @@ export class AudioListenerComponent extends ScriptComponent {
     this.transformSubscription?.unsubscribe();
   }
 
-  updateListener() {
-    AudioSystem.setListenerPosition(this.entity.transform.position);
+  protected updateOrientation() {
+    AudioSystem.setListenerOrientation(this.entity.transform);
   }
 
   protected listenTransformChanges() {

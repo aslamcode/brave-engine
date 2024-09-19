@@ -19,9 +19,10 @@ export * from './lib/component/mesh-renderer-component';
 export * from './lib/component/transform-component';
 
 // Components: Script components
-export * from './lib/component/script/script-component';
-export * from './lib/component/script/free-camera-component';
 export * from './lib/component/script/audio-listener-component';
+export * from './lib/component/script/audio-source-component';
+export * from './lib/component/script/free-camera-component';
+export * from './lib/component/script/script-component';
 
 // Entity
 export * from './lib/entity/entity';

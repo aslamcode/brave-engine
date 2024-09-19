@@ -3,6 +3,12 @@ export function clone(data: any, ...typeExceptions: any[]) {
 }
 
 function cloneInstance(data: any, typeExceptions: any[] = [], clonedMap = new Map<any, any>()) {
+  // Check data is not instance of an exception, if is, cancel clone
+  const index = typeExceptions.findIndex(type => data instanceof type);
+  if (index != -1) {
+    return data;
+  }
+
   if (Array.isArray(data)) {
     const cloned = data.map(elem => cloneInstance(elem, typeExceptions, clonedMap));
     clonedMap.set(data, cloned);

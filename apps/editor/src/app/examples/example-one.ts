@@ -1,12 +1,12 @@
-import { AudioListenerComponent, braveEngine, BraveEngine, Camera, Cube, Entity, eventActive, FreeCameraComponent, Hooks, Input, Invoke, MaterialComponent, MaterialCullingModeEnum, MovingAverage, Plane, Pyramid, Quad, ScriptComponent, Sphere, Time, Vector2, Vector3 } from '@brave/brave-engine';
+import { AudioListenerComponent, AudioSourceComponent, braveEngine, BraveEngine, Camera, Cube, Entity, eventActive, FreeCameraComponent, Hooks, Input, Invoke, MaterialComponent, MaterialCullingModeEnum, MovingAverage, Plane, Pyramid, Quad, ScriptComponent, Sphere, Time, Vector2, Vector3 } from '@brave/brave-engine';
 import { EditorCameraOrbiter } from '../scripts/editor-camera-orbiter';
 
 export function exampleOne(braveEngine: BraveEngine) {
   // Create and set camera
   const editorCamera = braveEngine.priorityCamera;
   editorCamera.transform.position.x = 0;
-  editorCamera.transform.position.y = 1;
-  editorCamera.transform.position.z = 5;
+  editorCamera.transform.position.y = 0;
+  editorCamera.transform.position.z = 0;
   editorCamera.transform.rotation.y = 0;
 
   // Create sceneObjects
@@ -14,9 +14,9 @@ export function exampleOne(braveEngine: BraveEngine) {
   scene.name = 'Example one';
 
   // Add a main camera
-  const camera = new Camera();
+  const camera = new Camera();;
   camera.mainCamera = true;
-  camera.transform.position.x = 3;
+  camera.transform.position.x = 0;
   camera.transform.position.y = 1;
   camera.transform.position.z = 10;
   camera.transform.rotation.y = 0;
@@ -88,6 +88,12 @@ export function exampleOne(braveEngine: BraveEngine) {
   pyramid.transform.rotation.z = 0;
   scene.add(pyramid);
 
+  // Create audio source and put on pyramid
+  const audioSource = new AudioSourceComponent(pyramid);
+  audioSource.loop = true;
+  pyramid.addComponent(new RotatePyramid(pyramid));
+  pyramid.addComponent(audioSource);
+
   const sphere = new Sphere();
   sphere.transform.position.x = 0;
   sphere.transform.position.y = 0.5;
@@ -156,5 +162,14 @@ class RotateCube3 extends ScriptComponent {
     this.entity.transform.rotation.x += 10 * Time.deltaTime;
     this.entity.transform.rotation.y += 10 * Time.deltaTime;
     this.entity.transform.rotation.z += 10 * Time.deltaTime;
+  }
+}
+
+class RotatePyramid extends ScriptComponent {
+  onStart() {
+  }
+
+  onUpdate() {
+    this.entity.transform.rotation.y += 30 * Time.deltaTime;
   }
 }
